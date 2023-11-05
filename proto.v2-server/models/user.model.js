@@ -7,10 +7,11 @@ const UserSchema = new Schema({
     unique: true,
   },
   nickname: String,
-  picture: String,
-  isCookieAllowed: Boolean,
-  level: String,
-  address: String,
+  profileUrl: String,
+  timezone: String,
+  points: Number,
+  wallet: String,
+  badge: Object,
   createdAt: { type: Date, default: Date.now },
 });
 
