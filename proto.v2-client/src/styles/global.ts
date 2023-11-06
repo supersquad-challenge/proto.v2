@@ -70,13 +70,13 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
     src: url('/static/fonts/poppin/Poppins-Medium.ttf');
   }
-  @font-face {
+  @font-face { //400
     font-family: 'PoppinRegular';
     src: local('PoppinRegular');
     font-style: normal;
     src: url('/static/fonts/poppin/Poppins-Regular.ttf');
   }
-  @font-face {
+  @font-face { //300
     font-family: 'PoppinLight';
     src: local('PoppinLight');
     font-style: normal;

@@ -1,3 +1,4 @@
+"use client";
 import colors from "@/styles/color";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -7,12 +8,12 @@ const Footer = () => {
     <FooterContainer>
       <FooterImage src="/asset/footer/ic_home_off.svg" />
       <FooterImage src="/asset/footer/ic_explore_off.svg" />
-      <FooterImage src="/asset/footer/ic_challenge_off.svg" />
+      <FooterImage src="/asset/footer/ic_mychallenge_off.svg" />
       <FooterImage src="/asset/footer/ic_profile_off.svg" />
 
       {/* <FooterImage src="/asset/footer/ic_home_on.svg" />
       <FooterImage src="/asset/footer/ic_explore_on.svg" />
-      <FooterImage src="/asset/footer/ic_challenge_on.svg" />
+      <FooterImage src="/asset/footer/ic_mychallenge_on.svg" />
       <FooterImage src="/asset/footer/ic_profile_on.svg" /> */}
     </FooterContainer>
   );

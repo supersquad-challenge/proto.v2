@@ -1,5 +1,6 @@
 "use client";
 import ServiceTitle from "@/components/common/ServiceTitle";
+import WelcomeMessage from "@/components/common/WelcomeMessage";
 import colors from "@/styles/color";
 import styled from "styled-components";
 
@@ -7,6 +8,7 @@ const Home = () => {
   return (
     <Container>
       <ServiceTitle></ServiceTitle>
+      <WelcomeMessage></WelcomeMessage>
     </Container>
   );
 };
