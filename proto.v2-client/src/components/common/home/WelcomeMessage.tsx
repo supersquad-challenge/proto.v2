@@ -1,9 +1,9 @@
 import colors from "@/styles/color";
 import styled from "styled-components";
 
-interface GreetingsProps {
+type Props = {
   fontSize: number;
-}
+};
 
 const WelcomeMessage = () => {
   return (
@@ -23,19 +23,15 @@ export default WelcomeMessage;
 const Container = styled.div`
   width: auto;
   height: auto;
-  margin-left: 22px;
-  margin-right: 25px;
 
   box-sizing: border-box;
 
-  /* border: 1px solid red; */
+  border: 1px solid red;
 `;
 
-const Greetings = styled.div<GreetingsProps>`
+const Greetings = styled.div<Props>`
   color: ${colors.white};
-  font-family: PoppinLight;
   font-size: ${(props) => `${props.fontSize}px`};
-  font-style: normal;
   font-weight: 300;
   line-height: ${(props) => `${props.fontSize}px`};
   letter-spacing: -0.52px;

@@ -26,7 +26,5 @@ const Title = styled.div`
   color: #fff;
   font-family: ClashDisplayVariable;
   font-size: 21px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
 `;
