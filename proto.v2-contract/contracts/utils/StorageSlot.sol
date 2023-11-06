@@ -57,8 +57,12 @@ struct StringSlot {
 struct BytesSlot {
     bytes value;
 }
-library StorageSlot {
 
+struct Uint256ArraySlot {
+    uint256[] value;
+}
+
+library StorageSlot {
     /**
      * @dev Returns an `AddressSlot` with member `value` located at `slot`.
      */
@@ -188,6 +192,22 @@ library StorageSlot {
         /// @solidity memory-safe-assembly
         assembly {
             r.slot := store.slot
+        }
+    }
+
+    /**
+     * @dev Returns an `BytesSlot` with member `value` located at `slot`.
+     */
+    function getUint256ArraySlot(bytes32 slot) internal pure returns (Uint256ArraySlot storage r) {
+        /// @solidity memory-safe-assembly
+        assembly {
+            r.slot := slot
+        }
+    }
+    function getUint256ArraySlot(uint256 slot) internal pure returns (Uint256ArraySlot storage r) {
+        /// @solidity memory-safe-assembly
+        assembly {
+            r.slot := slot
         }
     }
 }
