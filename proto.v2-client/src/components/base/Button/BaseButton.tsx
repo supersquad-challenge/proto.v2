@@ -2,29 +2,29 @@ import React from "react";
 import styled from "styled-components";
 import { ButtonProp } from "@/types/Button";
 
-type BasicButtonT = {
+type BaseButtonT = {
   color: string;
   fontSize: number;
+  fontWeight: number;
   borderRadius: number;
   backgroundColor: string;
   padding: string;
-  fontWeight: number;
   children?: React.ReactNode;
 };
 
-const BasicButton = ({
+const BaseButton = ({
   title,
   onClickHandler,
   color,
   fontSize,
+  fontWeight,
   borderRadius,
   backgroundColor,
   padding,
-  fontWeight,
   children,
-}: BasicButtonT & ButtonProp) => {
+}: BaseButtonT & ButtonProp) => {
   return (
-    <BasicButtonWrapper
+    <BaseButtonWrapper
       $color={color}
       $fontSize={fontSize}
       onClick={() => onClickHandler()}
@@ -35,13 +35,13 @@ const BasicButton = ({
     >
       {title}
       {children}
-    </BasicButtonWrapper>
+    </BaseButtonWrapper>
   );
 };
 
-export default BasicButton;
+export default BaseButton;
 
-const BasicButtonWrapper = styled.button<{
+const BaseButtonWrapper = styled.button<{
   $color: string;
   $fontSize: number;
   $borderRadius: number;

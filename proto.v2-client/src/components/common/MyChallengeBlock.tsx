@@ -2,7 +2,7 @@ import colors from "@/styles/color";
 import BaseBlock from "../base/Block/BaseBlock";
 import styled from "styled-components";
 import CircularProgressBar from "./CircularProgressBar";
-import SmallBlueButton from "../base/Button/SmallBlueButton";
+import SmallArrowButton from "../base/Button/SmallArrowButton";
 
 const MyChallengeBlock = () => {
   return (
@@ -22,7 +22,11 @@ const MyChallengeBlock = () => {
             <Catergory>Mental Health</Catergory>
             <Name>15 minutes of meditation</Name>
             <Period>Sep 11st - Oct 11st</Period>
-            <SmallBlueButton title="Verify Mission" margin="15px 0 0 0" />
+            <SmallArrowButton
+              title="Verify Mission"
+              margin="15px 0 0 0"
+              backgroundColor={colors.primary}
+            />
           </Wrapper>
         </div>
       </BaseBlock>
@@ -53,7 +57,7 @@ const Name = styled.div`
   color: ${colors.black};
   font-size: 18px;
   font-weight: 600;
-  max-width: 116px;
+  max-width: 185px;
 `;
 
 const Period = styled.div`

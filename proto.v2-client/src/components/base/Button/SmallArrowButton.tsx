@@ -2,12 +2,14 @@ import styled from "styled-components";
 import BaseButton from "./BaseButton";
 import colors from "@/styles/color";
 
-const SmallBlueButton = ({
+const SmallArrowButton = ({
   title,
   margin,
+  backgroundColor,
 }: {
   title: string;
   margin: string;
+  backgroundColor: string;
 }) => {
   return (
     <ButtonWrapper $margin={margin}>
@@ -15,7 +17,7 @@ const SmallBlueButton = ({
         color={colors.white}
         fontSize={12}
         borderRadius={21}
-        backgroundColor={colors.primary}
+        backgroundColor={backgroundColor}
         padding="0 11px 0 15px"
         title={title}
         onClickHandler={() => {}}
@@ -27,7 +29,7 @@ const SmallBlueButton = ({
   );
 };
 
-export default SmallBlueButton;
+export default SmallArrowButton;
 
 const ButtonWrapper = styled.div<{ $margin: string }>`
   width: fit-content;
