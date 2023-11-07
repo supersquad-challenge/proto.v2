@@ -55,8 +55,6 @@ const BodyContainer = styled.div<{
 }>`
   margin-top: ${(props) => `${props.$top}px`}; //Header 자리
   margin-bottom: ${(props) => `${props.$bot}px`}; //Footer 자리
-
-  border: 1px solid black;
 `;
 
 export default Layout;

@@ -1,4 +1,5 @@
 "use client";
+import MyChallengeBlock from "@/components/common/MyChallengeBlock";
 import ChallengeHeader from "@/components/common/home/ChallengeHeader";
 import ServiceTitle from "@/components/common/home/ServiceTitle";
 import WelcomeMessage from "@/components/common/home/WelcomeMessage";
@@ -13,6 +14,7 @@ const Home = () => {
       <ChallengeHeader $fontColor={colors.white}>
         Today Challenges
       </ChallengeHeader>
+      <MyChallengeBlock></MyChallengeBlock>
     </Container>
   );
 };
