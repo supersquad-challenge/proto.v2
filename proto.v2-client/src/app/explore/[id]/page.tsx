@@ -20,7 +20,7 @@ const ExploreChallenge = () => {
       </ThumbnailContainer>
       <InfoContainer>
         <Name>Lose 4 lbs</Name>
-        {/* <ParticipantsBanner /> */}
+        <ParticipantsBanner />
       </InfoContainer>
     </Container>
   );
@@ -44,6 +44,7 @@ const InfoContainer = styled.section`
   width: 100%;
   height: 200px;
   padding: 0 22px;
+  box-sizing: border-box;
 `;
 
 const Name = styled.div`

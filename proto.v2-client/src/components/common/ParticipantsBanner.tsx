@@ -6,20 +6,27 @@ const ParticipantsBanner = () => {
   return (
     <Container>
       <CirclesWrapper>
-        <Image
-          src="/asset/profile-circle.svg"
-          width={37}
-          height={37}
-          alt="participants"
-        />
-        <Image
-          src="/asset/profile-circle.svg"
-          width={37}
-          height={37}
-          alt="participants"
-        />
+        <ProfileContainer>
+          <Image
+            src="/asset/profile-circle.svg"
+            width={32}
+            height={32}
+            alt="participants"
+          />
+        </ProfileContainer>
+        <ProfileContainer style={{ marginLeft: "-10px" }}>
+          <Image
+            src="/asset/profile-circle.svg"
+            width={32}
+            height={32}
+            alt="participants"
+          />
+        </ProfileContainer>
         <ParticipantsNumCircle>+28</ParticipantsNumCircle>
       </CirclesWrapper>
+      <ParticipationMessage>
+        <b>30 people</b> participating!
+      </ParticipationMessage>
     </Container>
   );
 };
@@ -36,6 +43,7 @@ const Container = styled.div`
   box-sizing: border-box;
 
   background-color: rgba(82, 101, 251, 0.1);
+  border-radius: 10px;
 `;
 
 const CirclesWrapper = styled.div`
@@ -43,7 +51,19 @@ const CirclesWrapper = styled.div`
   height: auto;
 
   display: flex;
-  border: 1px solid black;
+`;
+
+const ProfileContainer = styled.div`
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  overflow: hidden;
+  padding: 1px;
+  background-color: ${colors.white};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 `;
 
 const ParticipantsNumCircle = styled.div`
@@ -62,4 +82,13 @@ const ParticipantsNumCircle = styled.div`
   display: flex;
   text-align: center;
   justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  margin-left: -10px;
+`;
+
+const ParticipationMessage = styled.div`
+  color: ${colors.primary};
+  font-size: 16px;
+  font-weight: 400;
 `;
