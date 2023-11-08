@@ -61,12 +61,14 @@ export default function CircularProgressBar({
 }
 
 const Circle = styled.circle`
+  //안 채워진 부분
   fill: transparent;
-  stroke: #d9d9d9;
+  stroke: #dddddd;
   stroke-linecap: round;
 `;
 
 const FilledCircle = styled(Circle)`
+  //채워진 부분
   stroke: ${colors.primary};
   transform: rotate(-90deg);
   transform-origin: 50% 50%;

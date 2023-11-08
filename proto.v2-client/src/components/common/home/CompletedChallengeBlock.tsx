@@ -33,7 +33,7 @@ const BlockWrapper = styled.div`
   width: 100%;
   height: 80px;
 
-  //
+  ///////////
   margin-top: 10px;
 `;
 
