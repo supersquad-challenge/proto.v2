@@ -2,15 +2,19 @@ import styled from "styled-components";
 import BaseButton from "./BaseButton";
 import colors from "@/styles/color";
 
+type Props = {
+  title: string;
+  margin: string;
+  backgroundColor: string;
+  onClickHandler: () => void;
+};
+
 const SmallArrowButton = ({
   title,
   margin,
   backgroundColor,
-}: {
-  title: string;
-  margin: string;
-  backgroundColor: string;
-}) => {
+  onClickHandler,
+}: Props) => {
   return (
     <ButtonWrapper $margin={margin}>
       <BaseButton
@@ -20,7 +24,7 @@ const SmallArrowButton = ({
         backgroundColor={backgroundColor}
         padding="0 11px 0 15px"
         title={title}
-        onClickHandler={() => {}}
+        onClickHandler={onClickHandler}
         fontWeight={500}
       >
         <MoreDetailImg src="/asset/right>.svg" />

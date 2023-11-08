@@ -20,7 +20,7 @@ const CompletedChallengeBlock = () => {
           }}
         >
           <Name>15 minutes of meditation</Name>
-          <CompletedButton margin="3px 0 0 0" />
+          <CompletedButton margin="3px 0 0 0" onClickHandler={() => {}} />
         </div>
       </BaseBlock>
     </BlockWrapper>

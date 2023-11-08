@@ -19,6 +19,7 @@ const FeaturedChallengeBlock = () => {
             title="Read more"
             margin="24px 0 0 0"
             backgroundColor={colors.primary}
+            onClickHandler={() => []}
           />
         </Wrapper>
       </BaseBlock>

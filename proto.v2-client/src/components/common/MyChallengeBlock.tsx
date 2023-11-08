@@ -26,6 +26,7 @@ const MyChallengeBlock = () => {
               title="Verify Mission"
               margin="15px 0 0 0"
               backgroundColor={colors.primary}
+              onClickHandler={() => []}
             />
           </Wrapper>
         </div>

@@ -4,15 +4,15 @@ const nextConfig = {
     // ssr and displayName are configured by default
     styledComponents: true,
   },
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/home",
-        permanent: true,
-      },
-    ];
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: "/home",
+  //       destination: "/",
+  //       permanent: true,
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = nextConfig;

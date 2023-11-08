@@ -5,6 +5,7 @@ import React from "react";
 import Footer from "@/layout/Footer";
 import { usePathname } from "next/navigation";
 import styled from "styled-components";
+import Header from "./Header";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
@@ -28,6 +29,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       {/* {showHeader() && <Header />} */}
+      <Header />
 
       {/* <BodyContainer
         top={
@@ -39,7 +41,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         }
         bot={showFooter() ? 110 : 40}
       > */}
-      <BodyContainer $top={35} $bot={110}>
+      <BodyContainer $top={69} $bot={110}>
         {children}
       </BodyContainer>
 

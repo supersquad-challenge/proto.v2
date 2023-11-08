@@ -1,32 +1,34 @@
-import BaseButton from "@/components/base/Button/BaseButton";
-import colors from "@/styles/color";
 import styled from "styled-components";
+import BaseButton from "./BaseButton";
+import colors from "@/styles/color";
+
 type Props = {
   margin: string;
+  title: string;
   onClickHandler: () => void;
 };
 
-const CompletedButton = ({ margin, onClickHandler }: Props) => {
+const LongBlueButton = ({ margin, title, onClickHandler }: Props) => {
   return (
     <ButtonWrapper $margin={margin}>
       <BaseButton
         color={colors.white}
-        fontSize={10}
+        fontSize={16}
         fontWeight={600}
-        borderRadius={21}
-        backgroundColor={colors.gray}
-        padding="4px 8px"
-        title="Completed"
+        borderRadius={25}
+        backgroundColor={colors.primary}
+        padding="0"
+        title={title}
         onClickHandler={onClickHandler}
       />
     </ButtonWrapper>
   );
 };
 
-export default CompletedButton;
+export default LongBlueButton;
 
 const ButtonWrapper = styled.div<{ $margin: string }>`
-  width: fit-content;
-  height: fit-content;
+  width: 281px;
+  height: 50px;
   margin: ${(props) => props.$margin};
 `;
