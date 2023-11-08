@@ -6,19 +6,41 @@ type Props = {
 };
 
 const WelcomeMessage = () => {
+  return <BeforeLogin />;
+};
+
+export default WelcomeMessage;
+
+const BeforeLogin = () => {
   return (
     <Container>
-      <Greetings fontSize={26}>
-        Hi, <GreetingsBold>Challengers</GreetingsBold>
-      </Greetings>
-      <Greetings fontSize={16} style={{ marginTop: "10px" }}>
-        Hack your goals with SuperSquad!
-      </Greetings>
+      <div>
+        <Greetings fontSize={26}>
+          Hi, <GreetingsBold>Challengers</GreetingsBold>
+        </Greetings>
+        <Greetings fontSize={16} style={{ marginTop: "10px" }}>
+          Hack your goals with SuperSquad!
+        </Greetings>
+      </div>
     </Container>
   );
 };
 
-export default WelcomeMessage;
+const AfterLogin = () => {
+  return (
+    <Container>
+      <div>
+        <Greetings fontSize={26}>
+          Hi, <GreetingsBold>Nickname</GreetingsBold>
+        </Greetings>
+        <Greetings fontSize={16} style={{ marginTop: "10px" }}>
+          Hack your goals with SuperSquad!
+        </Greetings>
+      </div>
+      <BadgeImage src="/asset/badges/gold_badge.svg" alt="gold badge" />
+    </Container>
+  );
+};
 
 const Container = styled.div`
   width: auto;
@@ -26,7 +48,8 @@ const Container = styled.div`
 
   box-sizing: border-box;
 
-  border: 1px solid red;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Greetings = styled.div<Props>`
@@ -39,4 +62,10 @@ const Greetings = styled.div<Props>`
 
 const GreetingsBold = styled.span`
   font-weight: 600;
+`;
+
+const BadgeImage = styled.img`
+  width: 60px;
+  height: 60px;
+  margin-top: -4px;
 `;

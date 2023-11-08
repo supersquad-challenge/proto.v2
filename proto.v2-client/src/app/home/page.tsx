@@ -1,5 +1,6 @@
 "use client";
 import MyChallengeBlock from "@/components/common/MyChallengeBlock";
+import BadgePointPannel from "@/components/common/home/BadgePointPannel";
 import ChallengeHeader from "@/components/common/home/ChallengeHeader";
 import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
 import FeaturedChallengeBlock from "@/components/common/home/FeaturedChallengeBlock";
@@ -13,6 +14,7 @@ const Home = () => {
     <Container>
       <ServiceTitle></ServiceTitle>
       <WelcomeMessage></WelcomeMessage>
+      <BadgePointPannel />
       <ChallengeHeader $fontColor={colors.white}>
         Today Challenges
       </ChallengeHeader>

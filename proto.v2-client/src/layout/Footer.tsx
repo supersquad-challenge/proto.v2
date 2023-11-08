@@ -41,6 +41,8 @@ const FooterContainer = styled.footer`
   border-radius: 20px;
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.3);
 
+  box-sizing: border-box;
+
   bottom: 36px;
   z-index: 99;
 `;
