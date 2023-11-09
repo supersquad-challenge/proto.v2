@@ -10,6 +10,19 @@ module.exports = {
     try {
       const { userId, challengeId } = req.body;
 
+      const userChallenge = await UserChallenge.findOne({
+        userId,
+        challengeId,
+      });
+
+      console.log(userChallenge);
+
+      if (userChallenge) {
+        return res.status(409).json({
+          error: 'My challenge already registered',
+        });
+      }
+
       const challengeInfo = await ChallengeInfo.findById(challengeId);
 
       if (!challengeInfo) {
@@ -30,9 +43,13 @@ module.exports = {
         challengeStartAt: localtime,
         challengeEndAt: endtime, //2 weeks
         status: 'ongoing',
-        completeNum: 0,
+        deposit: 0,
+        completeNum: 14,
         successRate: 100,
         successStatus: false,
+        cashPayback: 0,
+        cryptoPayback: 0,
+        profit: 0,
         userId: userId,
         challengeId: challengeId,
       });
@@ -43,18 +60,7 @@ module.exports = {
 
       res.status(200).json({
         message: 'My challenge registered',
-        userChallengeInfo: {
-          allUserChallengeInfo: allUserChallengeInfo.map((userChallengeInfo) => ({
-            userChallengeId: userChallengeInfo._id,
-            challengeId: userChallengeInfo.challengeId._id,
-            status: userChallengeInfo.status,
-            category: userChallengeInfo.challengeId.category,
-            name: userChallengeInfo.challengeId.name,
-            thumbnailUrl: userChallengeInfo.challengeId.thumbnailUrl,
-            challengeStartAt: userChallengeInfo.challengeStartAt,
-            challengeEndAt: userChallengeInfo.challengeEndAt,
-          })),
-        },
+        userChallengeId: userChallengeInfo._id,
       });
     } catch (error) {
       console.log(error);
@@ -80,16 +86,18 @@ module.exports = {
       res.status(200).json({
         message: 'My challenge found',
         userChallengeInfo: {
-          allUserChallengeInfo: allUserChallengeInfo.map((userChallengeInfo) => ({
-            userChallengeId: userChallengeInfo._id,
-            challengeId: userChallengeInfo.challengeId._id,
-            status: userChallengeInfo.status,
-            category: userChallengeInfo.challengeId.category,
-            name: userChallengeInfo.challengeId.name,
-            thumbnailUrl: userChallengeInfo.challengeId.thumbnailUrl,
-            challengeStartAt: userChallengeInfo.challengeStartAt,
-            challengeEndAt: userChallengeInfo.challengeEndAt,
-          })),
+          allUserChallengeInfo: allUserChallengeInfo
+            .map((userChallengeInfo) => ({
+              userChallengeId: userChallengeInfo._id,
+              challengeId: userChallengeInfo.challengeId._id,
+              status: userChallengeInfo.status,
+              category: userChallengeInfo.challengeId.category,
+              name: userChallengeInfo.challengeId.name,
+              thumbnailUrl: userChallengeInfo.challengeId.thumbnailUrl,
+              challengeStartAt: userChallengeInfo.challengeStartAt,
+              challengeEndAt: userChallengeInfo.challengeEndAt,
+            }))
+            .reverse(),
         },
       });
     } catch (error) {
@@ -113,15 +121,6 @@ module.exports = {
         });
       }
 
-      const totalDeposit =
-        userChallengeInfo.challengeId.cashSuccessPool +
-        userChallengeInfo.challengeId.cashFailPool +
-        userChallengeInfo.challengeId.cryptoSuccessPool +
-        userChallengeInfo.challengeId.cryptoFailPool;
-
-      const totalCashDeposit =
-        userChallengeInfo.challengeId.cashSuccessPool +
-        userChallengeInfo.challengeId.cashFailPool;
       const totalCryptoDeposit =
         userChallengeInfo.challengeId.cryptoSuccessPool +
         userChallengeInfo.challengeId.cryptoFailPool;
@@ -133,11 +132,7 @@ module.exports = {
         successRate: userChallengeInfo.successRate,
         depositMethod: userChallengeInfo.depositMethod,
         deposit: userChallengeInfo.deposit,
-        totalDeposit: totalDeposit,
-        totalCashDeposit: totalCashDeposit,
-        cashSuccessPool: userChallengeInfo.challengeId.cashSuccessPool,
-        cashFailPool: userChallengeInfo.challengeId.cashFailPool,
-        totalCryptoDeposit: totalCryptoDeposit,
+        totalDeposit: totalCryptoDeposit,
         cryptoSuccessPool: userChallengeInfo.challengeId.cryptoSuccessPool,
         cryptoFailPool: userChallengeInfo.challengeId.cryptoFailPool,
         challengeStartAt: userChallengeInfo.challengeStartAt,
@@ -187,7 +182,9 @@ module.exports = {
     try {
       const { userChallengeId } = req.params;
 
-      const veriPhoto = await VeriPhoto.find({ userChallengeId }).populate('userId');
+      const veriPhoto = await VeriPhoto.find({ userChallengeId }).populate(
+        'userChallengeId'
+      );
 
       if (veriPhoto.length === 0) {
         return res.status(404).json({
@@ -195,16 +192,52 @@ module.exports = {
         });
       }
 
-      const currentDate = moment().tz(VeriPhoto.userId.timezone).format('YYYY-MM-DD');
+      const userInfo = await User.findById(veriPhoto[0].userChallengeId.userId);
 
-      const isUploadedArray = veriPhoto.map((photo) => {
+      const currentDate = moment().tz(userInfo.timezone).format('YYYY-MM-DD');
+
+      const uploadedPhotos = veriPhoto.filter((photo) => {
         const createdAtDate = moment(photo.uploadedAt).format('YYYY-MM-DD');
         return createdAtDate === currentDate;
       });
 
+      if (uploadedPhotos.length === 0) {
+        return res.status(404).json({
+          error: 'Verification Photo not found',
+        });
+      }
+
+      const veriPhotoIds = uploadedPhotos.map((photo) => photo._id);
+
       res.status(200).json({
         message: 'Verification Photo found',
-        isUploaded: isUploadedArray,
+        veriPhotoIds: veriPhotoIds,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        error: 'Internal Server Error',
+      });
+    }
+  },
+  deleteUserChallengeById: async (req, res) => {
+    try {
+      const { userChallengeId } = req.params;
+
+      const userChallengeInfo = await UserChallenge.findByIdAndDelete(userChallengeId);
+
+      if (!userChallengeInfo) {
+        return res.status(404).json({
+          error: 'User Challenge not found',
+        });
+      }
+
+      res.status(200).json({
+        message: 'User Challenge deleted',
+        userChallengeInfo: {
+          userChallengeId: userChallengeInfo._id,
+          challengeId: userChallengeInfo.challengeId,
+        },
       });
     } catch (error) {
       console.log(error);

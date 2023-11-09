@@ -4,9 +4,9 @@ const path = require('path');
 
 const moment = require('moment-timezone');
 
-const VerificationPhoto = require('../models/veriPhoto.model');
+const VeriPhoto = require('../models/veriPhoto.model');
 const UserChallenge = require('../models/userChallenge.model');
-const ChallengeInfo = require('../models/challenge.model');
+const Challenge = require('../models/challenge.model');
 
 // diskStorages
 const storage = multer.diskStorage({
@@ -43,19 +43,19 @@ module.exports = {
         const veriPhotoInfo = req.file;
         const userChallengeId = req.body.userChallengeId;
 
-        const verificationPhoto = await VerificationPhoto.create({
-          verificationPhoto: veriPhotoInfo.path,
+        const veriPhoto = await VeriPhoto.create({
+          photoUrl: veriPhotoInfo.path,
           uploadedAt: createdAtLocalTime,
-          adminCheckedAt: null,
-          adminCheckStatus: 'notChecked',
-          userChallenge_id: userChallengeId,
+          checkedAt: null,
+          checkStatus: 'notChecked',
+          userChallengeId: userChallengeId,
         });
 
         res.status(200).json({
           message: 'Photo uploaded',
-          verificationPhotoInfo: {
-            verificationPhotoId: verificationPhoto._id,
-            uploadedAt: verificationPhoto.uploadedAt,
+          veriPhotoInfo: {
+            veriPhotoId: veriPhoto._id,
+            uploadedAt: veriPhoto.uploadedAt,
           },
         });
       });
@@ -66,111 +66,57 @@ module.exports = {
       });
     }
   },
-  verifyPhoto: async (req, res) => {
+  verifyChallenge: async (req, res) => {
     try {
-      const verificationInfo = req.body;
-      //console.log(verificationInfo);
+      const { userChallengeId, date, veriStatus } = req.body;
 
-      const verificationPhoto = await VerificationPhoto.findById(
-        verificationInfo.verificationPhotoId
+      const userChallenge = await UserChallenge.findById(userChallengeId).populate(
+        'challengeId'
       );
 
-      if (!verificationPhoto) {
+      if (!userChallenge) {
         return res.status(404).json({
-          error: 'Verification Photo not found',
+          error: 'userChallenge not found',
         });
       }
 
-      if (verificationPhoto.adminCheckStatus !== 'notChecked') {
-        return res.status(400).json({
-          error: 'Verification Photo already checked',
-        });
-      }
-
-      const updatedVerificationPhoto = await VerificationPhoto.findByIdAndUpdate(
-        verificationInfo.verificationPhotoId,
-        {
-          adminCheckedAt: Date.now(),
-          adminCheckStatus: verificationInfo.adminCheckStatus,
-        },
-        { new: true }
-      );
-
-      const userChallenge = await UserChallenge.findById(
-        verificationPhoto.userChallenge_id
-      );
-
-      const challengeInfo = await ChallengeInfo.findById(userChallenge.challenge_id);
-
-      let status;
-      if (verificationInfo.adminCheckStatus === 'approved') {
-        status = true;
-      } else if (verificationInfo.adminCheckStatus === 'rejected') {
-        status = false;
+      if (veriStatus === 'success') {
+      } else if (veriStatus === false) {
         userChallenge.completeNum = userChallenge.completeNum - 1;
+
         if (userChallenge.completeNum < 0) {
           userChallenge.completeNum = 0;
         }
-      } else {
-        return res.status(400).json({
-          error: 'Wrong adminCheckStatus',
-        });
-      }
 
-      const checkSuccessRate =
-        (userChallenge.completeNum / challengeInfo.challengeTotalVerificationNum) * 100;
+        const checkSuccessRate =
+          (userChallenge.completeNum / userChallenge.challengeId.totalVeriNum) * 100;
 
-      const slashDeposit =
-        userChallenge.deposit / challengeInfo.challengeRequiredCompleteNum;
+        const requiredCompleteNum = Math.floor(
+          userChallenge.challengeId.totalVeriNum * 0.8
+        );
 
-      let slashCryptoFail = 0,
-        slashCashFail = 0;
-      // 성공률 % 기준
-      if (checkSuccessRate < 80) {
-        if (userChallenge.depositMethod === 'crypto') {
-          slashCryptoFail = challengeInfo.cryptoFailPool + slashDeposit;
+        const slashDeposit = userChallenge.deposit / requiredCompleteNum;
+        // slashDeposit 만큼 passPool 에서 failPool로 이동 구현필요
 
-          if (slashCryptoFail > userChallenge.deposit) {
-            slashCryptoFail = userChallenge.deposit;
-          }
-
-          const updatedChallengeInfo = await ChallengeInfo.findByIdAndUpdate(
-            userChallenge.challenge_id,
-            {
-              $set: {
-                cryptoFailPool: slashCryptoFail,
-                cryptoSuccessPool: challengeInfo.challengeCryptoDeposit - slashCryptoFail,
-              },
+        const updatedUserChallenge = await UserChallenge.findByIdAndUpdate(
+          userChallengeId,
+          {
+            $set: {
+              completeNum: userChallenge.completeNum,
+              successRate: checkSuccessRate,
+              profit: userChallenge.profit - slashDeposit,
+              [`veriStatus.${date.toString()}`]: veriStatus,
             },
-            { new: true }
-          );
-        } else if (userChallenge.depositMethod === 'cash') {
-          slashCashFail = challengeInfo.cashFailPool + slashDeposit;
-
-          if (slashCashFail > userChallenge.deposit) {
-            slashCashFail = userChallenge.deposit;
-          }
-
-          const updatedChallengeInfo = await ChallengeInfo.findByIdAndUpdate(
-            userChallenge.challenge_id,
-            {
-              $set: {
-                cashFailPool: slashCashFail,
-                cashSuccessPool: challengeInfo.challengeCashDeposit - slashCashFail,
-              },
-            },
-            { new: true }
-          );
-        }
+          },
+          { new: true }
+        );
       }
 
       const updatedUserChallenge = await UserChallenge.findByIdAndUpdate(
-        verificationPhoto.userChallenge_id,
+        userChallengeId,
         {
           $set: {
-            [`verificationStatus.${verificationInfo.date.toString()}`]: status,
-            completeNum: userChallenge.completeNum,
-            successRate: checkSuccessRate,
+            [`veriStatus.${date.toString()}`]: veriStatus,
           },
         },
         { new: true }
@@ -179,11 +125,11 @@ module.exports = {
       res.status(200).json({
         message: 'Verification Photo updated',
         CheckedAdminInfo: {
-          adminCheckStatus: updatedVerificationPhoto.adminCheckStatus,
-          adminCheckedAt: updatedVerificationPhoto.adminCheckedAt,
-          userChallengeId: updatedVerificationPhoto.userChallenge_id,
+          userChallengeId: updatedUserChallenge._id,
           successRate: updatedUserChallenge.successRate,
-          verificationStatus: updatedUserChallenge.verificationStatus,
+          completeNum: updatedUserChallenge.completeNum,
+          profit: updatedUserChallenge.profit,
+          veriStatus: updatedUserChallenge.veriStatus,
         },
       });
     } catch (error) {
@@ -193,16 +139,17 @@ module.exports = {
       });
     }
   },
+
   getAllPhotos: async (req, res) => {
     try {
-      const userChallengeId = req.params.userChallengeId;
+      const { userChallengeId } = req.params;
 
-      const verificationInfo = await VerificationPhoto.find({
-        userChallenge_id: userChallengeId,
+      const veriPhotoInfo = await VeriPhoto.find({
+        userChallengeId: userChallengeId,
       });
 
       //console.log(verificationInfo);
-      if (!verificationInfo || verificationInfo.length === 0) {
+      if (!veriPhotoInfo || veriPhotoInfo.length === 0) {
         return res.status(404).json({
           error: 'Verification Photo not found',
         });
@@ -210,7 +157,7 @@ module.exports = {
 
       res.status(200).json({
         message: 'Verification Photo found',
-        verificationInfo: verificationInfo,
+        veriPhotoInfo,
       });
     } catch (error) {
       console.log(error);

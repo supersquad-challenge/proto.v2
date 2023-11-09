@@ -1,12 +1,12 @@
-const UserInfo = require('../models/user.model');
+const User = require('../models/user.model');
 
 module.exports = {
   registerUserName: async (req, res) => {
     try {
-      const { userInfoId, nickname } = req.body;
+      const { userId, nickname } = req.body;
 
-      const updateUser = await UserInfo.findByIdAndUpdate(
-        userInfoId,
+      const updateUser = await User.findByIdAndUpdate(
+        userId,
         { $set: { nickname: nickname } },
         { new: true }
       );
@@ -20,7 +20,7 @@ module.exports = {
       res.status(200).json({
         message: 'User nickname update',
         userInfo: {
-          userInfoId: updateUser._id,
+          userId: updateUser._id,
           nickname: updateUser.nickname,
         },
       });
@@ -33,11 +33,11 @@ module.exports = {
   },
   registerAddress: async (req, res) => {
     try {
-      const { userInfoId, address } = req.body;
+      const { userId, wallet } = req.body;
 
-      const updateUser = await UserInfo.findByIdAndUpdate(
-        userInfoId,
-        { $set: { address: address } },
+      const updateUser = await User.findByIdAndUpdate(
+        userId,
+        { $set: { wallet: wallet } },
         { new: true }
       );
 
@@ -50,8 +50,8 @@ module.exports = {
       res.status(200).json({
         message: 'User wallet address update',
         userInfo: {
-          userInfoId: updateUser._id,
-          address: updateUser.address,
+          userId: updateUser._id,
+          wallet: updateUser.wallet,
         },
       });
     } catch (error) {
@@ -63,7 +63,7 @@ module.exports = {
   },
   getAllUsers: async (req, res) => {
     try {
-      const users = await UserInfo.find();
+      const users = await User.find();
 
       res.status(200).json({
         message: 'All users',
@@ -78,9 +78,9 @@ module.exports = {
   },
   getUserInfo: async (req, res) => {
     try {
-      const userInfoId = req.params.userInfoId;
+      const { userId } = req.params;
 
-      const userInfo = await UserInfo.findById(userInfoId);
+      const userInfo = await User.findById(userId);
 
       if (!userInfo) {
         return res.status(404).json({
@@ -101,9 +101,9 @@ module.exports = {
   },
   createUser: async (req, res) => {
     try {
-      const { email, nickname, address, timezone } = req.body;
+      const { email, timezone } = req.body;
 
-      const userInfo = await UserInfo.findOne({ email: email });
+      const userInfo = await User.findOne({ email: email });
 
       if (userInfo) {
         return res.status(409).json({
@@ -113,16 +113,15 @@ module.exports = {
 
       const userRegisterData = {
         email,
-        nickname,
-        address,
         timezone,
       };
 
-      const userData = await UserInfo.create(userRegisterData);
+      const userData = await User.create(userRegisterData);
 
       res.status(200).json({
         message: 'User registered',
-        userInfoId: userData._id,
+        userId: userData._id,
+        createdAt: userData.createdAt,
       });
     } catch (error) {
       console.log(error);

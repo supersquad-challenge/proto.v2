@@ -13,6 +13,9 @@ const UserChallengeSchema = new Schema({
   cashPayback: Number,
   cryptoPayback: Number,
   profit: Number,
+  veriStatus: {
+    type: Schema.Types.Mixed,
+  },
   challengeId: {
     type: Schema.Types.ObjectId,
     ref: 'Challenge',
