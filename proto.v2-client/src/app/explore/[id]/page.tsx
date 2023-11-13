@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import ParticipantsBanner from "@/components/common/ParticipantsBanner";
 import SingleChallengeInfo from "@/components/common/explore/SingleChallengeInfo";
+import Tag from "@/components/common/Tag";
 
 const ExploreChallenge = () => {
   return (
@@ -18,6 +19,18 @@ const ExploreChallenge = () => {
           }}
           priority={true}
         />
+        <TagsContainer>
+          <Tag
+            backgroundColor={colors.primary}
+            color={colors.highlight}
+            title="Everyday"
+          />
+          <Tag
+            backgroundColor={colors.highlight}
+            color={colors.primary}
+            title="1 month"
+          />
+        </TagsContainer>
       </ThumbnailContainer>
       <InfoContainer>
         <Name>Lose 4 lbs</Name>
@@ -56,6 +69,17 @@ const ThumbnailContainer = styled.section`
   width: 100%;
   height: 200px;
   position: relative;
+`;
+
+const TagsContainer = styled.div`
+  position: absolute;
+  display: flex;
+  right: 22px;
+  bottom: 20px;
+
+  z-index: 2;
+
+  border: 1px solid green;
 `;
 
 const InfoContainer = styled.section`
