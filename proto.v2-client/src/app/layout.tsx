@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Layout from "@/layout/Layout";
+import GlobalStyle from "@/styles/global";
 
 const metadata = {
   name: "Supersquad",
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body style={{ margin: "0px" }}>
+        <GlobalStyle />
         <Layout>{children}</Layout>
       </body>
     </html>

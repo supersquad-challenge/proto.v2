@@ -36,7 +36,7 @@ const Title = styled.div<{ $isflex: boolean }>`
   font-size: 18px;
   font-weight: 600;
   width: 103px;
-  width: ${(props) => (props.$isflex ? "103px" : "178px")};
+  width: ${(props) => (props.$isflex ? "103px" : "185px")};
 `;
 
 const Content = styled.div<{ $isflex: boolean }>`
