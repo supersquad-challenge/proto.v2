@@ -78,8 +78,6 @@ const TagsContainer = styled.div`
   bottom: 20px;
 
   z-index: 2;
-
-  border: 1px solid green;
 `;
 
 const InfoContainer = styled.section`

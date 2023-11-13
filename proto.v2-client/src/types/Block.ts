@@ -6,4 +6,5 @@ export type Block = {
   borderRadius: number;
   padding: string;
   border?: string;
+  onClickHandler: () => void;
 };

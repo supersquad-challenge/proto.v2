@@ -11,6 +11,7 @@ const MyChallengeBlock = () => {
         backgroundColor={colors.white}
         borderRadius={20}
         padding="22px 0 0 22px"
+        onClickHandler={() => {}}
       >
         <div style={{ display: "flex" }}>
           <CircularProgressBar

@@ -10,6 +10,7 @@ const CompletedChallengeBlock = () => {
         backgroundColor={colors.lightGray}
         borderRadius={20}
         padding="22px 22px 0 22px"
+        onClickHandler={() => {}}
       >
         <Catergory>Digital Detox</Catergory>
         <div

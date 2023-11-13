@@ -10,7 +10,7 @@ import styled from "styled-components";
 const ServiceTitle = () => {
   return (
     <ServiceTitleContainer>
-      <Title>SuperSquad</Title>
+      <Title>SUPERSQUAD</Title>
     </ServiceTitleContainer>
   );
 };
@@ -36,7 +36,7 @@ const ServiceTitleContainer = styled.header`
   background-color: ${colors.primary};
 
   overflow: hidden;
-  z-index: 99;
+  z-index: 90;
 
   display: flex;
   align-items: center;
@@ -63,7 +63,7 @@ const GoBackContainer = styled.header`
   transform: translateX(-50%);
 
   overflow: hidden;
-  z-index: 99;
+  z-index: 90;
 
   background-color: ${colors.white};
 

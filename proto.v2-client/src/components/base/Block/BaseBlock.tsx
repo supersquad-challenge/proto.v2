@@ -7,6 +7,7 @@ const BaseBlock = ({
   borderRadius,
   padding,
   border,
+  onClickHandler,
 }: Block) => {
   return (
     <BlockWrapper
@@ -14,6 +15,7 @@ const BaseBlock = ({
       $borderRadius={borderRadius}
       $padding={padding}
       $border={border}
+      onClick={() => onClickHandler()}
     >
       {children}
     </BlockWrapper>

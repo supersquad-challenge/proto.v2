@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import Layout from "@/layout/Layout";
 import GlobalStyle from "@/styles/global";
+import Providers from "@/redux/provider";
+import "./globals.css";
 
 const metadata = {
   name: "Supersquad",
@@ -19,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body style={{ margin: "0px" }}>
         <GlobalStyle />
-        <Layout>{children}</Layout>
+        <Providers>
+          <Layout>{children}</Layout>
+        </Providers>
       </body>
     </html>
   );

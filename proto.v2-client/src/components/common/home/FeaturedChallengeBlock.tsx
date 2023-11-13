@@ -10,6 +10,7 @@ const FeaturedChallengeBlock = () => {
         backgroundColor={colors.highlight}
         borderRadius={20}
         padding="22px"
+        onClickHandler={() => {}}
       >
         <Wrapper>
           <Catergory>Digital Detox</Catergory>

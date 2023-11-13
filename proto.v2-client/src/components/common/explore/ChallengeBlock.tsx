@@ -11,6 +11,7 @@ const ChallengeBlock = () => {
         borderRadius={10}
         padding="0px"
         border="1px solid #DDD"
+        onClickHandler={() => {}}
       >
         <ThumbnailWrapper>
           <Image

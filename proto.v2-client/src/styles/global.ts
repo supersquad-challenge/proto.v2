@@ -1,6 +1,11 @@
+"use client";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+body {
+  font-family: 'Poppin'
+}
+
   // clash-display
   @font-face {
     font-family: 'ClashDisplayVariable';
@@ -47,52 +52,60 @@ const GlobalStyle = createGlobalStyle`
     src: url('/static/fonts/opensans/OpenSans-Light.ttf') format('truetype');
   }
   @font-face {
-    font-family: 'PoppinExtraBold';
+    font-family: 'Poppin';
     src: local('PoppinExtraBold');
     font-style: normal;
     src: url('/static/fonts/poppin/Poppins-ExtraBold.ttf');
+    font-weight: 800;
   }
   @font-face {
-    font-family: 'PoppinBold';
+    font-family: 'Poppin';
     src: local('PoppinBold');
     font-style: normal;
     src: url('/static/fonts/poppin/Poppins-Bold.ttf');
+    font-weight: 700;
   }
   @font-face {
-    font-family: 'PoppinSemiBold';
+    font-family: 'Poppin';
     src: local('PoppinSemiBold');
     font-style: normal;
     src: url('/static/fonts/poppin/Poppins-SemiBold.ttf');
+    font-weight: 600;
   }
   @font-face {
-    font-family: 'PoppinMedium';
+    font-family: 'Poppin';
     src: local('PoppinMedium');
     font-style: normal;
     src: url('/static/fonts/poppin/Poppins-Medium.ttf');
+    font-weight: 500;
   }
   @font-face { //400
-    font-family: 'PoppinRegular';
+    font-family: 'Poppin';
     src: local('PoppinRegular');
     font-style: normal;
     src: url('/static/fonts/poppin/Poppins-Regular.ttf');
+    font-weight: 400;
   }
   @font-face { //300
-    font-family: 'PoppinLight';
+    font-family: 'Poppin';
     src: local('PoppinLight');
     font-style: normal;
     src: url('/static/fonts/poppin/Poppins-Light.ttf');
+    font-weight: 300;
   }
   @font-face {
-    font-family: 'PoppinExtraLight';
+    font-family: 'Poppin';
     src: local('PoppinExtraLight');
     font-style: normal;
     src: url('/static/fonts/poppin/Poppins-ExtraLight.ttf');
+    font-weight: 200;
   }
   @font-face {
-    font-family: 'PoppinThin';
+    font-family: 'Poppin';
     src: local('PoppinThin');
     font-style: normal;
     src: url('/static/fonts/poppin/Poppins-Thin.ttf');
+    font-weight: 100;
   }
 `;
 export default GlobalStyle;

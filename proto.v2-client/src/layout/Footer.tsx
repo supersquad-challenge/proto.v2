@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Footer = () => {
-  return <NavigationBar />;
+  return <BlueButton />;
 };
 
 export default Footer;
