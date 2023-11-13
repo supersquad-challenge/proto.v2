@@ -63,6 +63,7 @@ const InfoContainer = styled.section`
   height: auto;
   padding: 0 22px;
   box-sizing: border-box;
+  overflow: auto;
 `;
 
 const Name = styled.div`

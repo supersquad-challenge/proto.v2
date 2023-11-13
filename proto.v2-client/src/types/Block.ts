@@ -5,4 +5,5 @@ export type Block = {
   children: ReactNode;
   borderRadius: number;
   padding: string;
+  border?: string;
 };

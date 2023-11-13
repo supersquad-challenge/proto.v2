@@ -23,7 +23,7 @@ const FeaturedChallengeBlock = () => {
           />
         </Wrapper>
       </BaseBlock>
-      <ImageWrapper></ImageWrapper>
+      <ThumbnailWrapper></ThumbnailWrapper>
     </BlockWrapper>
   );
 };
@@ -67,7 +67,7 @@ const Period = styled.div`
   margin-top: 5px;
 `;
 
-const ImageWrapper = styled.div`
+const ThumbnailWrapper = styled.div`
   //여기에 이미지 들어감
   width: 50%;
   height: 100%;
