@@ -23,7 +23,7 @@ const GoBack = () => {
   );
 };
 
-const ServiceTitleContainer = styled.div`
+const ServiceTitleContainer = styled.header`
   width: 100%;
   height: 70px;
   margin: 0 auto;
@@ -52,7 +52,7 @@ const Title = styled.div`
   font-weight: 700;
 `;
 
-const GoBackContainer = styled.div`
+const GoBackContainer = styled.header`
   width: 100%;
   height: 70px;
   margin: 0 auto;

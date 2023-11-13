@@ -41,7 +41,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         }
         bot={showFooter() ? 110 : 40}
       > */}
-      <BodyContainer $top={69} $bot={110}>
+      <BodyContainer $top={69} $bot={70}>
         {children}
       </BodyContainer>
 
