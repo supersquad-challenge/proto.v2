@@ -4,7 +4,7 @@ const ChallengeInfo = require('../models/challenge.model');
 module.exports = {
   DepositPool: async (req, res) => {
     try {
-      const { userChallengeId, deposit } = req.body;
+      const { userChallengeId, depositMethod, deposit } = req.body;
 
       const userChallengeInfo = await UserChallenge.findById(userChallengeId).populate(
         'challengeId'
@@ -16,7 +16,7 @@ module.exports = {
         });
       }
 
-      userChallengeInfo.depositMethod = 'crypto';
+      userChallengeInfo.depositMethod = depositMethod;
       userChallengeInfo.deposit = deposit;
       userChallengeInfo.save();
 
