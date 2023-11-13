@@ -1,32 +1,35 @@
-const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
-
 const moment = require('moment-timezone');
+
+const aws = require('aws-sdk');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const path = require('path');
 
 const VeriPhoto = require('../models/veriPhoto.model');
 const UserChallenge = require('../models/userChallenge.model');
-const Challenge = require('../models/challenge.model');
 
-// diskStorages
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './public/veriPhoto/');
-  },
-  filename: function (req, file, cb) {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const seconds = date.getSeconds().toString().padStart(2, '0');
-    const timestamp = `${year}${month}${day}-${hours}${minutes}${seconds}`;
-    cb(null, file.fieldname + '-' + timestamp);
-  },
+require('dotenv').config();
+
+const s3 = new aws.S3({
+  region: process.env.AWS_S3_REGION,
+  accessKeyId: process.env.AWS_S3_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_S3_SECRET_KEY,
 });
 
-const upload = multer({ storage: storage });
+const uploadImage = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.AWS_S3_BUCKET,
+    acl: 'public-read',
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      const userChallengeId = req.body.userChallengeId;
+      cb(null, `veriPhoto/${userChallengeId}-${createdAtLocalTime}`);
+    },
+  }),
+});
 
 const createdAtLocalTime = moment(Date.now())
   .tz('Asia/Seoul')
@@ -35,16 +38,17 @@ const createdAtLocalTime = moment(Date.now())
 module.exports = {
   postPhoto: async (req, res) => {
     try {
-      upload.single('veriPhoto')(req, res, async (err) => {
+      const { userChallengeId } = req.body;
+
+      uploadImage.single('veriPhoto')(req, res, async (err) => {
+        // console.log(req.file);
         if (err || !req.file) {
-          //console.log(err);
+          console.log(err);
           return res.status(400).json({ error: 'Failed to upload file.' });
         }
-        const veriPhotoInfo = req.file;
-        const userChallengeId = req.body.userChallengeId;
 
         const veriPhoto = await VeriPhoto.create({
-          photoUrl: veriPhotoInfo.path,
+          photoUrl: req.file.location,
           uploadedAt: createdAtLocalTime,
           checkedAt: null,
           checkStatus: 'notChecked',

@@ -3,9 +3,10 @@ const router = express.Router();
 
 const verify = require('../controllers/verify.controller');
 
+
 router.post('/postPhoto', verify.postPhoto);
 router.post('/verifyChallenge', verify.verifyChallenge);
-//router.post('/verifyPhoto', verify.verifyPhoto);
+// router.post('/verifyPhoto', verify.verifyPhoto);
 router.get('/allPhotoInfo/:userChallengeId', verify.getAllPhotos);
 router.get('/:filename', verify.getPhotoByFilename);
 
