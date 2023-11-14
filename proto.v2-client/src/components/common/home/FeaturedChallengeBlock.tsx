@@ -30,18 +30,24 @@ const FeaturedChallengeBlock = ({ margin }: Props) => {
         </Wrapper>
       </BaseBlock>
       <ThumbnailWrapper>
-        <Image
-          src="/asset/meditation.jpeg" //여기 챌린지 썸네일 사진이 들어가면 됨.
-          alt="challenge thumbnail"
-          fill
-          sizes="212px"
+        <div
           style={{
-            objectFit: "cover",
+            width: "100%",
+            height: "100%",
+            position: "relative",
           }}
-          // priority={true}
-          placeholder="blur"
-          blurDataURL={"/asset/meditation.jpeg"}
-        />
+        >
+          <Image
+            src="/asset/meditation.jpeg" //여기 챌린지 썸네일 사진이 들어가면 됨.
+            alt="challenge thumbnail"
+            fill
+            style={{
+              objectFit: "cover",
+            }}
+            placeholder="blur"
+            blurDataURL="/asset/blur.png"
+          />
+        </div>
       </ThumbnailWrapper>
     </BlockWrapper>
   );

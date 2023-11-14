@@ -18,7 +18,7 @@ const Footer = () => {
     }
     return false;
   };
-  return showNaviBar() && <NavigationBar />;
+  return showNaviBar() ? <NavigationBar /> : <BlueButton />;
 };
 
 export default Footer;

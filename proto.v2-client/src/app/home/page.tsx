@@ -1,19 +1,10 @@
 "use client";
-import LongBlueButton from "@/components/base/Button/LongBlueButton";
-import BaseModal from "@/components/base/Modal/BaseModal";
-import PaymentSelectModal from "@/components/common/explore/PaymentSelectModal";
-import MyChallengeBlock from "@/components/common/MyChallengeBlock";
-import BadgePointPannel from "@/components/common/home/BadgePointPannel";
-import ChallengeHeader from "@/components/common/home/ChallengeHeader";
-import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
 import FeaturedChallengeBlock from "@/components/common/home/FeaturedChallengeBlock";
 import WelcomeMessage from "@/components/common/home/WelcomeMessage";
 import colors from "@/styles/color";
 import styled from "styled-components";
-import DepositChargeModal from "@/components/common/explore/DepositChargeModal";
 import LoginBlock from "@/components/common/home/LoginBlock";
 import Image from "next/image";
-import BottomMargin from "@/components/common/BottomMargin";
 import ExtendedChallengeHeader from "@/components/common/home/ExtendedChallengeHeader";
 
 const Home = () => {
@@ -28,7 +19,6 @@ const Home = () => {
       />
       <WelcomeMessage />
       <Home_BeforeLogin />
-      <BottomMargin height={30} />
     </Container>
   );
 };
@@ -52,7 +42,7 @@ const Container = styled.main`
   height: auto;
   background-color: ${colors.primary};
 
-  padding: 0 22px;
+  padding: 0 22px 30px 22px;
   box-sizing: border-box;
   overflow: auto;
   position: relative;

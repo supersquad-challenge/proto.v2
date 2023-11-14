@@ -110,7 +110,7 @@ const CategoriesWrapper = styled.div`
 const ChallengesContainer = styled.section`
   width: 100%;
   height: auto;
-  padding: 248px 22px 30px 22px;
+  padding: 248px 22px 15px 22px;
   box-sizing: border-box;
   overflow: auto;
   background-color: ${colors.white};
