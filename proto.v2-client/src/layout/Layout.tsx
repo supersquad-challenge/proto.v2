@@ -40,7 +40,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <Header />
       <BodyContainer
         $top={68}
-        $bot={70}
+        $bot={85}
         $backgroundColor={
           isBackgroundPrimary() ? `${colors.primary}` : `${colors.white}`
         }

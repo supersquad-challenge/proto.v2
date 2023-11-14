@@ -2,6 +2,7 @@ import styled from "styled-components";
 import SmallArrowButton from "../../base/Button/SmallArrowButton";
 import BaseBlock from "@/components/base/Block/BaseBlock";
 import colors from "@/styles/color";
+import Image from "next/image";
 
 type Props = {
   margin: string;
@@ -28,7 +29,20 @@ const FeaturedChallengeBlock = ({ margin }: Props) => {
           />
         </Wrapper>
       </BaseBlock>
-      <ThumbnailWrapper></ThumbnailWrapper>
+      <ThumbnailWrapper>
+        <Image
+          src="/asset/meditation.jpeg" //여기 챌린지 썸네일 사진이 들어가면 됨.
+          alt="challenge thumbnail"
+          fill
+          sizes="212px"
+          style={{
+            objectFit: "cover",
+          }}
+          // priority={true}
+          placeholder="blur"
+          blurDataURL={"/asset/meditation.jpeg"}
+        />
+      </ThumbnailWrapper>
     </BlockWrapper>
   );
 };
@@ -77,8 +91,6 @@ const ThumbnailWrapper = styled.div`
   height: 100%;
   border-radius: 0 20px 20px 0;
   overflow: hidden;
-
-  border: 1px solid black;
   position: absolute;
   right: 0px;
   top: 0px;

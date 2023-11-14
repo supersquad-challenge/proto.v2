@@ -9,7 +9,7 @@ const CompletedChallengeBlock = () => {
       <BaseBlock
         backgroundColor={colors.lightGray}
         borderRadius={20}
-        padding="22px 22px 0 22px"
+        padding="22px"
         onClickHandler={() => {}}
       >
         <Catergory>Digital Detox</Catergory>
@@ -32,7 +32,6 @@ export default CompletedChallengeBlock;
 
 const BlockWrapper = styled.div`
   width: 100%;
-  height: 80px;
 
   ///////////
   margin-top: 10px;

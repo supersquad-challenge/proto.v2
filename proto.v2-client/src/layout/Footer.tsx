@@ -95,7 +95,7 @@ const NaviBarContainer = styled.footer`
 
   box-sizing: border-box;
 
-  bottom: 0px;
+  bottom: 15px;
   z-index: 99;
 `;
 
