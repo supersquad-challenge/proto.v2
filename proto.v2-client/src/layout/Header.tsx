@@ -1,12 +1,24 @@
+import colors from "@/styles/color";
+import { usePathname } from "next/navigation";
+import styled from "styled-components";
+
 const Header = () => {
-  return <ServiceTitle />;
-  // return <GoBack />;
+  const pathname = usePathname();
+  const showServiceTitle = () => {
+    if (
+      pathname === "/home" ||
+      pathname === "/explore" ||
+      pathname === "/mychallenge" ||
+      pathname === "/profile"
+    ) {
+      return true;
+    }
+    return false;
+  };
+  return showServiceTitle() ? <ServiceTitle /> : <GoBack />;
 };
 
 export default Header;
-
-import colors from "@/styles/color";
-import styled from "styled-components";
 
 const ServiceTitle = () => {
   return (
