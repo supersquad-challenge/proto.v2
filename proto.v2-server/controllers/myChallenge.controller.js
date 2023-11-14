@@ -33,11 +33,11 @@ module.exports = {
 
       const userInfo = await User.findById(userId);
 
-      const localtime = moment().tz(userInfo.timezone).format('YYYY-MM-DD HH:mm:ss');
+      const localtime = moment().tz(userInfo.timezone).format('YYYY-MM-DD-HH:mm:ss');
       const endtime = moment()
         .tz(userInfo.timezone)
         .add(14, 'days')
-        .format('YYYY-MM-DD HH:mm:ss');
+        .format('YYYY-MM-DD-HH:mm:ss');
 
       const userChallengeInfo = await UserChallenge.create({
         challengeStartAt: localtime,

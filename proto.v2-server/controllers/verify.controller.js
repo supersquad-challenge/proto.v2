@@ -1,67 +1,36 @@
 const moment = require('moment-timezone');
 
-const aws = require('aws-sdk');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
 const path = require('path');
 
 const VeriPhoto = require('../models/veriPhoto.model');
 const UserChallenge = require('../models/userChallenge.model');
 
-require('dotenv').config();
-
-const s3 = new aws.S3({
-  region: process.env.AWS_S3_REGION,
-  accessKeyId: process.env.AWS_S3_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_S3_SECRET_KEY,
-});
-
-const uploadImage = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: process.env.AWS_S3_BUCKET,
-    acl: 'public-read',
-    metadata: function (req, file, cb) {
-      cb(null, { fieldName: file.fieldname });
-    },
-    key: function (req, file, cb) {
-      const userChallengeId = req.body.userChallengeId;
-      cb(null, `veriPhoto/${userChallengeId}-${createdAtLocalTime}`);
-    },
-  }),
-});
-
 const createdAtLocalTime = moment(Date.now())
   .tz('Asia/Seoul')
-  .format('YYYY-MM-DD HH:mm:ss');
+  .format('YYYY-MM-DD-HH:mm:ss');
 
 module.exports = {
   postPhoto: async (req, res) => {
     try {
       const { userChallengeId } = req.body;
+      if (!req.file) {
+        return res.status(400).json({ error: 'Failed to upload file.' });
+      }
 
-      uploadImage.single('veriPhoto')(req, res, async (err) => {
-        // console.log(req.file);
-        if (err || !req.file) {
-          console.log(err);
-          return res.status(400).json({ error: 'Failed to upload file.' });
-        }
+      const veriPhoto = await VeriPhoto.create({
+        photoUrl: req.file.location,
+        uploadedAt: createdAtLocalTime,
+        checkedAt: null,
+        checkStatus: 'notChecked',
+        userChallengeId: userChallengeId,
+      });
 
-        const veriPhoto = await VeriPhoto.create({
-          photoUrl: req.file.location,
-          uploadedAt: createdAtLocalTime,
-          checkedAt: null,
-          checkStatus: 'notChecked',
-          userChallengeId: userChallengeId,
-        });
-
-        res.status(200).json({
-          message: 'Photo uploaded',
-          veriPhotoInfo: {
-            veriPhotoId: veriPhoto._id,
-            uploadedAt: veriPhoto.uploadedAt,
-          },
-        });
+      res.status(200).json({
+        message: 'Photo uploaded',
+        veriPhotoInfo: {
+          veriPhotoId: veriPhoto._id,
+          uploadedAt: veriPhoto.uploadedAt,
+        },
       });
     } catch (error) {
       console.log(error);
