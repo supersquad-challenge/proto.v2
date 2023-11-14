@@ -48,5 +48,5 @@ const Name = styled.div`
   color: ${colors.black};
   font-size: 18px;
   font-weight: 600;
-  max-width: 220px;
+  max-width: 230px;
 `;

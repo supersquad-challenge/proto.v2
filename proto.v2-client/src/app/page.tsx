@@ -21,7 +21,6 @@ const Home = () => {
       </ChallengeHeader>
       <MyChallengeBlock></MyChallengeBlock>
       <CompletedChallengeBlock></CompletedChallengeBlock>
-      <FeaturedChallengeBlock></FeaturedChallengeBlock>
       <div style={{ width: "100%", backgroundColor: "white" }}>
         <LongBlueButton
           margin="10 0 0 0"

@@ -75,7 +75,7 @@ const InfoWrapper = styled.div`
 `;
 
 const Name = styled.div`
-  max-width: 105px;
+  max-width: 110px;
   color: ${colors.black};
   font-size: 16px;
   font-weight: 600;

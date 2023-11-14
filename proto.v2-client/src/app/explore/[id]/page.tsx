@@ -5,6 +5,7 @@ import Image from "next/image";
 import ParticipantsBanner from "@/components/common/ParticipantsBanner";
 import SingleChallengeInfo from "@/components/common/explore/SingleChallengeInfo";
 import Tag from "@/components/common/Tag";
+import BottomMargin from "@/components/common/BottomMargin";
 
 const ExploreChallenge = () => {
   return (
@@ -51,7 +52,7 @@ const ExploreChallenge = () => {
           content=""
           detail="Replacing one meal a day with salad is the first step to changing your eating habits healthier."
         />
-        <BottomMarginContainer></BottomMarginContainer>
+        <BottomMargin height={40} />
       </InfoContainer>
     </Container>
   );
@@ -94,9 +95,4 @@ const Name = styled.div`
   font-weight: 600;
   margin-top: 40px;
   margin-bottom: 20px;
-`;
-
-const BottomMarginContainer = styled.div`
-  width: 100%;
-  height: 40px;
 `;

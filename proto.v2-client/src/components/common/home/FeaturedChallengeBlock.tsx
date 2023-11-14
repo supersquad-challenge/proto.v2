@@ -3,9 +3,13 @@ import SmallArrowButton from "../../base/Button/SmallArrowButton";
 import BaseBlock from "@/components/base/Block/BaseBlock";
 import colors from "@/styles/color";
 
-const FeaturedChallengeBlock = () => {
+type Props = {
+  margin: string;
+};
+
+const FeaturedChallengeBlock = ({ margin }: Props) => {
   return (
-    <BlockWrapper>
+    <BlockWrapper $margin={margin}>
       <BaseBlock
         backgroundColor={colors.highlight}
         borderRadius={20}
@@ -31,13 +35,12 @@ const FeaturedChallengeBlock = () => {
 
 export default FeaturedChallengeBlock;
 
-const BlockWrapper = styled.div`
+const BlockWrapper = styled.div<{ $margin: string }>`
   width: 100%;
   height: 198px;
   position: relative;
 
-  ///////////
-  margin-top: 10px;
+  margin: ${(props) => props.$margin};
 `;
 
 const Wrapper = styled.div`
