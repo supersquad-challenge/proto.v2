@@ -6,8 +6,6 @@ pragma solidity ^0.8.0;
 
 interface IDynamicPool is Struct {
 
-  event DepositReceived(address From, uint256 Deposit);
-
   event UserAdded(address Pool, address User, uint256 Deposit);
 
   event PoolTransfered(address User, uint256 Idx, bool Form);
