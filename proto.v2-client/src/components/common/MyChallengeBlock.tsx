@@ -14,9 +14,14 @@ const MyChallengeBlock = ({ border, margin }: Props) => {
       <BaseBlock
         backgroundColor={colors.white}
         borderRadius={20}
+<<<<<<< HEAD
         padding="22px"
         onClickHandler={() => {}}
         border={border}
+=======
+        padding="22px 0 0 22px"
+        onClickHandler={() => {}}
+>>>>>>> 00eae61 (Add: modals)
       >
         <div style={{ display: "flex" }}>
           <CircularProgressBar

@@ -31,10 +31,20 @@ module.exports = {
         });
       }
 
+<<<<<<< HEAD
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
       const localtime = moment().tz(timezone).format('YYYY-MM-DD-HH:mm:ss');
       const endtime = moment().tz(timezone).add(14, 'days').format('YYYY-MM-DD-HH:mm:ss');
+=======
+      const userInfo = await User.findById(userId);
+
+      const localtime = moment().tz(userInfo.timezone).format('YYYY-MM-DD HH:mm:ss');
+      const endtime = moment()
+        .tz(userInfo.timezone)
+        .add(14, 'days')
+        .format('YYYY-MM-DD HH:mm:ss');
+>>>>>>> ad10550 (Add: modals)
 
       const userChallengeInfo = await UserChallenge.create({
         challengeStartAt: localtime,

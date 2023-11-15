@@ -37,8 +37,12 @@ import styled from "styled-components";
 const ServiceTitle = () => {
   return (
     <ServiceTitleContainer>
+<<<<<<< HEAD
       <Title>SuperSquad</Title>
 >>>>>>> 09511c3 (Add: Header)
+=======
+      <Title>SUPERSQUAD</Title>
+>>>>>>> 00eae61 (Add: modals)
     </ServiceTitleContainer>
   );
 };
@@ -69,10 +73,14 @@ const ServiceTitleContainer = styled.div`
 
   overflow: hidden;
 <<<<<<< HEAD
+<<<<<<< HEAD
   z-index: 90;
 =======
   z-index: 99;
 >>>>>>> 09511c3 (Add: Header)
+=======
+  z-index: 90;
+>>>>>>> 00eae61 (Add: modals)
 
   display: flex;
   align-items: center;
@@ -104,10 +112,14 @@ const GoBackContainer = styled.div`
 
   overflow: hidden;
 <<<<<<< HEAD
+<<<<<<< HEAD
   z-index: 90;
 =======
   z-index: 99;
 >>>>>>> 09511c3 (Add: Header)
+=======
+  z-index: 90;
+>>>>>>> 00eae61 (Add: modals)
 
   background-color: ${colors.white};
 

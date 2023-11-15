@@ -2,6 +2,8 @@
 <<<<<<< HEAD
 =======
 import LongBlueButton from "@/components/base/Button/LongBlueButton";
+import BaseModal from "@/components/base/Modal/BaseModal";
+import PaymentSelectModal from "@/components/common/explore/PaymentSelectModal";
 import MyChallengeBlock from "@/components/common/MyChallengeBlock";
 import BadgePointPannel from "@/components/common/home/BadgePointPannel";
 import ChallengeHeader from "@/components/common/home/ChallengeHeader";
@@ -11,13 +13,18 @@ import FeaturedChallengeBlock from "@/components/common/home/FeaturedChallengeBl
 import WelcomeMessage from "@/components/common/home/WelcomeMessage";
 import colors from "@/styles/color";
 import styled from "styled-components";
+<<<<<<< HEAD
 import LoginBlock from "@/components/common/home/LoginBlock";
 import Image from "next/image";
 import ExtendedChallengeHeader from "@/components/common/home/ExtendedChallengeHeader";
+=======
+import DepositChargeModal from "@/components/common/explore/DepositChargeModal";
+>>>>>>> 00eae61 (Add: modals)
 
 const Home = () => {
   return (
     <Container>
+<<<<<<< HEAD
 <<<<<<< HEAD
       <BackgroundImage
         src="/asset/Saly-36.png"
@@ -29,6 +36,10 @@ const Home = () => {
       <WelcomeMessage />
       <Home_BeforeLogin />
 =======
+=======
+      {/* <PaymentSelectModal /> */}
+      <DepositChargeModal />
+>>>>>>> 00eae61 (Add: modals)
       <WelcomeMessage></WelcomeMessage>
       <BadgePointPannel />
       <ChallengeHeader $fontColor={colors.white}>

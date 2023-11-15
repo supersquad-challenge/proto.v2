@@ -5,6 +5,9 @@ const nextConfig = {
     styledComponents: true,
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 00eae61 (Add: modals)
   async redirects() {
     return [
       {
@@ -14,6 +17,7 @@ const nextConfig = {
       },
     ];
   },
+<<<<<<< HEAD
 =======
   // async redirects() {
   //   return [
@@ -25,6 +29,8 @@ const nextConfig = {
   //   ];
   // },
 >>>>>>> 09511c3 (Add: Header)
+=======
+>>>>>>> 00eae61 (Add: modals)
 };
 
 module.exports = nextConfig;
