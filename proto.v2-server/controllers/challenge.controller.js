@@ -6,7 +6,15 @@ const UserChallenge = require('../models/userChallenge.model');
 module.exports = {
   getChallengeAll: async (req, res) => {
     try {
-      const challengeInfo = await Challenge.find({});
+      const category = req.query.category;
+
+      let challengeInfo;
+
+      if (category) {
+        challengeInfo = await Challenge.find({ category });
+      } else {
+        challengeInfo = await Challenge.find();
+      }
 
       if (challengeInfo.length === 0) {
         return res.status(404).json({
