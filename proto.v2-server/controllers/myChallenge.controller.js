@@ -15,7 +15,7 @@ module.exports = {
         challengeId,
       });
 
-      console.log(userChallenge);
+      //console.log(userChallenge);
 
       if (userChallenge) {
         return res.status(409).json({
@@ -31,13 +31,10 @@ module.exports = {
         });
       }
 
-      const userInfo = await User.findById(userId);
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-      const localtime = moment().tz(userInfo.timezone).format('YYYY-MM-DD-HH:mm:ss');
-      const endtime = moment()
-        .tz(userInfo.timezone)
-        .add(14, 'days')
-        .format('YYYY-MM-DD-HH:mm:ss');
+      const localtime = moment().tz(timezone).format('YYYY-MM-DD-HH:mm:ss');
+      const endtime = moment().tz(timezone).add(14, 'days').format('YYYY-MM-DD-HH:mm:ss');
 
       const userChallengeInfo = await UserChallenge.create({
         challengeStartAt: localtime,
@@ -54,9 +51,13 @@ module.exports = {
         challengeId: challengeId,
       });
 
-      const allUserChallengeInfo = await UserChallenge.find({ userId }).populate(
-        'challengeId'
-      );
+      const userInfo = await User.findByIdAndUpdate(userId, {
+        $push: {
+          badge: {
+            challengeName: challengeInfo.name,
+          },
+        },
+      });
 
       res.status(200).json({
         message: 'My challenge registered',
