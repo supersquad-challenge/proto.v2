@@ -5,10 +5,6 @@ const path = require('path');
 const VeriPhoto = require('../models/veriPhoto.model');
 const UserChallenge = require('../models/userChallenge.model');
 
-const createdAtLocalTime = moment(Date.now())
-  .tz('Asia/Seoul')
-  .format('YYYY-MM-DD-HH:mm:ss');
-
 module.exports = {
   postPhoto: async (req, res) => {
     try {
@@ -16,6 +12,11 @@ module.exports = {
       if (!req.file) {
         return res.status(400).json({ error: 'Failed to upload file.' });
       }
+
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const createdAtLocalTime = moment(Date.now())
+        .tz(timezone)
+        .format('YYYY-MM-DD-HH:mm:ss');
 
       const veriPhoto = await VeriPhoto.create({
         photoUrl: req.file.location,

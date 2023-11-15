@@ -26,14 +26,16 @@ const uploadImage = (folderName, req, res, next) => {
       key: function (req, file, cb) {
         const filename = req.body.userChallengeId;
         const extension = path.extname(file.originalname);
+
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const createdAtLocalTime = moment(Date.now())
+          .tz(timezone)
+          .format('YYYY-MM-DD-HH:mm:ss');
+
         cb(null, `${folderName}/${filename}-${createdAtLocalTime}${extension}`);
       },
     }),
   }).single('file')(req, res, next);
 };
-
-const createdAtLocalTime = moment(Date.now())
-  .tz('Asia/Seoul')
-  .format('YYYY-MM-DD-HH:mm:ss');
 
 module.exports = uploadImage;
