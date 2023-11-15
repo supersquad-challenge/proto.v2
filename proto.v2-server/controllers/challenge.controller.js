@@ -116,11 +116,7 @@ module.exports = {
       const challenge = req.body;
 
       const challengeInfo = await Challenge.findOne({
-<<<<<<< HEAD
         name: challenge.name,
-=======
-        name: challenge.challengeName,
->>>>>>> ad10550 (Add: modals)
       });
 
       if (challengeInfo) {
