@@ -1,7 +1,7 @@
 "use client";
-//test page
-
 import LongBlueButton from "@/components/base/Button/LongBlueButton";
+import BaseModal from "@/components/base/Modal/BaseModal";
+import PaymentSelectModal from "@/components/common/explore/PaymentSelectModal";
 import MyChallengeBlock from "@/components/common/MyChallengeBlock";
 import BadgePointPannel from "@/components/common/home/BadgePointPannel";
 import ChallengeHeader from "@/components/common/home/ChallengeHeader";
@@ -10,10 +10,13 @@ import FeaturedChallengeBlock from "@/components/common/home/FeaturedChallengeBl
 import WelcomeMessage from "@/components/common/home/WelcomeMessage";
 import colors from "@/styles/color";
 import styled from "styled-components";
+import DepositChargeModal from "@/components/common/explore/DepositChargeModal";
 
 const Home = () => {
   return (
     <Container>
+      {/* <PaymentSelectModal /> */}
+      <DepositChargeModal />
       <WelcomeMessage></WelcomeMessage>
       <BadgePointPannel />
       <ChallengeHeader $fontColor={colors.white}>
@@ -39,6 +42,6 @@ const Container = styled.main`
   height: auto;
   background-color: ${colors.primary};
 
-  padding: 0 22px; // 상하 패딩 0, 좌우 패딩 22px
+  padding: 0 22px;
   box-sizing: border-box;
 `;
