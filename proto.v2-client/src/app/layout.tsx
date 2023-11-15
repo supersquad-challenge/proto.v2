@@ -26,6 +26,7 @@ export default function RootLayout({
         </Providers>
 =======
       <body style={{ margin: '0px' }}>
+        <GlobalStyle />
         <Layout>{children}</Layout>
 >>>>>>> 09511c3 (Add: Header)
       </body>
