@@ -3,6 +3,7 @@ import GlobalStyle from "@/styles/global";
 import Providers from "@/redux/provider";
 import "./globals.css";
 
+
 const metadata = {
   name: "Supersquad",
   description: "supersqaud challenge",

@@ -53,7 +53,8 @@ const Detail = styled.div<{ $isflex: boolean }>`
 
   margin-top: ${(props) => !props.$isflex && "20px"};
 
-  max-width: 246px;
+  max-width: ${(props) => props.$isflex && "246px"};
+  width: ${(props) => !props.$isflex && "100%"};
   word-break: keep-all;
   word-wrap: break-word;
 `;

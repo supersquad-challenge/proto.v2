@@ -104,7 +104,7 @@ module.exports = {
       const challenge = req.body;
 
       const challengeInfo = await Challenge.findOne({
-        name: challenge.challengeName,
+        name: challenge.name,
       });
 
       if (challengeInfo) {
