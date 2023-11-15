@@ -1,4 +1,12 @@
 "use client";
+<<<<<<< HEAD
+=======
+import LongBlueButton from "@/components/base/Button/LongBlueButton";
+import MyChallengeBlock from "@/components/common/MyChallengeBlock";
+import BadgePointPannel from "@/components/common/home/BadgePointPannel";
+import ChallengeHeader from "@/components/common/home/ChallengeHeader";
+import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
+>>>>>>> 09511c3 (Add: Header)
 import FeaturedChallengeBlock from "@/components/common/home/FeaturedChallengeBlock";
 import WelcomeMessage from "@/components/common/home/WelcomeMessage";
 import colors from "@/styles/color";
@@ -10,6 +18,7 @@ import ExtendedChallengeHeader from "@/components/common/home/ExtendedChallengeH
 const Home = () => {
   return (
     <Container>
+<<<<<<< HEAD
       <BackgroundImage
         src="/asset/Saly-36.png"
         width={271}
@@ -19,6 +28,23 @@ const Home = () => {
       />
       <WelcomeMessage />
       <Home_BeforeLogin />
+=======
+      <WelcomeMessage></WelcomeMessage>
+      <BadgePointPannel />
+      <ChallengeHeader $fontColor={colors.white}>
+        Today Challenges
+      </ChallengeHeader>
+      <MyChallengeBlock></MyChallengeBlock>
+      <CompletedChallengeBlock></CompletedChallengeBlock>
+      <FeaturedChallengeBlock></FeaturedChallengeBlock>
+      <div style={{ width: "100%", backgroundColor: "white" }}>
+        <LongBlueButton
+          margin="10 0 0 0"
+          title="Explore Challenge"
+          onClickHandler={() => {}}
+        />
+      </div>
+>>>>>>> 09511c3 (Add: Header)
     </Container>
   );
 };
@@ -42,7 +68,11 @@ const Container = styled.main`
   height: auto;
   background-color: ${colors.primary};
 
+<<<<<<< HEAD
   padding: 0 22px 30px 22px;
+=======
+  padding: 0 22px;
+>>>>>>> 09511c3 (Add: Header)
   box-sizing: border-box;
   overflow: auto;
   position: relative;

@@ -32,7 +32,11 @@ const MyChallengeBlock = ({ border, margin }: Props) => {
               title="Verify Mission"
               margin="15px 0 0 0"
               backgroundColor={colors.primary}
+<<<<<<< HEAD
               onClickHandler={() => {}}
+=======
+              onClickHandler={() => []}
+>>>>>>> 09511c3 (Add: Header)
             />
           </Wrapper>
         </div>

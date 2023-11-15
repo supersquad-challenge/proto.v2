@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import Category from "@/components/common/explore/Category";
 import ChallengeBlock from "@/components/common/explore/ChallengeBlock";
 import colors from "@/styles/color";
@@ -74,6 +75,15 @@ const Explore = () => {
         <ChallengeBlock />
         <ChallengeBlock />
       </ChallengesContainer>
+=======
+import colors from "@/styles/color";
+import styled from "styled-components";
+
+const Explore = () => {
+  return (
+    <Container>
+      <SectionName>Categories</SectionName>
+>>>>>>> 09511c3 (Add: Header)
     </Container>
   );
 };
@@ -82,6 +92,7 @@ export default Explore;
 const Container = styled.main`
   width: 100%;
   height: auto;
+<<<<<<< HEAD
 `;
 
 const CategoriesContainer = styled.section`
@@ -91,6 +102,12 @@ const CategoriesContainer = styled.section`
   background-color: ${colors.primary};
   position: fixed;
   z-index: 3;
+=======
+  background-color: ${colors.primary};
+
+  padding: 22px 22px 0px 22px;
+  box-sizing: border-box;
+>>>>>>> 09511c3 (Add: Header)
 `;
 
 const SectionName = styled.div`
@@ -100,6 +117,7 @@ const SectionName = styled.div`
 
   height: 24px;
 `;
+<<<<<<< HEAD
 
 const CategoriesWrapper = styled.div`
   display: flex;
@@ -118,3 +136,5 @@ const ChallengesContainer = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
 `;
+=======
+>>>>>>> 09511c3 (Add: Header)

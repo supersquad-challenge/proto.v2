@@ -4,6 +4,7 @@ const nextConfig = {
     // ssr and displayName are configured by default
     styledComponents: true,
   },
+<<<<<<< HEAD
   async redirects() {
     return [
       {
@@ -13,6 +14,17 @@ const nextConfig = {
       },
     ];
   },
+=======
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: "/home",
+  //       destination: "/",
+  //       permanent: true,
+  //     },
+  //   ];
+  // },
+>>>>>>> 09511c3 (Add: Header)
 };
 
 module.exports = nextConfig;

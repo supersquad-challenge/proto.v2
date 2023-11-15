@@ -18,11 +18,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+<<<<<<< HEAD
       <body style={{ margin: "0px" }}>
         <GlobalStyle />
         <Providers>
           <Layout>{children}</Layout>
         </Providers>
+=======
+      <body style={{ margin: '0px' }}>
+        <Layout>{children}</Layout>
+>>>>>>> 09511c3 (Add: Header)
       </body>
     </html>
   );
