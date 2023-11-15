@@ -2,10 +2,15 @@ import styled from "styled-components";
 import SmallArrowButton from "../../base/Button/SmallArrowButton";
 import BaseBlock from "@/components/base/Block/BaseBlock";
 import colors from "@/styles/color";
+import Image from "next/image";
 
-const FeaturedChallengeBlock = () => {
+type Props = {
+  margin: string;
+};
+
+const FeaturedChallengeBlock = ({ margin }: Props) => {
   return (
-    <BlockWrapper>
+    <BlockWrapper $margin={margin}>
       <BaseBlock
         backgroundColor={colors.highlight}
         borderRadius={20}
@@ -24,20 +29,38 @@ const FeaturedChallengeBlock = () => {
           />
         </Wrapper>
       </BaseBlock>
-      <ThumbnailWrapper></ThumbnailWrapper>
+      <ThumbnailWrapper>
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            position: "relative",
+          }}
+        >
+          <Image
+            src="/asset/meditation.jpeg" //여기 챌린지 썸네일 사진이 들어가면 됨.
+            alt="challenge thumbnail"
+            fill
+            style={{
+              objectFit: "cover",
+            }}
+            placeholder="blur"
+            blurDataURL="/asset/blur.png"
+          />
+        </div>
+      </ThumbnailWrapper>
     </BlockWrapper>
   );
 };
 
 export default FeaturedChallengeBlock;
 
-const BlockWrapper = styled.div`
+const BlockWrapper = styled.div<{ $margin: string }>`
   width: 100%;
   height: 198px;
   position: relative;
 
-  ///////////
-  margin-top: 10px;
+  margin: ${(props) => props.$margin};
 `;
 
 const Wrapper = styled.div`
@@ -74,8 +97,6 @@ const ThumbnailWrapper = styled.div`
   height: 100%;
   border-radius: 0 20px 20px 0;
   overflow: hidden;
-
-  border: 1px solid black;
   position: absolute;
   right: 0px;
   top: 0px;

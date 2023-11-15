@@ -1,21 +1,65 @@
 "use client";
 import colors from "@/styles/color";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Footer = () => {
-  return <BlueButton />;
+  const pathname = usePathname();
+
+  const showNaviBar = () => {
+    if (
+      pathname === "/home" ||
+      pathname === "/explore" ||
+      pathname === "/mychallenge" ||
+      pathname === "/profile"
+    ) {
+      return true;
+    }
+    return false;
+  };
+  return showNaviBar() ? <NavigationBar /> : <BlueButton />;
 };
 
 export default Footer;
 
 const NavigationBar = () => {
+  const router = useRouter();
+  const pathname = usePathname();
   return (
     <NaviBarContainer>
-      <NaviBarImage src="/asset/footer/ic_home_off.svg" />
-      <NaviBarImage src="/asset/footer/ic_explore_off.svg" />
-      <NaviBarImage src="/asset/footer/ic_mychallenge_off.svg" />
-      <NaviBarImage src="/asset/footer/ic_profile_off.svg" />
+      <NaviBarImage
+        onClick={() => router.push("/home")}
+        src={
+          pathname == "/home"
+            ? "/asset/footer/ic_home_on.svg"
+            : "/asset/footer/ic_home_off.svg"
+        }
+      />
+      <NaviBarImage
+        onClick={() => router.push("/explore")}
+        src={
+          pathname == "/explore"
+            ? "/asset/footer/ic_explore_on.svg"
+            : "/asset/footer/ic_explore_off.svg"
+        }
+      />
+      <NaviBarImage
+        onClick={() => router.push("/mychallenge")}
+        src={
+          pathname == "/mychallenge"
+            ? "/asset/footer/ic_mychallenge_on.svg"
+            : "/asset/footer/ic_mychallenge_off.svg"
+        }
+      />
+      <NaviBarImage
+        onClick={() => router.push("/profile")}
+        src={
+          pathname == "/profile"
+            ? "/asset/footer/ic_profile_on.svg"
+            : "/asset/footer/ic_profile_off.svg"
+        }
+      />
 
       {/* <NaviBarImage src="/asset/footer/ic_home_on.svg" />
       <NaviBarImage src="/asset/footer/ic_explore_on.svg" />
@@ -51,7 +95,7 @@ const NaviBarContainer = styled.footer`
 
   box-sizing: border-box;
 
-  bottom: 0px;
+  bottom: 15px;
   z-index: 99;
 `;
 

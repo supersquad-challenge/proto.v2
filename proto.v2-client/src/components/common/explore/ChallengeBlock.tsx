@@ -75,10 +75,12 @@ const InfoWrapper = styled.div`
 `;
 
 const Name = styled.div`
-  max-width: 105px;
+  max-width: 110px;
   color: ${colors.black};
   font-size: 16px;
   font-weight: 600;
+  line-height: 130%;
+  letter-spacing: -0.32px;
 `;
 
 const Period = styled.div`

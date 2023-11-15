@@ -3,15 +3,20 @@ import BaseBlock from "../base/Block/BaseBlock";
 import styled from "styled-components";
 import CircularProgressBar from "./CircularProgressBar";
 import SmallArrowButton from "../base/Button/SmallArrowButton";
+type Props = {
+  border?: string;
+  margin?: string;
+};
 
-const MyChallengeBlock = () => {
+const MyChallengeBlock = ({ border, margin }: Props) => {
   return (
-    <BlockWrapper>
+    <BlockWrapper $margin={margin}>
       <BaseBlock
         backgroundColor={colors.white}
         borderRadius={20}
-        padding="22px 0 0 22px"
+        padding="22px"
         onClickHandler={() => {}}
+        border={border}
       >
         <div style={{ display: "flex" }}>
           <CircularProgressBar
@@ -27,7 +32,7 @@ const MyChallengeBlock = () => {
               title="Verify Mission"
               margin="15px 0 0 0"
               backgroundColor={colors.primary}
-              onClickHandler={() => []}
+              onClickHandler={() => {}}
             />
           </Wrapper>
         </div>
@@ -38,9 +43,9 @@ const MyChallengeBlock = () => {
 
 export default MyChallengeBlock;
 
-const BlockWrapper = styled.div`
+const BlockWrapper = styled.div<{ $margin?: string }>`
   width: 100%;
-  height: 177px;
+  margin: ${(props) => props.$margin};
 `;
 
 const Wrapper = styled.div`
@@ -50,6 +55,7 @@ const Wrapper = styled.div`
 `;
 
 const Catergory = styled.div`
+  margin-bottom: 3px;
   color: ${colors.gray};
   font-size: 12px;
   font-weight: 500;
@@ -60,6 +66,9 @@ const Name = styled.div`
   font-size: 18px;
   font-weight: 600;
   max-width: 185px;
+
+  line-height: 23.4px; /* 130% */
+  letter-spacing: -0.36px;
 `;
 
 const Period = styled.div`

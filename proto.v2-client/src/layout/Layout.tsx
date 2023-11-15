@@ -6,6 +6,7 @@ import Footer from "@/layout/Footer";
 import { usePathname } from "next/navigation";
 import styled from "styled-components";
 import Header from "./Header";
+import colors from "@/styles/color";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
@@ -26,22 +27,24 @@ const Layout = ({ children }: { children: ReactNode }) => {
     return true;
   };
 
+  const isBackgroundPrimary = () => {
+    if (pathname == "/home") {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <>
       {/* {showHeader() && <Header />} */}
       <Header />
-
-      {/* <BodyContainer
-        top={
-          !showHeader() ||
-          pathname.includes("/detail") ||
-          pathname.includes("/mypage")
-            ? 35
-            : 48
+      <BodyContainer
+        $top={68}
+        $bot={85}
+        $backgroundColor={
+          isBackgroundPrimary() ? `${colors.primary}` : `${colors.white}`
         }
-        bot={showFooter() ? 110 : 40}
-      > */}
-      <BodyContainer $top={69} $bot={70}>
+      >
         {children}
       </BodyContainer>
 
@@ -54,9 +57,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
 const BodyContainer = styled.div<{
   $top: number;
   $bot: number;
+  $backgroundColor: string;
 }>`
-  margin-top: ${(props) => `${props.$top}px`}; //Header 자리
-  margin-bottom: ${(props) => `${props.$bot}px`}; //Footer 자리
+  padding-top: ${(props) => `${props.$top}px`}; //Header 자리
+  padding-bottom: ${(props) => `${props.$bot}px`}; //Footer 자리
+
+  background-color: ${(props) => props.$backgroundColor};
 `;
 
 export default Layout;

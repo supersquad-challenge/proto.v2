@@ -5,9 +5,11 @@ import styled from "styled-components";
 type Props = {
   title: string;
   imgSrc: string;
+  isClicked: boolean;
+  onClickHandler: () => void;
 };
 
-const Category = ({ title, imgSrc }: Props) => {
+const Category = ({ title, imgSrc, isClicked, onClickHandler }: Props) => {
   // 브라우저 너비 값에 맞게 width, height 값 가변 적용
   const [windowWidth, setWindowWidth] = useState(393);
 
@@ -43,8 +45,8 @@ const Category = ({ title, imgSrc }: Props) => {
   }, [windowWidth]);
 
   return (
-    <Container>
-      <IconContainer $backgroundColor={colors.highlight} style={imgStyle}>
+    <Container onClick={() => onClickHandler()}>
+      <IconContainer $isclicked={isClicked} style={imgStyle}>
         <img src={imgSrc} style={imgStyle} />
       </IconContainer>
       <Title>{title}</Title>
@@ -63,10 +65,11 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const IconContainer = styled.div<{ $backgroundColor: string }>`
+const IconContainer = styled.div<{ $isclicked: boolean }>`
   margin-bottom: 10px;
   border-radius: 50%;
-  background-color: ${(props) => props.$backgroundColor};
+  background-color: ${(props) =>
+    props.$isclicked ? `${colors.highlight}` : "rgba(255, 255, 255, 0.4)"};
 
   display: flex;
   justify-content: center;
