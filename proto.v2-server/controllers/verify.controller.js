@@ -9,6 +9,7 @@ module.exports = {
   postPhoto: async (req, res) => {
     try {
       const { userChallengeId } = req.body;
+
       if (!req.file) {
         return res.status(400).json({ error: 'Failed to upload file.' });
       }

@@ -109,6 +109,10 @@ module.exports = {
 
   createChallenge: async (req, res) => {
     try {
+      if (!req.file) {
+        return res.status(400).json({ error: 'Failed to upload file.' });
+      }
+
       const challenge = req.body;
 
       const challengeInfo = await Challenge.findOne({
@@ -121,12 +125,14 @@ module.exports = {
         });
       }
 
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       const createdAtLocalTime = moment(Date.now())
-        .tz('Asia/Seoul')
-        .format('YYYY-MM-DD HH:mm:ss');
+        .tz(timezone)
+        .format('YYYY-MM-DD-HH:mm:ss');
 
       const challengeData = await Challenge.create({
         ...challenge,
+        thumbnailUrl: req.file.location,
         createdAt: createdAtLocalTime,
       });
 
