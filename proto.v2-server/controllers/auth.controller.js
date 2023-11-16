@@ -38,23 +38,16 @@ const googleStrategyConfig = new GoogleStrategy(
       if (existingUser) {
         return done(null, existingUser);
       }
-<<<<<<< HEAD
 
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-=======
->>>>>>> ad10550 (Add: modals)
       const newUser = new User({
         email: profile.emails[0].value,
         googleId: profile.id,
         name: profile.displayName,
         profileUrl: profile.photos[0].value,
         locale: profile._json.locale,
-<<<<<<< HEAD
         timezone: timezone,
-=======
-        isCookieAllowed: true,
->>>>>>> ad10550 (Add: modals)
       });
       const user = await newUser.save();
       done(null, user);
