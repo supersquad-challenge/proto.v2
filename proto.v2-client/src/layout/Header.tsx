@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import colors from "@/styles/color";
 import { usePathname } from "next/navigation";
 import styled from "styled-components";
@@ -16,14 +17,32 @@ const Header = () => {
     return false;
   };
   return showServiceTitle() ? <ServiceTitle /> : <GoBack />;
+=======
+const Header = () => {
+  return <GoBack />;
+>>>>>>> 09511c3 (Add: Header)
 };
 
 export default Header;
 
+<<<<<<< HEAD
 const ServiceTitle = () => {
   return (
     <ServiceTitleContainer>
       <Title>SUPERSQUAD</Title>
+=======
+import colors from "@/styles/color";
+import styled from "styled-components";
+
+const ServiceTitle = () => {
+  return (
+    <ServiceTitleContainer>
+<<<<<<< HEAD
+      <Title>SuperSquad</Title>
+>>>>>>> 09511c3 (Add: Header)
+=======
+      <Title>SUPERSQUAD</Title>
+>>>>>>> 00eae61 (Add: modals)
     </ServiceTitleContainer>
   );
 };
@@ -36,7 +55,11 @@ const GoBack = () => {
   );
 };
 
+<<<<<<< HEAD
 const ServiceTitleContainer = styled.header`
+=======
+const ServiceTitleContainer = styled.div`
+>>>>>>> 09511c3 (Add: Header)
   width: 100%;
   height: 70px;
   margin: 0 auto;
@@ -49,7 +72,15 @@ const ServiceTitleContainer = styled.header`
   background-color: ${colors.primary};
 
   overflow: hidden;
+<<<<<<< HEAD
+<<<<<<< HEAD
   z-index: 90;
+=======
+  z-index: 99;
+>>>>>>> 09511c3 (Add: Header)
+=======
+  z-index: 90;
+>>>>>>> 00eae61 (Add: modals)
 
   display: flex;
   align-items: center;
@@ -65,7 +96,11 @@ const Title = styled.div`
   font-weight: 700;
 `;
 
+<<<<<<< HEAD
 const GoBackContainer = styled.header`
+=======
+const GoBackContainer = styled.div`
+>>>>>>> 09511c3 (Add: Header)
   width: 100%;
   height: 70px;
   margin: 0 auto;
@@ -76,7 +111,15 @@ const GoBackContainer = styled.header`
   transform: translateX(-50%);
 
   overflow: hidden;
+<<<<<<< HEAD
+<<<<<<< HEAD
   z-index: 90;
+=======
+  z-index: 99;
+>>>>>>> 09511c3 (Add: Header)
+=======
+  z-index: 90;
+>>>>>>> 00eae61 (Add: modals)
 
   background-color: ${colors.white};
 

@@ -15,7 +15,7 @@ module.exports = {
         challengeId,
       });
 
-      console.log(userChallenge);
+      //console.log(userChallenge);
 
       if (userChallenge) {
         return res.status(409).json({
@@ -31,13 +31,10 @@ module.exports = {
         });
       }
 
-      const userInfo = await User.findById(userId);
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-      const localtime = moment().tz(userInfo.timezone).format('YYYY-MM-DD-HH:mm:ss');
-      const endtime = moment()
-        .tz(userInfo.timezone)
-        .add(14, 'days')
-        .format('YYYY-MM-DD-HH:mm:ss');
+      const localtime = moment().tz(timezone).format('YYYY-MM-DD-HH:mm:ss');
+      const endtime = moment().tz(timezone).add(14, 'days').format('YYYY-MM-DD-HH:mm:ss');
 
       const userChallengeInfo = await UserChallenge.create({
         challengeStartAt: localtime,
@@ -54,9 +51,13 @@ module.exports = {
         challengeId: challengeId,
       });
 
-      const allUserChallengeInfo = await UserChallenge.find({ userId }).populate(
-        'challengeId'
-      );
+      const userInfo = await User.findByIdAndUpdate(userId, {
+        $push: {
+          badge: {
+            challengeName: challengeInfo.name,
+          },
+        },
+      });
 
       res.status(200).json({
         message: 'My challenge registered',
@@ -72,8 +73,9 @@ module.exports = {
   getAllMychallenge: async (req, res) => {
     try {
       const { userId } = req.params;
+      const status = req.query.status;
 
-      const allUserChallengeInfo = await UserChallenge.find({ userId }).populate(
+      let allUserChallengeInfo = await UserChallenge.find({ userId }).populate(
         'challengeId'
       );
 
@@ -83,10 +85,31 @@ module.exports = {
         });
       }
 
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const localtime = moment().tz(timezone);
+
+      allUserChallengeInfo = await Promise.all(
+        allUserChallengeInfo.map(async (userChallengeInfo) => {
+          const momentObj = moment(localtime, 'YYYY-MM-DD-HH:mm:ss');
+          if (
+            moment(userChallengeInfo.challengeEndAt, 'YYYY-MM-DD-HH:mm:ss').startOf(
+              'day'
+            ) > moment(localtime, 'YYYY-MM-DD-HH:mm:ss').startOf('day')
+          ) {
+            userChallengeInfo.status = 'ongoing';
+          } else {
+            userChallengeInfo.status = 'complete';
+          }
+          await userChallengeInfo.save();
+          return userChallengeInfo;
+        })
+      );
+
       res.status(200).json({
         message: 'My challenge found',
         userChallengeInfo: {
           allUserChallengeInfo: allUserChallengeInfo
+            .filter((userChallengeInfo) => userChallengeInfo.status === status)
             .map((userChallengeInfo) => ({
               userChallengeId: userChallengeInfo._id,
               challengeId: userChallengeInfo.challengeId._id,

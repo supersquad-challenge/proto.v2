@@ -5,8 +5,7 @@ const nextConfig = {
     NEXT_PUBLIC_GOOGLE_LOGIN_URL: process.env.GOOGLE_LOGIN_URL,
     NEXT_PUBLIC_WALLET_API_KEY: process.env.WALLET_API_KEY,
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
-    NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID:
-      process.env.WALLET_CONNECT_PROJECT_ID,
+    NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: process.env.WALLET_CONNECT_PROJECT_ID,
   },
   compiler: {
     // ssr and displayName are configured by default
@@ -15,8 +14,8 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: "/",
-        destination: "/home",
+        source: '/',
+        destination: '/home',
         permanent: false,
       },
     ];

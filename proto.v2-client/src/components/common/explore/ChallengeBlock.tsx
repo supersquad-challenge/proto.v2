@@ -1,6 +1,9 @@
 import BaseBlock from "@/components/base/Block/BaseBlock";
+<<<<<<< HEAD
 import colors from "@/styles/color";
 import Image from "next/image";
+=======
+>>>>>>> 09511c3 (Add: Header)
 import styled from "styled-components";
 
 type Props = {
@@ -14,6 +17,7 @@ const period = "2 Weeks";
 const ChallengeBlock = ({ thumbnailUrl, name, participants }: Props) => {
   return (
     <BlockWrapper>
+<<<<<<< HEAD
       <BaseBlock
         backgroundColor={colors.white}
         borderRadius={10}
@@ -45,6 +49,10 @@ const ChallengeBlock = ({ thumbnailUrl, name, participants }: Props) => {
             <Participants>{participants}</Participants>
           </ParticipantsWrapper>
         </InfoWrapper>
+=======
+      <BaseBlock backgroundColor={""} borderRadius={0} padding={""}>
+        <div></div>
+>>>>>>> 09511c3 (Add: Header)
       </BaseBlock>
     </BlockWrapper>
   );
@@ -53,6 +61,7 @@ const ChallengeBlock = ({ thumbnailUrl, name, participants }: Props) => {
 export default ChallengeBlock;
 
 const BlockWrapper = styled.div`
+<<<<<<< HEAD
   width: 96%;
   height: 222px;
   margin-bottom: 15px;
@@ -111,4 +120,12 @@ const Participants = styled.div`
   font-size: 14px;
   font-weight: 600;
   margin-left: 5px;
+=======
+  width: 100%;
+  height: 198px;
+  position: relative;
+
+  ///////////
+  margin-top: 10px;
+>>>>>>> 09511c3 (Add: Header)
 `;
