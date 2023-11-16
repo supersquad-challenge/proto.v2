@@ -20,7 +20,7 @@ const ExtendedChallengeHeader = ({ challengeHeader, margin }: Props) => {
           width={14}
           height={14}
           alt="more detail"
-          src="/asset/right>.svg"
+          src="/asset/right_arrow.svg"
         />
       </MoreWrapper>
     </Container>
