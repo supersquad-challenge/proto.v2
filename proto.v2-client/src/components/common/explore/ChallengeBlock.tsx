@@ -6,7 +6,15 @@ import Image from "next/image";
 >>>>>>> 09511c3 (Add: Header)
 import styled from "styled-components";
 
-const ChallengeBlock = () => {
+type Props = {
+  thumbnailUrl: string;
+  name: string;
+  participants: number;
+};
+
+const period = "2 Weeks";
+
+const ChallengeBlock = ({ thumbnailUrl, name, participants }: Props) => {
   return (
     <BlockWrapper>
 <<<<<<< HEAD
@@ -20,7 +28,7 @@ const ChallengeBlock = () => {
         <ThumbnailWrapper>
           <Image
             src="/asset/Saly-15.svg" //여기 챌린지 썸네일 사진이 들어가면 됨.
-            alt="challenge thumbnail"
+            alt={thumbnailUrl}
             fill
             style={{
               objectFit: "cover",
@@ -29,8 +37,8 @@ const ChallengeBlock = () => {
           />
         </ThumbnailWrapper>
         <InfoWrapper>
-          <Name>15 minutes of meditation</Name>
-          <Period>Sep 11st - Oct 11st</Period>
+          <Name>{name}</Name>
+          <Period>{period}</Period>
           <ParticipantsWrapper>
             <Image
               src="/asset/ic_participant.svg"
@@ -38,7 +46,7 @@ const ChallengeBlock = () => {
               width={20}
               height={20}
             />
-            <Participants>30</Participants>
+            <Participants>{participants}</Participants>
           </ParticipantsWrapper>
         </InfoWrapper>
 =======
