@@ -27,7 +27,7 @@ const SmallArrowButton = ({
         onClickHandler={onClickHandler}
         fontWeight={500}
       >
-        <MoreDetailImg src="/asset/right>.svg" />
+        <MoreDetailImg src="/asset/right_arrow.svg" />
       </BaseButton>
     </ButtonWrapper>
   );

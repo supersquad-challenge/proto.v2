@@ -1,34 +1,52 @@
 "use client";
 import Category from "@/components/common/explore/Category";
 import ChallengeBlock from "@/components/common/explore/ChallengeBlock";
+import { getAllChallenge } from "@/lib/api/querys/challenge/getAllChallenge";
 import colors from "@/styles/color";
+import { AllChallenges } from "@/types/api/Challenge";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
 
 const Explore = () => {
+  // variables //
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [category, setCategory] = useState("all");
+  const [category, setCategory] = useState("");
 
-  useEffect(() => {
-    router.push("/explore?category=all");
-  }, []);
-
+  // useEffect //
   useEffect(() => {
     const categoryQuery = searchParams.get("category");
     setCategory(categoryQuery!);
   }, [pathname, searchParams]);
 
+  // handle functions //
   const handleCategoryClick = (title: string) => {
     if (category == title) {
-      router.push("/explore?category=all");
+      router.push("/explore");
     } else {
       router.push(`/explore?category=${title}`);
     }
     return;
   };
+
+  // api
+  const { data, error, isLoading } = useQuery(
+    ["allChallenges", searchParams.get("category")],
+    async () => {
+      const category = searchParams.get("category") ?? "";
+      const queryString = new URLSearchParams({ category }).toString();
+      const res = await getAllChallenge({ queryString });
+      const challenges = res.challengeInfo;
+      return challenges;
+    },
+    {
+      staleTime: 5000,
+      cacheTime: 60 * 60 * 1000,
+    }
+  );
 
   return (
     <Container>
@@ -38,41 +56,48 @@ const Explore = () => {
           <Category
             title="Diet"
             imgSrc="/asset/categories/diet.svg"
-            isClicked={category == "diet"}
+            isClicked={category == "Diet"}
             onClickHandler={() => {
-              handleCategoryClick("diet");
+              handleCategoryClick("Diet");
             }}
           />
           <Category
             title="Fitness"
             imgSrc="/asset/categories/fitness.svg"
-            isClicked={category == "fitness"}
+            isClicked={category == "Fitness"}
             onClickHandler={() => {
-              handleCategoryClick("fitness");
+              handleCategoryClick("Fitness");
             }}
           />
           <Category
             title="Mental Health"
             imgSrc="/asset/categories/mental_health.svg"
-            isClicked={category == "mental_health"}
+            isClicked={category == "Mental_health"}
             onClickHandler={() => {
-              handleCategoryClick("mental_health");
+              handleCategoryClick("Mental_health");
             }}
           />
           <Category
             title="Habit"
             imgSrc="/asset/categories/habit.svg"
-            isClicked={category == "habit"}
+            isClicked={category == "Habit"}
             onClickHandler={() => {
-              handleCategoryClick("habit");
+              handleCategoryClick("Habit");
             }}
           />
         </CategoriesWrapper>
       </CategoriesContainer>
       <ChallengesContainer>
-        <ChallengeBlock />
-        <ChallengeBlock />
-        <ChallengeBlock />
+        {data?.map((challenge: AllChallenges, index: number) => {
+          return (
+            <ChallengeBlock
+              thumbnailUrl={challenge.thumbnailUrl}
+              name={challenge.name}
+              participants={challenge.participants}
+              key={index}
+            />
+          );
+        })}
       </ChallengesContainer>
     </Container>
   );
