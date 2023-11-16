@@ -9,7 +9,11 @@ const CompletedChallengeBlock = () => {
       <BaseBlock
         backgroundColor={colors.lightGray}
         borderRadius={20}
+<<<<<<< HEAD
         padding="22px"
+=======
+        padding="22px 22px 0 22px"
+>>>>>>> 00eae61 (Add: modals)
         onClickHandler={() => {}}
       >
         <Catergory>Digital Detox</Catergory>

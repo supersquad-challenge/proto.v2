@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import colors from "@/styles/color";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -83,4 +84,18 @@ const Title = styled.div`
   max-width: 50px;
 
   text-align: center;
+=======
+import styled from "styled-components";
+
+const Category = () => {
+  return <Container $backgroundColor=""></Container>;
+};
+
+const Container = styled.div<{ $backgroundColor: string }>`
+  width: calc((var(--width) - 36) / 4);
+  height: calc((var(--width) - 36) / 4);
+  margin-bottom: 10px;
+  border-radius: 50%;
+  background-color: ${(props) => props.$backgroundColor};
+>>>>>>> 09511c3 (Add: Header)
 `;

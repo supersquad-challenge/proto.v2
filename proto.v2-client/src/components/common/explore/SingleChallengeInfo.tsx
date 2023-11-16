@@ -1,5 +1,5 @@
-import colors from "@/styles/color";
-import styled from "styled-components";
+import colors from '@/styles/color';
+import styled from 'styled-components';
 
 type Props = {
   title: string;
@@ -26,7 +26,7 @@ const Container = styled.div<{ $isflex: boolean }>`
   width: 100%;
   height: auto;
 
-  display: ${(props) => props.$isflex && "flex"};
+  display: ${(props) => props.$isflex && 'flex'};
 
   margin-top: 30px;
 `;
@@ -35,7 +35,7 @@ const Title = styled.div<{ $isflex: boolean }>`
   color: ${colors.black};
   font-size: 18px;
   font-weight: 600;
-  width: ${(props) => (props.$isflex ? "103px" : "185px")};
+  width: ${(props) => (props.$isflex ? '103px' : '185px')};
 `;
 
 const Content = styled.div<{ $isflex: boolean }>`
@@ -43,7 +43,7 @@ const Content = styled.div<{ $isflex: boolean }>`
   font-size: 18px;
   font-weight: 600;
 
-  margin-top: ${(props) => !props.$isflex && "10px"};
+  margin-top: ${(props) => !props.$isflex && '10px'};
 `;
 
 const Detail = styled.div<{ $isflex: boolean }>`
@@ -51,10 +51,10 @@ const Detail = styled.div<{ $isflex: boolean }>`
   font-size: 16px;
   font-weight: 400;
 
-  margin-top: ${(props) => !props.$isflex && "20px"};
+  margin-top: ${(props) => !props.$isflex && '20px'};
 
-  max-width: ${(props) => props.$isflex && "246px"};
-  width: ${(props) => !props.$isflex && "100%"};
+  max-width: ${(props) => props.$isflex && '246px'};
+  width: ${(props) => !props.$isflex && '100%'};
   word-break: keep-all;
   word-wrap: break-word;
 `;
