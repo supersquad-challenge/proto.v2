@@ -8,7 +8,11 @@ interface IDynamicPool is Struct {
 
   event UserAdded(address Pool, address User, uint256 Deposit);
 
-  event PoolTransfered(address User, uint256 Idx, bool Form);
+  event UserDeleted(address Pool, address User);
+
+  event DepositMoved(address From, address User, uint256 Deposit, bool Result);
+
+  event DepositReturned(address Pool, address User, uint256 Deposit, bool Result);
 
   function getOwner() external returns (address);
 
@@ -26,7 +30,13 @@ interface IDynamicPool is Struct {
 
   function getAllUsers() external returns (User[] memory);
 
-  function getMsgData() external returns (bytes memory);
+  function addUser(address _user, uint256 _deposit) external returns (User memory);
 
-  function changePool(address _user) external payable returns (bool);
+  function deleteUser(address _user) external returns (User[] memory);
+
+  function withdrawDeposit(address _user, uint256 _deposit) external payable returns (bool);
+
+  function requestReversePool() external returns (address);
+
+  function paybackDeposit(address _user, uint256 _deposit) external payable returns (bool);
 }
