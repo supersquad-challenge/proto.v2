@@ -117,6 +117,7 @@ module.exports = {
               category: userChallengeInfo.challengeId.category,
               name: userChallengeInfo.challengeId.name,
               thumbnailUrl: userChallengeInfo.challengeId.thumbnailUrl,
+              successRate: userChallengeInfo.successRate,
               challengeStartAt: userChallengeInfo.challengeStartAt,
               challengeEndAt: userChallengeInfo.challengeEndAt,
             }))
