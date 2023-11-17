@@ -5,7 +5,6 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Footer = () => {
-<<<<<<< HEAD
   const pathname = usePathname();
 
   const showNaviBar = () => {
@@ -20,9 +19,6 @@ const Footer = () => {
     return false;
   };
   return showNaviBar() ? <NavigationBar /> : <BlueButton />;
-=======
-  return <BlueButton />;
->>>>>>> 00eae61 (Add: modals)
 };
 
 export default Footer;
