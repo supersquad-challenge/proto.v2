@@ -1,13 +1,14 @@
 "use client";
-import BasicInput from "@/components/base/Input/BasicInput";
+
 import FlowSectionName from "@/components/common/flow/FlowSectionName";
+import ImageInputCircle from "@/components/common/flow/ImageInputCircle";
 import NicknameInput from "@/components/common/flow/NicknameInput";
 import NicknameMessage from "@/components/common/flow/NicknameMessage";
 import colors from "@/styles/color";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 import styled from "styled-components";
 
-const NicknameSetup = () => {
+const ProfileSetting = () => {
   const [nickname, setNickname] = useState("");
 
   const updateInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +23,10 @@ const NicknameSetup = () => {
   };
   return (
     <Container>
-      <FlowSectionName>What is your</FlowSectionName>
+      <FlowSectionName>Profile Setting</FlowSectionName>
+      <ImageInputWrapper>
+        <ImageInputCircle profileSrc="/asset/meditation.jpeg" />
+      </ImageInputWrapper>
       <NicknameMessage>Nickname</NicknameMessage>
       <NicknameInput
         nickname={nickname}
@@ -33,10 +37,17 @@ const NicknameSetup = () => {
   );
 };
 
-export default NicknameSetup;
+export default ProfileSetting;
 
 const Container = styled.main`
   width: 100%;
   height: auto;
   padding: 22px;
+`;
+
+const ImageInputWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 `;
