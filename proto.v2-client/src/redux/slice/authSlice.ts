@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from  "@/redux/store"
+import { RootState } from "@/redux/store";
 
 interface IAuthState {
   isLoggedIn: boolean;
@@ -18,11 +18,11 @@ const initialState: IAuthState = {
   userID: null,
   address: null,
   isConnected: false,
-  profile: null
-}
+  profile: null,
+};
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     SET_USER_LOGIN: (state, action) => {
@@ -34,7 +34,7 @@ const authSlice = createSlice({
       state.userID = userID;
       state.address = address;
       state.isConnected = false;
-      state.profile = profile
+      state.profile = profile;
     },
     SET_USER_LOGOUT: (state) => {
       state.isLoggedIn = false;
@@ -48,27 +48,26 @@ const authSlice = createSlice({
     SET_USER_CONNECT: (state, action) => {
       const { address } = action.payload;
 
-      if (!state.isLoggedIn)
-        return ;
-      state = {...state}
+      if (!state.isLoggedIn) return;
+      state = { ...state };
 
       state.isConnected = true;
       state.address = address;
     },
     SET_USER_DISCONNECT: (state) => {
-      state = {...state}
+      state = { ...state };
 
       state.address = null;
       state.isConnected = false;
-    }
-  }
-})
+    },
+  },
+});
 
-export const { 
-  SET_USER_LOGIN, 
-  SET_USER_LOGOUT, 
+export const {
+  SET_USER_LOGIN,
+  SET_USER_LOGOUT,
   SET_USER_CONNECT,
-  SET_USER_DISCONNECT 
+  SET_USER_DISCONNECT,
 } = authSlice.actions;
 
 export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
@@ -78,6 +77,5 @@ export const selectUserID = (state: RootState) => state.auth.userID;
 export const selectAddress = (state: RootState) => state.auth.address;
 export const selectIsConnected = (state: RootState) => state.auth.isConnected;
 export const selectProfile = (state: RootState) => state.auth.profile;
-
 
 export default authSlice.reducer;

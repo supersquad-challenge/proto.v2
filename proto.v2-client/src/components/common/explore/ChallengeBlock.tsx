@@ -1,5 +1,10 @@
 import BaseBlock from "@/components/base/Block/BaseBlock";
+import { PERIOD_DAYS } from "@/lib/protoV2Constants";
 import colors from "@/styles/color";
+import {
+  addDaysToDate,
+  convertIsoDateToReadable,
+} from "@/utils/dateFormatUtils";
 import Image from "next/image";
 import styled from "styled-components";
 
@@ -9,9 +14,8 @@ type Props = {
   participants: number;
 };
 
-const period = "2 Weeks";
-
 const ChallengeBlock = ({ thumbnailUrl, name, participants }: Props) => {
+  const today = new Date();
   return (
     <BlockWrapper>
       <BaseBlock
@@ -34,7 +38,12 @@ const ChallengeBlock = ({ thumbnailUrl, name, participants }: Props) => {
         </ThumbnailWrapper>
         <InfoWrapper>
           <Name>{name}</Name>
-          <Period>{period}</Period>
+          <Period>
+            {convertIsoDateToReadable(today.toString())} -{" "}
+            {convertIsoDateToReadable(
+              addDaysToDate(today, PERIOD_DAYS).toString()
+            )}
+          </Period>
           <ParticipantsWrapper>
             <Image
               src="/asset/ic_participant.svg"

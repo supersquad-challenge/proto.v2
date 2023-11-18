@@ -3,12 +3,28 @@ import BaseBlock from "../base/Block/BaseBlock";
 import styled from "styled-components";
 import CircularProgressBar from "./CircularProgressBar";
 import SmallArrowButton from "../base/Button/SmallArrowButton";
+import { convertIsoDateToReadable } from "@/utils/dateFormatUtils";
 type Props = {
   border?: string;
   margin?: string;
+  successRate: number;
+  thumbnailUrl: string;
+  category: string;
+  name: string;
+  challengeStartAt: string;
+  challengeEndAt: string;
 };
 
-const MyChallengeBlock = ({ border, margin }: Props) => {
+const MyChallengeBlock = ({
+  border,
+  margin,
+  successRate,
+  thumbnailUrl,
+  category,
+  name,
+  challengeStartAt,
+  challengeEndAt,
+}: Props) => {
   return (
     <BlockWrapper $margin={margin}>
       <BaseBlock
@@ -20,14 +36,17 @@ const MyChallengeBlock = ({ border, margin }: Props) => {
       >
         <div style={{ display: "flex" }}>
           <CircularProgressBar
-            progress={70}
+            progress={successRate}
             width={100}
-            imageUrl="/asset/Saly-15.svg"
+            imageUrl={thumbnailUrl} //썸네일 이미지
           />
           <Wrapper>
-            <Catergory>Mental Health</Catergory>
-            <Name>15 minutes of meditation</Name>
-            <Period>Sep 11st - Oct 11st</Period>
+            <Catergory>{category}</Catergory>
+            <Name>{name}</Name>
+            <Period>
+              {convertIsoDateToReadable(challengeStartAt)} -{" "}
+              {convertIsoDateToReadable(challengeEndAt)}
+            </Period>
             <SmallArrowButton
               title="Verify Mission"
               margin="15px 0 0 0"
