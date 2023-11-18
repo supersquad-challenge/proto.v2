@@ -44,6 +44,7 @@ const FeaturedChallengeBlock = ({ margin }: Props) => {
             style={{
               objectFit: "cover",
             }}
+            sizes="175px"
             placeholder="blur"
             blurDataURL="/asset/blur.png"
           />
