@@ -1,17 +1,22 @@
 "use client";
 import MyChallengeBlock from "@/components/common/MyChallengeBlock";
-import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
+import { getAllChallengesByUserId } from "@/lib/api/querys/myChallenge/getAllChallengesByUserId";
 import colors from "@/styles/color";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
+import { USERID } from "@/lib/api/testdata";
+import { AllChallengesByUserId } from "@/types/api/Challenge";
 
 const MyChallenge = () => {
+  // variables //
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState("ongoing");
 
+  // Use Effect //
   useEffect(() => {
     router.push("/mychallenge?status=ongoing");
   }, []);
@@ -20,6 +25,25 @@ const MyChallenge = () => {
     const statusQuery = searchParams.get("status");
     setStatus(statusQuery!);
   }, [pathname, searchParams]);
+
+  // API //
+  const { data, error, isLoading } = useQuery(
+    ["all MyChallenges", searchParams.get("status")],
+    async () => {
+      const status = searchParams.get("status") ?? "";
+      const queryString = new URLSearchParams({ status }).toString();
+      const res = await getAllChallengesByUserId({
+        userId: USERID,
+        queryString,
+      });
+      const challenges = res.userChallengeInfo.allUserChallengeInfo;
+      return challenges;
+    },
+    {
+      staleTime: 5000,
+      cacheTime: 60 * 60 * 1000,
+    }
+  );
 
   return (
     <Container>
@@ -47,10 +71,23 @@ const MyChallenge = () => {
       </StatusContainer>
       <ChallengesContainer>
         <TotalWrapper>
-          Total <TotalBold>2</TotalBold>
+          Total <TotalBold>{data?.length}</TotalBold>
         </TotalWrapper>
-        <MyChallengeBlock border="1px solid #dddddd" margin="0 0 15px 0" />
-        <MyChallengeBlock border="1px solid #dddddd" />
+        {data?.map((challenge: AllChallengesByUserId, index: number) => {
+          return (
+            <MyChallengeBlock
+              successRate={20} //수정 필요
+              thumbnailUrl={challenge.thumbnailUrl}
+              category={challenge.category}
+              name={challenge.name}
+              challengeStartAt={challenge.challengeStartAt}
+              challengeEndAt={challenge.challengeStartAt}
+              key={index}
+              border="1px solid #dddddd"
+              margin="0 0 15px 0"
+            />
+          );
+        })}
       </ChallengesContainer>
     </Container>
   );
@@ -98,7 +135,7 @@ const Status = styled.div<{ $isclicked: boolean }>`
 const ChallengesContainer = styled.section`
   width: 100%;
   height: auto;
-  padding: 150px 22px 30px 22px;
+  padding: 150px 22px 15px 22px;
   box-sizing: border-box;
   overflow: scroll;
   background-color: ${colors.white};

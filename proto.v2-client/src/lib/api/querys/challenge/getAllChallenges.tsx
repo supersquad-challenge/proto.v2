@@ -1,7 +1,7 @@
 type Props = {
   queryString: string;
 };
-export const getAllChallenge = async ({ queryString }: Props) => {
+export const getAllChallenges = async ({ queryString }: Props) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/challenge?${queryString}`
   );
