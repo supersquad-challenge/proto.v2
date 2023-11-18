@@ -2,12 +2,12 @@ import { Modal } from "./../../types/Modal";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "@/redux/store";
 
-interface IModalState {
-  modal: Modal | undefined;
+export interface IModalState {
+  activeModal: Modal | undefined;
   visibility: boolean;
 }
 
-const initialState: IModalState = { modal: undefined, visibility: false };
+const initialState: IModalState = { activeModal: undefined, visibility: false };
 
 const modalSlice = createSlice({
   name: "modal",
@@ -15,22 +15,26 @@ const modalSlice = createSlice({
   reducers: {
     OPEN_MODAL: (state, action) => {
       const { modal } = action.payload;
-      state.modal = modal;
+      state.activeModal = modal;
       state.visibility = true;
     },
     CLOSE_MODAL: (state) => {
-      state.modal = undefined;
+      state.activeModal = undefined;
       state.visibility = false;
     },
     CHANGE_MODAL: (state, action) => {
       const { modal } = action.payload;
-      state.modal = modal;
+      state.activeModal = modal;
     },
   },
 });
 
 export const { OPEN_MODAL, CLOSE_MODAL, CHANGE_MODAL } = modalSlice.actions;
 
-// export const selectModal = (state: RootState) =>
+export const getActiveModalState = (state: RootState) =>
+  state.modal.activeModal;
+export const getVisibilityState = (state: RootState) => state.modal.visibility;
+
+export const getModalState = (state: RootState) => state.modal;
 
 export default modalSlice.reducer;

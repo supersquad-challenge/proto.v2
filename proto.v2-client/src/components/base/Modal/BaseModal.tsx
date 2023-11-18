@@ -1,8 +1,9 @@
-import React, { ReactNode, useContext } from "react";
+import React, { ReactNode } from "react";
 import styled from "styled-components";
-import { AiOutlineClose } from "react-icons/ai";
 import colors from "@/styles/color";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
 // import { WindowContext } from '@/context/window';
 
 type Props = {
@@ -13,15 +14,14 @@ type Props = {
 };
 
 const BaseModal = ({ title, deletePath, children, show }: Props) => {
-  // const { handleModalState } = useContext(WindowContext);
+  const dispatch = useDispatch();
   return (
     <ModalBackground>
       <ModalContainer $show={show}>
         <X
-          onClick={
-            () => {}
-            // handleModalState(deletePath)
-          }
+          onClick={() => {
+            dispatch(CLOSE_MODAL());
+          }}
           src="/asset/xmark.svg"
           width={35}
           height={35}

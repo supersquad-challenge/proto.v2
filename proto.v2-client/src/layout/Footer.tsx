@@ -1,11 +1,24 @@
 "use client";
+import {
+  getBlueButtonTitleState,
+  getHandleBlueButtonClickState,
+} from "@/redux/slice/footerSlice";
+import {
+  IModalState,
+  getActiveModalState,
+  getModalState,
+} from "@/redux/slice/modalSlice";
 import colors from "@/styles/color";
+import { Modal } from "@/types/Modal";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 const Footer = () => {
+  // variable //
   const pathname = usePathname();
+  const activeModal: Modal | undefined = useSelector(getActiveModalState);
 
   const showNaviBar = () => {
     if (
@@ -18,7 +31,19 @@ const Footer = () => {
     }
     return false;
   };
-  return showNaviBar() ? <NavigationBar /> : <BlueButton />;
+
+  const showBlueButton = () => {
+    if (
+      activeModal == "congrats_otherChallenges" ||
+      activeModal == "congrats_status" ||
+      activeModal == "nowYouAreIn" ||
+      activeModal == "snapYourScale"
+    ) {
+      return false;
+    }
+    return true;
+  };
+  return showNaviBar() ? <NavigationBar /> : showBlueButton() && <BlueButton />;
 };
 
 export default Footer;
@@ -60,17 +85,18 @@ const NavigationBar = () => {
             : "/asset/footer/ic_profile_off.svg"
         }
       />
-
-      {/* <NaviBarImage src="/asset/footer/ic_home_on.svg" />
-      <NaviBarImage src="/asset/footer/ic_explore_on.svg" />
-      <NaviBarImage src="/asset/footer/ic_mychallenge_on.svg" />
-      <NaviBarImage src="/asset/footer/ic_profile_on.svg" /> */}
     </NaviBarContainer>
   );
 };
 
 const BlueButton = () => {
-  return <BlueButtonContainer>I am in!</BlueButtonContainer>;
+  const blueButtonTitle = useSelector(getBlueButtonTitleState);
+  const handleBlueButtonClick = useSelector(getHandleBlueButtonClickState);
+  return (
+    <BlueButtonContainer onClick={() => handleBlueButtonClick()}>
+      {blueButtonTitle}
+    </BlueButtonContainer>
+  );
 };
 
 const NaviBarContainer = styled.footer`
@@ -97,6 +123,10 @@ const NaviBarContainer = styled.footer`
 
   bottom: 15px;
   z-index: 99;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const NaviBarImage = styled.img`
@@ -130,4 +160,8 @@ const BlueButtonContainer = styled.footer`
 
   bottom: 0px;
   z-index: 99;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;

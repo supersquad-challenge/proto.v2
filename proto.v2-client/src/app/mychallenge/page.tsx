@@ -76,12 +76,12 @@ const MyChallenge = () => {
         {data?.map((challenge: AllChallengesByUserId, index: number) => {
           return (
             <MyChallengeBlock
-              successRate={20} //수정 필요
+              successRate={challenge.successRate} //수정 필요
               thumbnailUrl={challenge.thumbnailUrl}
               category={challenge.category}
               name={challenge.name}
               challengeStartAt={challenge.challengeStartAt}
-              challengeEndAt={challenge.challengeStartAt}
+              challengeEndAt={challenge.challengeEndAt}
               key={index}
               border="1px solid #dddddd"
               margin="0 0 15px 0"

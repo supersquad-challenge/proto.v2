@@ -2,13 +2,17 @@ import styled from "styled-components";
 import Image from "next/image";
 import colors from "@/styles/color";
 
-const ParticipantsBanner = () => {
+type Props = {
+  participants: number;
+};
+
+const ParticipantsBanner = ({ participants }: Props) => {
   return (
     <Container>
       <CirclesWrapper>
         <ProfileContainer>
           <Image
-            src="/asset/profile-circle.svg"
+            src="/asset/profile-circle.svg" // 참여자 프로필
             width={32}
             height={32}
             alt="participants"
@@ -16,16 +20,16 @@ const ParticipantsBanner = () => {
         </ProfileContainer>
         <ProfileContainer style={{ marginLeft: "-10px" }}>
           <Image
-            src="/asset/profile-circle.svg"
+            src="/asset/profile-circle.svg" //참여자 프로필
             width={32}
             height={32}
             alt="participants"
           />
         </ProfileContainer>
-        <ParticipantsNumCircle>+28</ParticipantsNumCircle>
+        <ParticipantsNumCircle>+{participants - 2}</ParticipantsNumCircle>
       </CirclesWrapper>
       <ParticipationMessage>
-        <b>30 people</b> participating!
+        <b>{participants} people</b> participating!
       </ParticipationMessage>
     </Container>
   );

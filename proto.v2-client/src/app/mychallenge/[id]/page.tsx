@@ -8,69 +8,71 @@ import SingleChallengeInfo from "@/components/common/explore/SingleChallengeInfo
 
 const MyChallengeID = () => {
   return (
-    <DetailedChallengePage>
-      <Wrapper>
-        <Title>My Status</Title>
-      </Wrapper>
+    <Container>
+      <DetailedChallengePage>
+        <Wrapper>
+          <Title>My Status</Title>
+        </Wrapper>
 
-      <ProgressBarWrapper>
-        <BaseProgressBar rate={100} />
-        <TargetSuccess>
-          Target Success <TargetSuccessBold>100%</TargetSuccessBold>
-        </TargetSuccess>
-      </ProgressBarWrapper>
+        <ProgressBarWrapper>
+          <BaseProgressBar rate={100} />
+          <TargetSuccess>
+            Target Success <TargetSuccessBold>100%</TargetSuccessBold>
+          </TargetSuccess>
+        </ProgressBarWrapper>
 
-      <Wrapper>
-        <Title>My Deposit</Title>
-        <Detail $fontSize={18}>100 MATIC</Detail>
-      </Wrapper>
+        <Wrapper>
+          <Title>My Deposit</Title>
+          <Detail $fontSize={18}>100 MATIC</Detail>
+        </Wrapper>
 
-      <Wrapper>
-        <Title>Total Crypto</Title>
-        <Detail $fontSize={24}>1500 $USDT</Detail>
-      </Wrapper>
+        <Wrapper>
+          <Title>Total Crypto</Title>
+          <Detail $fontSize={24}>1500 $USDT</Detail>
+        </Wrapper>
 
-      <PoolWrapper style={{ marginTop: "20px" }}>
-        <Image
-          src="/asset/left_bottom_perpendicular.svg"
-          width={8}
-          height={8}
-          alt="ㄴ"
-          style={{ margin: "3px 7px 0 0" }}
+        <PoolWrapper style={{ marginTop: "20px" }}>
+          <Image
+            src="/asset/left_bottom_perpendicular.svg"
+            width={8}
+            height={8}
+            alt="ㄴ"
+            style={{ margin: "3px 7px 0 0" }}
+          />
+          <PoolName>Over 80% Pool</PoolName>
+          <PoolDetail>1,000 $USDT</PoolDetail>
+        </PoolWrapper>
+
+        <PoolWrapper style={{ marginTop: "8px" }}>
+          <Image
+            src="/asset/left_bottom_perpendicular.svg"
+            width={8}
+            height={8}
+            alt="ㄴ"
+            style={{ margin: "3px 7px 0 0" }}
+          />
+          <PoolName>Under 80% Pool</PoolName>
+          <PoolDetail>500 $USDT</PoolDetail>
+        </PoolWrapper>
+
+        <SingleChallengeInfo
+          title="Schedule"
+          content="Sep 11st - Oct 11st"
+          detail="Everyday"
         />
-        <PoolName>Over 80% Pool</PoolName>
-        <PoolDetail>1,000 $USDT</PoolDetail>
-      </PoolWrapper>
-
-      <PoolWrapper style={{ marginTop: "8px" }}>
-        <Image
-          src="/asset/left_bottom_perpendicular.svg"
-          width={8}
-          height={8}
-          alt="ㄴ"
-          style={{ margin: "3px 7px 0 0" }}
-        />
-        <PoolName>Under 80% Pool</PoolName>
-        <PoolDetail>500 $USDT</PoolDetail>
-      </PoolWrapper>
-
-      <SingleChallengeInfo
-        title="Schedule"
-        content="Sep 11st - Oct 11st"
-        detail="Everyday"
-      />
-      <SingleChallengeInfo
-        title="How To"
-        content="Take a picture"
-        detail="Take a picture of your scale everyday to prove your weight.
+        <SingleChallengeInfo
+          title="How To"
+          content="Take a picture"
+          detail="Take a picture of your scale everyday to prove your weight.
           Remind to have your both feet shown!"
-      />
-      <SingleChallengeInfo
-        title="Why this challenge?"
-        content=""
-        detail="Replacing one meal a day with salad is the first step to changing your eating habits healthier."
-      />
-    </DetailedChallengePage>
+        />
+        <SingleChallengeInfo
+          title="Why this challenge?"
+          content=""
+          detail="Replacing one meal a day with salad is the first step to changing your eating habits healthier."
+        />
+      </DetailedChallengePage>
+    </Container>
   );
 };
 
@@ -139,4 +141,10 @@ const PoolDetail = styled.div`
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.28px;
+`;
+
+const Container = styled.main`
+  width: 100%;
+  height: auto;
+  background-color: ${colors.white};
 `;
