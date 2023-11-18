@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use client";
 import MyChallengeBlock from "@/components/common/MyChallengeBlock";
 import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
@@ -53,15 +52,6 @@ const MyChallenge = () => {
         <MyChallengeBlock border="1px solid #dddddd" margin="0 0 15px 0" />
         <MyChallengeBlock border="1px solid #dddddd" />
       </ChallengesContainer>
-=======
-import colors from "@/styles/color";
-import styled from "styled-components";
-
-const MyChallenge = () => {
-  return (
-    <Container>
-      <SectionName>My Challenge</SectionName>
->>>>>>> 09511c3 (Add: Header)
     </Container>
   );
 };
@@ -70,7 +60,6 @@ export default MyChallenge;
 const Container = styled.main`
   width: 100%;
   height: auto;
-<<<<<<< HEAD
 `;
 
 const StatusContainer = styled.section`
@@ -80,12 +69,6 @@ const StatusContainer = styled.section`
   background-color: ${colors.primary};
   position: fixed;
   z-index: 3;
-=======
-  background-color: ${colors.primary};
-
-  padding: 0 22px;
-  box-sizing: border-box;
->>>>>>> 09511c3 (Add: Header)
 `;
 
 const SectionName = styled.div`
@@ -94,7 +77,6 @@ const SectionName = styled.div`
   font-weight: 600;
 
   height: 24px;
-<<<<<<< HEAD
 `;
 
 const StatusesWrapper = styled.div`
@@ -136,8 +118,4 @@ const TotalWrapper = styled.div`
 const TotalBold = styled.span`
   font-weight: 600;
   margin-left: 6px;
-=======
-
-  margin-top: 22px;
->>>>>>> 09511c3 (Add: Header)
 `;

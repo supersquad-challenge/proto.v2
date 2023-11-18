@@ -14,14 +14,9 @@ const MyChallengeBlock = ({ border, margin }: Props) => {
       <BaseBlock
         backgroundColor={colors.white}
         borderRadius={20}
-<<<<<<< HEAD
         padding="22px"
         onClickHandler={() => {}}
         border={border}
-=======
-        padding="22px 0 0 22px"
-        onClickHandler={() => {}}
->>>>>>> 00eae61 (Add: modals)
       >
         <div style={{ display: "flex" }}>
           <CircularProgressBar
@@ -37,11 +32,7 @@ const MyChallengeBlock = ({ border, margin }: Props) => {
               title="Verify Mission"
               margin="15px 0 0 0"
               backgroundColor={colors.primary}
-<<<<<<< HEAD
               onClickHandler={() => {}}
-=======
-              onClickHandler={() => []}
->>>>>>> 09511c3 (Add: Header)
             />
           </Wrapper>
         </div>

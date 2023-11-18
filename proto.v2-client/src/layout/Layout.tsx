@@ -6,10 +6,7 @@ import Footer from "@/layout/Footer";
 import { usePathname } from "next/navigation";
 import styled from "styled-components";
 import Header from "./Header";
-<<<<<<< HEAD
 import colors from "@/styles/color";
-=======
->>>>>>> 09511c3 (Add: Header)
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
@@ -41,7 +38,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
     <>
       {/* {showHeader() && <Header />} */}
       <Header />
-<<<<<<< HEAD
       <BodyContainer
         $top={68}
         $bot={85}
@@ -49,20 +45,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
           isBackgroundPrimary() ? `${colors.primary}` : `${colors.white}`
         }
       >
-=======
-
-      {/* <BodyContainer
-        top={
-          !showHeader() ||
-          pathname.includes("/detail") ||
-          pathname.includes("/mypage")
-            ? 35
-            : 48
-        }
-        bot={showFooter() ? 110 : 40}
-      > */}
-      <BodyContainer $top={69} $bot={110}>
->>>>>>> 09511c3 (Add: Header)
         {children}
       </BodyContainer>
 

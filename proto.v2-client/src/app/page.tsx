@@ -19,14 +19,8 @@ const Home = () => {
       <ChallengeHeader $fontColor={colors.white}>
         Today Challenges
       </ChallengeHeader>
-<<<<<<< HEAD
       <MyChallengeBlock />
       <CompletedChallengeBlock></CompletedChallengeBlock>
-=======
-      <MyChallengeBlock></MyChallengeBlock>
-      <CompletedChallengeBlock></CompletedChallengeBlock>
-      <FeaturedChallengeBlock></FeaturedChallengeBlock>
->>>>>>> 09511c3 (Add: Header)
       <div style={{ width: "100%", backgroundColor: "white" }}>
         <LongBlueButton
           margin="10 0 0 0"
