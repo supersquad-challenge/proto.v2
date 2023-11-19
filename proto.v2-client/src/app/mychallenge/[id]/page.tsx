@@ -32,18 +32,6 @@ const MyChallengeID = () => {
   const modal: IModalState = useSelector(getModalState);
   const dispatch = useDispatch();
 
-  // useEffect //
-  useEffect(() => {
-    dispatch(
-      SET_FOOTER_BLUEBUTTON({
-        blueButtonTitle: "Verify Mission",
-        handleBlueButtonClick: () => {
-          dispatch(OPEN_MODAL({ modal: "snapYourScale" }));
-        },
-      })
-    );
-  }, [id, modal.visibility]);
-
   // API //
   const {
     data: challenge,
@@ -66,6 +54,20 @@ const MyChallengeID = () => {
     staleTime: 5000,
     cacheTime: 60 * 60 * 1000,
   });
+
+  // useEffect //
+  useEffect(() => {
+    // 수정 필요: 오늘 사진을 올렸을 경우, payback이 필요한 경우, complete했을 경우의 로직 추가 구현
+
+    dispatch(
+      SET_FOOTER_BLUEBUTTON({
+        blueButtonTitle: "Verify Mission",
+        handleBlueButtonClick: () => {
+          dispatch(OPEN_MODAL({ modal: "snapYourScale" }));
+        },
+      })
+    );
+  }, [id, modal.visibility]);
 
   return (
     <>

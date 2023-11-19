@@ -92,8 +92,12 @@ export function convertIsoDateToReadable(str: string) {
     return "Invalid Date";
   }
 
-  // Convert the string to a Date object directly without replacing characters
-  const date = new Date(str);
+  // ISO 형식으로 변환
+  // 날짜와 시간을 구분하는 첫 번째 하이픈만 'T'로 변환
+  const isoFormattedStr = str.replace(/-/g, (match, offset) =>
+    offset === 10 ? "T" : match
+  );
+  const date = new Date(isoFormattedStr);
 
   // Check if the date is valid
   if (isNaN(date.getTime())) {

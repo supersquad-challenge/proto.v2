@@ -88,6 +88,8 @@ const MyChallenge = () => {
               onClickHandler={() =>
                 router.push(`/mychallenge/${challenge.userChallengeId}`)
               }
+              status={challenge.status}
+              isPhotoUploadedToday={false}
             />
           );
         })}
