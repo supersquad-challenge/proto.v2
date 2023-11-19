@@ -13,6 +13,7 @@ type Props = {
   name: string;
   challengeStartAt: string;
   challengeEndAt: string;
+  onClickHandler: () => void;
 };
 
 const MyChallengeBlock = ({
@@ -24,6 +25,7 @@ const MyChallengeBlock = ({
   name,
   challengeStartAt,
   challengeEndAt,
+  onClickHandler,
 }: Props) => {
   return (
     <BlockWrapper $margin={margin}>
@@ -51,7 +53,7 @@ const MyChallengeBlock = ({
               title="Verify Mission"
               margin="15px 0 0 0"
               backgroundColor={colors.primary}
-              onClickHandler={() => {}}
+              onClickHandler={onClickHandler}
             />
           </Wrapper>
         </div>

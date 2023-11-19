@@ -76,7 +76,7 @@ const MyChallenge = () => {
         {data?.map((challenge: AllChallengesByUserId, index: number) => {
           return (
             <MyChallengeBlock
-              successRate={challenge.successRate} //수정 필요
+              successRate={challenge.successRate}
               thumbnailUrl={challenge.thumbnailUrl}
               category={challenge.category}
               name={challenge.name}
@@ -85,6 +85,9 @@ const MyChallenge = () => {
               key={index}
               border="1px solid #dddddd"
               margin="0 0 15px 0"
+              onClickHandler={() =>
+                router.push(`/mychallenge/${challenge.userChallengeId}`)
+              }
             />
           );
         })}

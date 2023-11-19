@@ -10,6 +10,7 @@ type Props = {
   detail: string;
   buttonText: string;
   onClickHandler: () => void;
+  children?: React.ReactNode;
 };
 
 const FullPageModal = ({
@@ -18,6 +19,7 @@ const FullPageModal = ({
   detail,
   buttonText,
   onClickHandler,
+  children,
 }: Props) => {
   // 브라우저 높이 값에 맞게 height 값 가변 적용
   const [windowHeight, setWindowHeight] = useState(801);
@@ -58,7 +60,9 @@ const FullPageModal = ({
             margin="30px"
             title={buttonText}
             onClickHandler={onClickHandler}
-          />
+          >
+            {children}
+          </LongBlueButton>
         </Wrapper>
       </Container>
     </PageContainer>

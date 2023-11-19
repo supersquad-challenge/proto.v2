@@ -58,22 +58,53 @@ export function daysBetweenDates(rawDate1: string, rawDate2: string) {
   return `${durationWeeks} ${weekOrWeeks}`;
 }
 
-export function convertIsoDateToReadable(str: string) {
-  // ISO 형식으로 변환
-  // 날짜와 시간을 구분하는 첫 번째 하이픈만 'T'로 변환
-  const isoFormattedStr = str.replace(/-/g, (match, offset) =>
-    offset === 10 ? "T" : match
-  );
-  const date = new Date(isoFormattedStr);
+// export function convertIsoDateToReadable(str: string) {
+//   // ISO 형식으로 변환
+//   // 날짜와 시간을 구분하는 첫 번째 하이픈만 'T'로 변환
+//   const isoFormattedStr = str.replace(/-/g, (match, offset) =>
+//     offset === 10 ? "T" : match
+//   );
+//   const date = new Date(isoFormattedStr);
 
-  // 날짜가 유효한지 확인
+//   // 날짜가 유효한지 확인
+//   if (isNaN(date.getTime())) {
+//     return "Invalid Date";
+//   }
+
+//   const month = date.toLocaleString("en-US", { month: "short" });
+//   const day = date.getDate();
+
+//   let suffix = "th";
+//   if (day % 10 === 1 && day !== 11) {
+//     suffix = "st";
+//   } else if (day % 10 === 2 && day !== 12) {
+//     suffix = "nd";
+//   } else if (day % 10 === 3 && day !== 13) {
+//     suffix = "rd";
+//   }
+
+//   return `${month} ${day}${suffix}`;
+// }
+
+export function convertIsoDateToReadable(str: string) {
+  // Check if the input string is not provided or empty
+  if (!str) {
+    return "Invalid Date";
+  }
+
+  // Convert the string to a Date object directly without replacing characters
+  const date = new Date(str);
+
+  // Check if the date is valid
   if (isNaN(date.getTime())) {
     return "Invalid Date";
   }
 
+  // Extract and format the month and day
   const month = date.toLocaleString("en-US", { month: "short" });
   const day = date.getDate();
 
+  // Determine the correct suffix for the day
   let suffix = "th";
   if (day % 10 === 1 && day !== 11) {
     suffix = "st";
@@ -83,6 +114,7 @@ export function convertIsoDateToReadable(str: string) {
     suffix = "rd";
   }
 
+  // Return the formatted date string
   return `${month} ${day}${suffix}`;
 }
 

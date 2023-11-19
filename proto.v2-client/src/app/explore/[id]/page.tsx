@@ -24,7 +24,7 @@ import FullPageModal from "@/components/base/Modal/FullPageModal";
 import { nowYouAreInSrc } from "@/lib/components/fullPageModal";
 
 const ExploreID = () => {
-  //variables //
+  // variables //
   const { id } = useParams<{ id: string }>();
   const challengeId: string = id as string;
   const dispatch = useDispatch();
@@ -54,7 +54,6 @@ const ExploreID = () => {
     queryFn: async () => {
       const res = await getSingleChallenge({ challengeId: challengeId });
       const challenge = res.challengeInfo;
-      console.log(challenge);
       return challenge;
     },
     staleTime: 5000,

@@ -27,3 +27,17 @@ export type SingleChallengeByChallengeId = {
   howTo: string;
   description: string;
 };
+
+export type SingleChallengeByUserChallengeId = {
+  thumbnailUrl: string;
+  name: string;
+  participants: number;
+  successRate: number;
+  depositMethod: string;
+  deposit: number;
+  totalDeposit: number;
+  cryptoSuccessPool: number;
+  cryptoFailPool: number;
+  challengeStartAt: string;
+  challengeEndAt: string;
+};

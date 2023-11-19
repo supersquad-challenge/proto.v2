@@ -6,9 +6,10 @@ type Props = {
   margin: string;
   title: string;
   onClickHandler: () => void;
+  children?: React.ReactNode;
 };
 
-const LongBlueButton = ({ margin, title, onClickHandler }: Props) => {
+const LongBlueButton = ({ margin, title, onClickHandler, children }: Props) => {
   return (
     <ButtonWrapper $margin={margin}>
       <BaseButton
@@ -21,6 +22,7 @@ const LongBlueButton = ({ margin, title, onClickHandler }: Props) => {
         title={title}
         onClickHandler={onClickHandler}
       />
+      {children}
     </ButtonWrapper>
   );
 };
