@@ -2,11 +2,11 @@ import colors from "@/styles/color";
 import styled from "styled-components";
 
 type Props = {
-  fontSize: number;
+  isLogin: boolean;
 };
 
-const WelcomeMessage = () => {
-  return <BeforeLogin />;
+const WelcomeMessage = ({ isLogin }: Props) => {
+  return isLogin ? <AfterLogin /> : <BeforeLogin />;
 };
 
 export default WelcomeMessage;
@@ -43,17 +43,19 @@ const AfterLogin = () => {
 };
 
 const Container = styled.div`
-  width: auto;
+  width: 100%;
   height: auto;
 
   box-sizing: border-box;
 
   display: flex;
   justify-content: space-between;
-  margin-top: 22px;
+
+  background-color: ${colors.primary};
+  padding-top: 22px;
 `;
 
-const Greetings = styled.div<Props>`
+const Greetings = styled.div<{ fontSize: number }>`
   color: ${colors.white};
   font-size: ${(props) => `${props.fontSize}px`};
   font-weight: 300;

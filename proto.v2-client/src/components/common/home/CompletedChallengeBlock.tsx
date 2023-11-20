@@ -35,7 +35,7 @@ const BlockWrapper = styled.div`
   width: 100%;
 
   ///////////
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 
 const Catergory = styled.div`

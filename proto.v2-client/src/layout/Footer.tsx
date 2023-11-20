@@ -37,7 +37,8 @@ const Footer = () => {
       activeModal == "congrats_otherChallenges" ||
       activeModal == "congrats_status" ||
       activeModal == "nowYouAreIn" ||
-      activeModal == "snapYourScale"
+      activeModal == "snapYourScale" ||
+      pathname == "/flow/login"
     ) {
       return false;
     }

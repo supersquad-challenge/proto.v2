@@ -27,7 +27,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
       activeModal == "congrats_otherChallenges" ||
       activeModal == "congrats_status" ||
       activeModal == "nowYouAreIn" ||
-      activeModal == "snapYourScale"
+      activeModal == "snapYourScale" ||
+      pathname == "/home"
     ) {
       return false;
     }
