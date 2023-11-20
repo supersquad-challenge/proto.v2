@@ -9,12 +9,13 @@ import ExtendedChallengeHeader from "@/components/common/home/ExtendedChallengeH
 import BadgePointPannel from "@/components/common/home/BadgePointPannel";
 import ChallengeHeader from "@/components/common/home/ChallengeHeader";
 import { useQuery } from "react-query";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getAllChallengesByUserId } from "@/lib/api/querys/myChallenge/getAllChallengesByUserId";
 import { USERID } from "@/lib/api/testdata";
 import MyChallengeBlock from "@/components/common/MyChallengeBlock";
 import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { AllChallengesByUserId } from "@/types/api/Challenge";
 
 const Home = () => {
   // return <Home_BeforeLogin />;
@@ -54,25 +55,37 @@ const Home_AfterLogin = () => {
   const [isSrcolled, setIsScrolled] = useState(false);
   const [isBlurred, setIsBlurred] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
-  // // API //
-  // const { data, error, isLoading } = useQuery(
-  //   ["all MyChallenges", searchParams.get("status")],
-  //   async () => {
-  //     const status = searchParams.get("status") ?? "";
-  //     const queryString = new URLSearchParams({ status }).toString();
-  //     const res = await getAllChallengesByUserId({
-  //       userId: USERID,
-  //       queryString,
-  //     });
-  //     const challenges = res.userChallengeInfo.allUserChallengeInfo;
-  //     return challenges;
-  //   },
-  //   {
-  //     staleTime: 5000,
-  //     cacheTime: 60 * 60 * 1000,
-  //   }
-  // );
+  // API //
+  const { data, error, isLoading } = useQuery(
+    ["all MyChallenges", pathname],
+    async () => {
+      const res = await getAllChallengesByUserId({
+        userId: USERID,
+        queryString: "ongoing",
+      });
+      const ongoingChallenges = res.userChallengeInfos;
+      let photoUploadedChallenges: AllChallengesByUserId[] = [];
+      let photoNotUploadedChallenges: AllChallengesByUserId[] = [];
+      ongoingChallenges.forEach((challenge: AllChallengesByUserId) => {
+        if (challenge.isPhotoUploadedToday) {
+          photoUploadedChallenges.push(challenge);
+        } else {
+          photoNotUploadedChallenges.push(challenge);
+        }
+      });
+
+      return { photoUploadedChallenges, photoNotUploadedChallenges };
+    },
+    {
+      staleTime: 5000,
+      cacheTime: 60 * 60 * 1000,
+    }
+  );
+
+  const photoUploadedChallenges = data?.photoUploadedChallenges;
+  const photoNotUploadedChallenges = data?.photoNotUploadedChallenges;
 
   const handleScroll = useCallback(() => {
     if (wrapperRef.current) {
@@ -84,7 +97,6 @@ const Home_AfterLogin = () => {
 
   // 브라우저 높이 값에 맞게 ChallengesContainer 값 가변 적용
   const [windowHeight, setWindowHeight] = useState(844);
-
   useEffect(() => {
     // 브라우저 환경에서만 실행
     if (typeof window !== "undefined") {
@@ -132,7 +144,66 @@ const Home_AfterLogin = () => {
             >
               Today challenges
             </ChallengeHeader>
-            <MyChallengeBlock
+
+            {photoNotUploadedChallenges?.map(
+              (challenge: AllChallengesByUserId, index: number) => {
+                return (
+                  <MyChallengeBlock
+                    successRate={challenge.successRate}
+                    thumbnailUrl={challenge.thumbnailUrl}
+                    category={challenge.category}
+                    name={challenge.name}
+                    challengeStartAt={challenge.challengeStartAt}
+                    challengeEndAt={challenge.challengeEndAt}
+                    status={challenge.status}
+                    isPhotoUploadedToday={challenge.isPhotoUploadedToday}
+                    onClickHandler={() =>
+                      router.push(`/mychallenge/${challenge.userChallengeId}`)
+                    }
+                    key={index}
+                  />
+                );
+              }
+            )}
+            {photoUploadedChallenges?.map(
+              (challenge: AllChallengesByUserId, index: number) => {
+                return (
+                  <CompletedChallengeBlock
+                    category={challenge.category}
+                    name={challenge.name}
+                    key={index}
+                  />
+                );
+              }
+            )}
+
+            {/* 
+            {ongoingChallenges?.map(
+              (challenge: AllChallengesByUserId, index: number) => {
+                return challenge.isPhotoUploadedToday ? (
+                  <CompletedChallengeBlock
+                    category={challenge.category}
+                    name={challenge.name}
+                  />
+                ) : (
+                  <MyChallengeBlock
+                    successRate={challenge.successRate}
+                    thumbnailUrl={challenge.thumbnailUrl}
+                    category={challenge.category}
+                    name={challenge.name}
+                    challengeStartAt={challenge.challengeStartAt}
+                    challengeEndAt={challenge.challengeEndAt}
+                    status={challenge.status}
+                    isPhotoUploadedToday={challenge.isPhotoUploadedToday}
+                    onClickHandler={() =>
+                      router.push(`/mychallenge/${challenge.userChallengeId}`)
+                    }
+                  />
+                );
+              }
+            )} */}
+
+            {/* <MyChallengeBlock
               successRate={30}
               thumbnailUrl="/asset/Saly-15.svg"
               category="Mental Health"
@@ -142,9 +213,12 @@ const Home_AfterLogin = () => {
               status="ongoing"
               isPhotoUploadedToday={false}
               onClickHandler={() => {}}
-            />
+            /> */}
 
-            <CompletedChallengeBlock />
+            {/* <CompletedChallengeBlock
+              category={"Digital Detox"}
+              name={"15 minutes of meditation"}
+            /> */}
 
             <ChallengeHeader
               $fontColor={colors.black}

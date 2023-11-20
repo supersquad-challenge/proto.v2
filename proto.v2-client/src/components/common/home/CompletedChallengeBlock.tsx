@@ -2,8 +2,12 @@ import BaseBlock from "@/components/base/Block/BaseBlock";
 import colors from "@/styles/color";
 import styled from "styled-components";
 import CompletedButton from "./CompletedButton";
+type Props = {
+  category: string;
+  name: string;
+};
 
-const CompletedChallengeBlock = () => {
+const CompletedChallengeBlock = ({ category, name }: Props) => {
   return (
     <BlockWrapper>
       <BaseBlock
@@ -13,7 +17,7 @@ const CompletedChallengeBlock = () => {
         // padding="22px 22px 0 22px"
         onClickHandler={() => {}}
       >
-        <Catergory>Digital Detox</Catergory>
+        <Catergory>{category}</Catergory>
         <div
           style={{
             display: "flex",
@@ -21,7 +25,7 @@ const CompletedChallengeBlock = () => {
             justifyContent: "space-between",
           }}
         >
-          <Name>15 minutes of meditation</Name>
+          <Name>{name}</Name>
           <CompletedButton margin="3px 0 0 0" onClickHandler={() => {}} />
         </div>
       </BaseBlock>

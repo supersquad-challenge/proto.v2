@@ -16,6 +16,7 @@ export type AllChallengesByUserId = {
   successRate: number;
   challengeStartAt: string;
   challengeEndAt: string;
+  isPhotoUploadedToday: boolean;
 };
 
 export type SingleChallengeByChallengeId = {
