@@ -1,7 +1,26 @@
 const moment = require('moment-timezone');
+const ethers = require('ethers');
 
 const Challenge = require('../models/challenge.model');
 const UserChallenge = require('../models/userChallenge.model');
+
+const poolFactoryContractAbi =
+  require('./../../proto.v2-contract/artifacts/contracts/dynamicpool/factory/DynamicPoolFactory.sol/DynamicPoolFactory.json').abi;
+
+require('dotenv').config();
+
+const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_URL);
+
+const ServerPrivateKey = process.env.SERVER_PRIVATE_KEY;
+const ServerWallet = new ethers.Wallet(ServerPrivateKey, provider);
+
+const poolFactoryAddress = process.env.POOL_FACTORY_CONTRACT_ADDRESS;
+
+const poolFactoryContract = new ethers.Contract(
+  poolFactoryAddress,
+  poolFactoryContractAbi,
+  ServerWallet
+);
 
 module.exports = {
   getChallengeAll: async (req, res) => {
@@ -130,9 +149,17 @@ module.exports = {
         .tz(timezone)
         .format('YYYY-MM-DD-HH:mm:ss');
 
+      const createPool = await poolFactoryContract.createChallenge(challenge.name);
+      const receipt = await createPool.wait();
+
+      const idx = await poolFactoryContract.getIndex();
+      const address = await poolFactoryContract.getChallenge(idx);
+
       const challengeData = await Challenge.create({
         ...challenge,
         thumbnailUrl: req.file.location,
+        SuccessPoolAddress: address[0],
+        FailPoolAddress: address[1],
         createdAt: createdAtLocalTime,
       });
 

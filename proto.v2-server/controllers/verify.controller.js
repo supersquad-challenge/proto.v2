@@ -13,18 +13,40 @@ module.exports = {
         return res.status(400).json({ error: 'Failed to upload file.' });
       }
 
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const createdAtLocalTime = moment(Date.now())
-        .tz(timezone)
-        .format('YYYY-MM-DD-HH:mm:ss');
+      // const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      // const createdAtLocalTime = moment(Date.now())
+      //   .tz(timezone)
+      //   .format('YYYY-MM-DD-HH:mm:ss');
 
-      const veriPhoto = await VeriPhoto.create({
+      // const veriPhoto = await VeriPhoto.create({
+      //   photoUrl: req.file.location,
+      //   uploadedAt: createdAtLocalTime,
+      //   checkedAt: null,
+      //   checkStatus: 'notChecked',
+      //   timezone: timezone,
+      //   userChallengeId: userChallengeId,
+      // });
+
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const createdAtLocalTime = moment(Date.now()).tz(timezone).format('YYYY-MM-DD');
+
+      const filter = {
+        userChallengeId: userChallengeId,
+        uploadedAt: createdAtLocalTime,
+      };
+
+      const update = {
         photoUrl: req.file.location,
         uploadedAt: createdAtLocalTime,
         checkedAt: null,
         checkStatus: 'notChecked',
+        timezone: timezone,
         userChallengeId: userChallengeId,
-      });
+      };
+
+      const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+      const veriPhoto = await VeriPhoto.findOneAndUpdate(filter, update, options);
 
       res.status(200).json({
         message: 'Photo uploaded',

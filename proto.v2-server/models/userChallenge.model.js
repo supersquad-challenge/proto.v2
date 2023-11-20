@@ -16,6 +16,9 @@ const UserChallengeSchema = new Schema({
   veriStatus: {
     type: Schema.Types.Mixed,
   },
+  photoStatus: {
+    type: Schema.Types.Mixed,
+  },
   challengeId: {
     type: Schema.Types.ObjectId,
     ref: 'Challenge',

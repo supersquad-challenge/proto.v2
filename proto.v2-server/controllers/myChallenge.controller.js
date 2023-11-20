@@ -33,8 +33,8 @@ module.exports = {
 
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-      const localtime = moment().tz(timezone).format('YYYY-MM-DD-HH:mm:ss');
-      const endtime = moment().tz(timezone).add(14, 'days').format('YYYY-MM-DD-HH:mm:ss');
+      const localtime = moment().tz(timezone).format('YYYY-MM-DD');
+      const endtime = moment().tz(timezone).add(14, 'days').format('YYYY-MM-DD');
 
       const userChallengeInfo = await UserChallenge.create({
         challengeStartAt: localtime,
@@ -90,39 +90,43 @@ module.exports = {
 
       allUserChallengeInfo = await Promise.all(
         allUserChallengeInfo.map(async (userChallengeInfo) => {
-          const momentObj = moment(localtime, 'YYYY-MM-DD-HH:mm:ss');
+          const momentObj = moment(localtime, 'YYYY-MM-DD');
           if (
-            moment(userChallengeInfo.challengeEndAt, 'YYYY-MM-DD-HH:mm:ss').startOf(
-              'day'
-            ) > moment(localtime, 'YYYY-MM-DD-HH:mm:ss').startOf('day')
+            moment(userChallengeInfo.challengeEndAt, 'YYYY-MM-DD').startOf('day') >
+            moment(localtime, 'YYYY-MM-DD').startOf('day')
           ) {
             userChallengeInfo.status = 'ongoing';
           } else {
             userChallengeInfo.status = 'complete';
           }
           await userChallengeInfo.save();
-          return userChallengeInfo;
+
+          const today = moment().tz(timezone).format('YYYY-MM-DD');
+          const photoUploadedToday = await VeriPhoto.exists({
+            userChallengeId: userChallengeInfo._id,
+            uploadedAt: today,
+          });
+
+          const isPhotoUploadedToday = photoUploadedToday ? true : false;
+          console.log(isPhotoUploadedToday);
+
+          return {
+            userChallengeId: userChallengeInfo._id,
+            challengeId: userChallengeInfo.challengeId._id,
+            status: userChallengeInfo.status,
+            category: userChallengeInfo.challengeId.category,
+            name: userChallengeInfo.challengeId.name,
+            thumbnailUrl: userChallengeInfo.challengeId.thumbnailUrl,
+            successRate: userChallengeInfo.successRate,
+            challengeStartAt: userChallengeInfo.challengeStartAt,
+            challengeEndAt: userChallengeInfo.challengeEndAt,
+            isPhotoUploadedToday,
+          };
         })
       );
 
-      res.status(200).json({
-        message: 'My challenge found',
-        userChallengeInfo: {
-          allUserChallengeInfo: allUserChallengeInfo
-            .filter((userChallengeInfo) => userChallengeInfo.status === status)
-            .map((userChallengeInfo) => ({
-              userChallengeId: userChallengeInfo._id,
-              challengeId: userChallengeInfo.challengeId._id,
-              status: userChallengeInfo.status,
-              category: userChallengeInfo.challengeId.category,
-              name: userChallengeInfo.challengeId.name,
-              thumbnailUrl: userChallengeInfo.challengeId.thumbnailUrl,
-              successRate: userChallengeInfo.successRate,
-              challengeStartAt: userChallengeInfo.challengeStartAt,
-              challengeEndAt: userChallengeInfo.challengeEndAt,
-            }))
-            .reverse(),
-        },
+      res.json({
+        userChallengeInfos: allUserChallengeInfo.reverse(),
       });
     } catch (error) {
       console.log(error);
@@ -145,6 +149,16 @@ module.exports = {
         });
       }
 
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const today = moment().tz(timezone).format('YYYY-MM-DD');
+      const photoUploadedToday = await VeriPhoto.exists({
+        userChallengeId: userChallengeId,
+        uploadedAt: today,
+      });
+
+      const isPhotoUploadedToday = photoUploadedToday ? true : false;
+      console.log(isPhotoUploadedToday);
+
       const totalCryptoDeposit =
         userChallengeInfo.challengeId.cryptoSuccessPool +
         userChallengeInfo.challengeId.cryptoFailPool;
@@ -161,6 +175,11 @@ module.exports = {
         cryptoFailPool: userChallengeInfo.challengeId.cryptoFailPool,
         challengeStartAt: userChallengeInfo.challengeStartAt,
         challengeEndAt: userChallengeInfo.challengeEndAt,
+        frequency: userChallengeInfo.challengeId.frequency,
+        howTo: userChallengeInfo.challengeId.howTo,
+        description: userChallengeInfo.challengeId.description,
+        status: userChallengeInfo.status,
+        isPhotoUploadedToday,
       };
 
       res.status(200).json({
