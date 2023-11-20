@@ -1,5 +1,5 @@
 import BaseBlock from "@/components/base/Block/BaseBlock";
-import { PERIOD_DAYS } from "@/lib/protoV2Constants";
+import { DURATION_DAYS } from "@/lib/protoV2Constants";
 import colors from "@/styles/color";
 import {
   addDaysToDate,
@@ -12,9 +12,15 @@ type Props = {
   thumbnailUrl: string;
   name: string;
   participants: number;
+  onClickHandler: () => void;
 };
 
-const ChallengeBlock = ({ thumbnailUrl, name, participants }: Props) => {
+const ChallengeBlock = ({
+  thumbnailUrl,
+  name,
+  participants,
+  onClickHandler,
+}: Props) => {
   const today = new Date();
   return (
     <BlockWrapper>
@@ -23,7 +29,7 @@ const ChallengeBlock = ({ thumbnailUrl, name, participants }: Props) => {
         borderRadius={10}
         padding="0px"
         border="1px solid #DDD"
-        onClickHandler={() => {}}
+        onClickHandler={onClickHandler}
       >
         <ThumbnailWrapper>
           <Image
@@ -37,13 +43,15 @@ const ChallengeBlock = ({ thumbnailUrl, name, participants }: Props) => {
           />
         </ThumbnailWrapper>
         <InfoWrapper>
-          <Name>{name}</Name>
-          <Period>
-            {convertIsoDateToReadable(today.toString())} -{" "}
-            {convertIsoDateToReadable(
-              addDaysToDate(today, PERIOD_DAYS).toString()
-            )}
-          </Period>
+          <div>
+            <Name>{name}</Name>
+            <Period>
+              {convertIsoDateToReadable(today.toString())} -{" "}
+              {convertIsoDateToReadable(
+                addDaysToDate(today, DURATION_DAYS).toString()
+              )}
+            </Period>
+          </div>
           <ParticipantsWrapper>
             <Image
               src="/asset/ic_participant.svg"
@@ -75,6 +83,10 @@ const BlockWrapper = styled.div`
     /* 두 번째 열 (짝수 번째 아이템) */
     justify-self: end;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const ThumbnailWrapper = styled.div`
@@ -86,9 +98,12 @@ const ThumbnailWrapper = styled.div`
 
 const InfoWrapper = styled.div`
   width: 100%;
-  height: auto;
-  padding: 14px 0 0 15px;
+  height: 122px;
+  padding: 14px 0 15px 15px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const Name = styled.div`
@@ -112,7 +127,7 @@ const Period = styled.div`
 const ParticipantsWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 8px;
+  /* margin-top: 8px; */
 `;
 
 const Participants = styled.div`

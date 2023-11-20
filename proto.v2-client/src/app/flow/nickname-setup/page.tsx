@@ -1,5 +1,5 @@
 "use client";
-import BasicInput from "@/components/base/Input/BasicInput";
+import BaseInput from "@/components/base/Input/BaseInput";
 import FlowSectionName from "@/components/common/flow/FlowSectionName";
 import NicknameInput from "@/components/common/flow/NicknameInput";
 import NicknameMessage from "@/components/common/flow/NicknameMessage";

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { InputProp } from "@/types/Input";
 import colors from "@/styles/color";
 
-type BasicInputT = {
+type BaseInputT = {
   color: string;
   fontSize: number;
   $padding: string;
@@ -11,7 +11,7 @@ type BasicInputT = {
   $borderRadius?: number;
 };
 
-const BasicInput = ({
+const BaseInput = ({
   placeholder,
   updateInput,
   submitInput,
@@ -21,9 +21,9 @@ const BasicInput = ({
   $padding: padding,
   $border: border,
   $borderRadius: borderRadius,
-}: InputProp & BasicInputT) => {
+}: InputProp & BaseInputT) => {
   return (
-    <BasicInputElement
+    <BaseInputElement
       type="text"
       maxLength={40}
       placeholder={placeholder}
@@ -39,9 +39,9 @@ const BasicInput = ({
   );
 };
 
-export default BasicInput;
+export default BaseInput;
 
-const BasicInputElement = styled.input<BasicInputT>`
+const BaseInputElement = styled.input<BaseInputT>`
   width: 100%;
   min-width: 70px;
   height: 100%;

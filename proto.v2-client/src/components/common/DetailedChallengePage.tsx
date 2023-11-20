@@ -4,52 +4,59 @@ import Image from "next/image";
 import Tag from "./Tag";
 import ParticipantsBanner from "./ParticipantsBanner";
 import SingleChallengeInfo from "./explore/SingleChallengeInfo";
+import { DURATION } from "@/lib/protoV2Constants";
+import { useEffect, useState } from "react";
 
 type Props = {
+  thumbnailUrl: string;
+  frequency: string;
+  name: string;
+  participants: number;
   children?: React.ReactNode;
 };
 
-const DetailedChallengePage = ({ children }: Props) => {
+const DetailedChallengePage = ({
+  thumbnailUrl,
+  frequency,
+  name,
+  participants,
+  children,
+}: Props) => {
   return (
-    <Container>
+    <>
       <ThumbnailContainer>
-        <Image
-          src="/asset/Saly-15.svg" //여기 챌린지 썸네일 사진이 들어가면 됨.
-          alt="challenge thumbnail"
-          fill
-          style={{
-            objectFit: "cover",
-          }}
-          priority={true}
-        />
+        {thumbnailUrl && (
+          <Image
+            src={thumbnailUrl} //여기 챌린지 썸네일 사진이 들어가면 됨.
+            alt="challenge thumbnail"
+            fill
+            style={{
+              objectFit: "cover",
+            }}
+          />
+        )}
         <TagsContainer>
           <Tag
             backgroundColor={colors.primary}
             color={colors.highlight}
-            title="Everyday"
+            title={frequency}
           />
           <Tag
             backgroundColor={colors.highlight}
             color={colors.primary}
-            title="1 month"
+            title={DURATION}
           />
         </TagsContainer>
       </ThumbnailContainer>
       <InfoContainer>
-        <Name>Lose 4 lbs</Name>
-        <ParticipantsBanner />
+        <Name>{name}</Name>
+        <ParticipantsBanner participants={participants} />
         {children}
       </InfoContainer>
-    </Container>
+    </>
   );
 };
 export default DetailedChallengePage;
-
-const Container = styled.main`
-  width: 100%;
-  height: auto;
-  background-color: ${colors.white};
-`;
 
 const ThumbnailContainer = styled.section`
   width: 100%;

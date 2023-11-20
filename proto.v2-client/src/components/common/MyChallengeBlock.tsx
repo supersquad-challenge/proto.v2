@@ -13,6 +13,15 @@ type Props = {
   name: string;
   challengeStartAt: string;
   challengeEndAt: string;
+  status: string;
+  isPhotoUploadedToday: boolean;
+  onClickHandler: () => void;
+};
+
+type MyChallengeExtendedStatus = {
+  title: string;
+  isCircularProgressBarPrimary: boolean;
+  isButtonPrimary: boolean;
 };
 
 const MyChallengeBlock = ({
@@ -24,7 +33,24 @@ const MyChallengeBlock = ({
   name,
   challengeStartAt,
   challengeEndAt,
+  status,
+  isPhotoUploadedToday,
+  onClickHandler,
 }: Props) => {
+  let myChallengeExtendedStatus: MyChallengeExtendedStatus = {
+    title: "",
+    isCircularProgressBarPrimary: false,
+    isButtonPrimary: true,
+  }; //수정 필요: get payback 로직 추가
+  if (status == "ongoing" && !isPhotoUploadedToday) {
+    myChallengeExtendedStatus.title = "Verify Mission";
+    myChallengeExtendedStatus.isCircularProgressBarPrimary = true;
+  } else if (status == "ongoing" && isPhotoUploadedToday) {
+    myChallengeExtendedStatus.title = "Mission Completed";
+    myChallengeExtendedStatus.isButtonPrimary = false;
+  } else if (status == "complete") {
+    myChallengeExtendedStatus.title = "Read more";
+  }
   return (
     <BlockWrapper $margin={margin}>
       <BaseBlock
@@ -38,7 +64,10 @@ const MyChallengeBlock = ({
           <CircularProgressBar
             progress={successRate}
             width={100}
-            imageUrl={thumbnailUrl} //썸네일 이미지
+            imageUrl={thumbnailUrl}
+            isCircularProgressBarPrimary={
+              myChallengeExtendedStatus.isCircularProgressBarPrimary
+            }
           />
           <Wrapper>
             <Catergory>{category}</Catergory>
@@ -48,10 +77,14 @@ const MyChallengeBlock = ({
               {convertIsoDateToReadable(challengeEndAt)}
             </Period>
             <SmallArrowButton
-              title="Verify Mission"
+              title={myChallengeExtendedStatus.title}
               margin="15px 0 0 0"
-              backgroundColor={colors.primary}
-              onClickHandler={() => {}}
+              backgroundColor={
+                myChallengeExtendedStatus.isButtonPrimary
+                  ? colors.primary
+                  : colors.gray
+              }
+              onClickHandler={onClickHandler}
             />
           </Wrapper>
         </div>

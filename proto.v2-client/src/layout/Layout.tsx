@@ -7,40 +7,39 @@ import { usePathname } from "next/navigation";
 import styled from "styled-components";
 import Header from "./Header";
 import colors from "@/styles/color";
+import { Modal } from "@/types/Modal";
+import { useSelector } from "react-redux";
+import { getActiveModalState } from "@/redux/slice/modalSlice";
 
 const Layout = ({ children }: { children: ReactNode }) => {
+  // variable //
   const pathname = usePathname();
+  const activeModal: Modal | undefined = useSelector(getActiveModalState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  //   const showHeader = () => {
-  //     if (pathname.includes("/signup") || pathname.includes("/error"))
-  //       return false;
-  //     return true;
-  //   };
-  const showFooter = () => {
-    if (
-      pathname.includes("/signup") ||
-      pathname.includes("/detail") ||
-      pathname.includes("/error")
-    )
-      return false;
-    return true;
-  };
-
   const isBackgroundPrimary = () => {
     if (pathname == "/home") {
       return true;
     }
     return false;
   };
-
+  const isBodyContainerBottom = () => {
+    if (
+      activeModal == "congrats_otherChallenges" ||
+      activeModal == "congrats_status" ||
+      activeModal == "nowYouAreIn" ||
+      activeModal == "snapYourScale" ||
+      pathname == "/home"
+    ) {
+      return false;
+    }
+    return true;
+  };
   return (
     <>
-      {/* {showHeader() && <Header />} */}
       <Header />
       <BodyContainer
         $top={68}
-        $bot={85}
+        $bot={isBodyContainerBottom() ? 85 : 0}
         $backgroundColor={
           isBackgroundPrimary() ? `${colors.primary}` : `${colors.white}`
         }
@@ -48,7 +47,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
         {children}
       </BodyContainer>
 
-      {/* {showFooter() && <Footer />} */}
       <Footer />
     </>
   );

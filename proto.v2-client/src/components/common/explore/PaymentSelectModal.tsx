@@ -2,10 +2,38 @@ import styled from "styled-components";
 import BaseModal from "../../base/Modal/BaseModal";
 import BaseBlock from "../../base/Block/BaseBlock";
 import colors from "@/styles/color";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
+import {
+  CHANGE_MODAL,
+  IModalState,
+  getModalState,
+} from "@/redux/slice/modalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { PaymentMethod } from "@/types/Modal";
 
-const PaymentSelectModal = () => {
-  const [paymentMethod, setPaymentMethod] = useState("");
+type Props = {
+  paymentMethod: PaymentMethod;
+  setPaymentMethod: Dispatch<SetStateAction<PaymentMethod>>;
+};
+
+const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
+  // variables //
+  const dispatch = useDispatch();
+  const modal: IModalState = useSelector(getModalState);
+
+  // useEffect //
+  useEffect(() => {
+    dispatch(
+      SET_FOOTER_BLUEBUTTON({
+        blueButtonTitle: "Go on",
+        handleBlueButtonClick: () => {
+          dispatch(CHANGE_MODAL({ modal: "depositCharge" }));
+        },
+      })
+    );
+  }, []);
+
   return (
     <BaseModal title="You are paying with" deletePath={undefined} show={true}>
       <PaymentBlockWrapper style={{ marginTop: "30px" }}>
@@ -64,6 +92,10 @@ const PaymentBlockWrapper = styled.div`
   align-items: center;
 
   margin-top: 30px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const PaymentMethod = styled.div<{ $isclicked: boolean }>`
@@ -79,3 +111,6 @@ const Detail = styled.div`
   font-weight: 400;
   margin-top: 10px;
 `;
+function dispatch(arg0: any) {
+  throw new Error("Function not implemented.");
+}

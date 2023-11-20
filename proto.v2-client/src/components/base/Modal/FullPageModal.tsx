@@ -9,9 +9,18 @@ type Props = {
   title: string;
   detail: string;
   buttonText: string;
+  onClickHandler: () => void;
+  children?: React.ReactNode;
 };
 
-const FullPageModal = ({ imgSrc, title, detail, buttonText }: Props) => {
+const FullPageModal = ({
+  imgSrc,
+  title,
+  detail,
+  buttonText,
+  onClickHandler,
+  children,
+}: Props) => {
   // 브라우저 높이 값에 맞게 height 값 가변 적용
   const [windowHeight, setWindowHeight] = useState(801);
 
@@ -41,22 +50,38 @@ const FullPageModal = ({ imgSrc, title, detail, buttonText }: Props) => {
   }, [windowHeight]);
 
   return (
-    <Container $height={containerHeight}>
-      <Wrapper>
-        <Image src={imgSrc} width={120} height={120} alt="Modal Image" />
-        <Title>{title}</Title>
-        <Detail>{detail}</Detail>
-        <LongBlueButton
-          margin="30px"
-          title={buttonText}
-          onClickHandler={() => {}}
-        />
-      </Wrapper>
-    </Container>
+    <PageContainer>
+      <Container $height={containerHeight}>
+        <Wrapper>
+          <Image src={imgSrc} width={120} height={120} alt="Modal Image" />
+          <Title>{title}</Title>
+          <Detail>{detail}</Detail>
+          <LongBlueButton
+            margin="30px"
+            title={buttonText}
+            onClickHandler={onClickHandler}
+          >
+            {children}
+          </LongBlueButton>
+        </Wrapper>
+      </Container>
+    </PageContainer>
   );
 };
 
 export default FullPageModal;
+
+const PageContainer = styled.main`
+  width: 100%;
+  height: auto;
+  background-color: ${colors.white};
+
+  padding: 0 22px;
+  box-sizing: border-box;
+  overflow: auto;
+  position: relative;
+`;
+
 const Container = styled.div<{ $height: number }>`
   width: 100%;
   height: ${(props) => `${props.$height}px`};

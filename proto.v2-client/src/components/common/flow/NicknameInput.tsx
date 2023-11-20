@@ -1,4 +1,4 @@
-import BasicInput from "@/components/base/Input/BasicInput";
+import BaseInput from "@/components/base/Input/BaseInput";
 import colors from "@/styles/color";
 import { ChangeEvent, KeyboardEvent } from "react";
 import styled from "styled-components";
@@ -12,7 +12,7 @@ type Props = {
 const NicknameInput = ({ nickname, updateInput, submitInput }: Props) => {
   return (
     <InputWrapper>
-      <BasicInput
+      <BaseInput
         placeholder="Write your nickname"
         currentValue={nickname}
         updateInput={updateInput}

@@ -32,7 +32,7 @@ const Explore = () => {
     return;
   };
 
-  // api
+  // api //
   const { data, error, isLoading } = useQuery(
     ["allChallenges", searchParams.get("category")],
     async () => {
@@ -47,6 +47,37 @@ const Explore = () => {
       cacheTime: 60 * 60 * 1000,
     }
   );
+
+  // Change Padding //
+  // 브라우저 너비 값에 맞게 ContainerPaddingTop 값 가변 적용
+  const [windowWidth, setWindowWidth] = useState(392);
+  const [challengesContainerPaddingTop, setChallengesContainerPaddingTop] =
+    useState(256);
+
+  useEffect(() => {
+    // 브라우저 환경에서만 실행
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+
+      const handleResizeImg = () => {
+        setChallengesContainerPaddingTop(
+          Number((windowWidth - 44 - 36) / 4 + 10 + 42 + 20 + 24 + 42 + 32 + 17)
+        );
+      };
+
+      window.addEventListener("resize", handleResize);
+      handleResizeImg();
+
+      // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, [windowWidth]);
 
   return (
     <Container>
@@ -87,13 +118,16 @@ const Explore = () => {
           />
         </CategoriesWrapper>
       </CategoriesContainer>
-      <ChallengesContainer>
+      <ChallengesContainer $padding={challengesContainerPaddingTop}>
         {data?.map((challenge: AllChallenges, index: number) => {
           return (
             <ChallengeBlock
               thumbnailUrl={challenge.thumbnailUrl}
               name={challenge.name}
               participants={challenge.participants}
+              onClickHandler={() =>
+                router.push(`/explore/${challenge.challengeId}`)
+              }
               key={index}
             />
           );
@@ -122,8 +156,6 @@ const SectionName = styled.div`
   color: ${colors.white};
   font-size: 24px;
   font-weight: 600;
-
-  height: 24px;
 `;
 
 const CategoriesWrapper = styled.div`
@@ -132,10 +164,10 @@ const CategoriesWrapper = styled.div`
   margin-top: 20px;
 `;
 
-const ChallengesContainer = styled.section`
+const ChallengesContainer = styled.section<{ $padding: number }>`
   width: 100%;
   height: auto;
-  padding: 248px 22px 15px 22px;
+  padding: ${(props) => `${props.$padding}px`} 22px 15px 22px;
   box-sizing: border-box;
   overflow: auto;
   background-color: ${colors.white};

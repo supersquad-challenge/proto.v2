@@ -36,7 +36,8 @@ const MyChallenge = () => {
         userId: USERID,
         queryString,
       });
-      const challenges = res.userChallengeInfo.allUserChallengeInfo;
+      const challenges = res.userChallengeInfos;
+      console.log(challenges);
       return challenges;
     },
     {
@@ -76,15 +77,20 @@ const MyChallenge = () => {
         {data?.map((challenge: AllChallengesByUserId, index: number) => {
           return (
             <MyChallengeBlock
-              successRate={20} //수정 필요
+              successRate={challenge.successRate}
               thumbnailUrl={challenge.thumbnailUrl}
               category={challenge.category}
               name={challenge.name}
               challengeStartAt={challenge.challengeStartAt}
-              challengeEndAt={challenge.challengeStartAt}
+              challengeEndAt={challenge.challengeEndAt}
               key={index}
               border="1px solid #dddddd"
               margin="0 0 15px 0"
+              onClickHandler={() =>
+                router.push(`/mychallenge/${challenge.userChallengeId}`)
+              }
+              status={challenge.status}
+              isPhotoUploadedToday={false}
             />
           );
         })}

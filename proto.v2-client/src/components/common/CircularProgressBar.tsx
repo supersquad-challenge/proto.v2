@@ -7,6 +7,7 @@ type Props = {
   label?: string;
   width?: number;
   imageUrl: string;
+  isCircularProgressBarPrimary: boolean;
 };
 
 export default function CircularProgressBar({
@@ -14,6 +15,7 @@ export default function CircularProgressBar({
   label = "Progress Bar",
   width = 100,
   imageUrl,
+  isCircularProgressBarPrimary,
 }: Props): ReactElement {
   const strokeWidth = 3;
   const radius = 100 / 2 - strokeWidth * 2;
@@ -55,6 +57,7 @@ export default function CircularProgressBar({
         strokeDasharray={`${circumference} ${circumference}`}
         strokeDashoffset={offset}
         strokeWidth={strokeWidth}
+        $isCircularProgressBarPrimary={isCircularProgressBarPrimary}
       />
     </svg>
   );
@@ -67,9 +70,12 @@ const Circle = styled.circle`
   stroke-linecap: round;
 `;
 
-const FilledCircle = styled(Circle)`
+const FilledCircle = styled(Circle)<{ $isCircularProgressBarPrimary: boolean }>`
   //채워진 부분
-  stroke: ${colors.primary};
+  stroke: ${(props) =>
+    props.$isCircularProgressBarPrimary
+      ? `${colors.primary}`
+      : `${colors.gray}`};
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
   transition: stroke-dashoffset 0.5s ease-out;

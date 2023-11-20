@@ -1,17 +1,53 @@
 import BaseModal from "@/components/base/Modal/BaseModal";
 import BaseSlider from "@/components/base/Slider/BaseSlider";
+import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
+import {
+  CHANGE_MODAL,
+  CLOSE_MODAL,
+  IModalState,
+  getModalState,
+} from "@/redux/slice/modalSlice";
 import colors from "@/styles/color";
-import { useState } from "react";
+import { PaymentMethod } from "@/types/Modal";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-const DepositChargeModal = () => {
+type Props = {
+  paymentMethod: PaymentMethod;
+};
+
+const DepositChargeModal = ({ paymentMethod }: Props) => {
+  // variables
   const [deposit, setDeposit] = useState<number>(10);
+  const dispatch = useDispatch();
+  let currency;
+  if (paymentMethod == "crypto") {
+    currency = "MATIC";
+  } else if (paymentMethod == "cash") {
+    currency = "$USD";
+  }
+
+  // handle functions //
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length === 0 || parseInt(e.target.value) < 0)
       setDeposit(0);
     else if (parseInt(e.target.value) > 300) setDeposit(300);
     else setDeposit(parseInt(e.target.value));
   };
+
+  // useEffect //
+  useEffect(() => {
+    dispatch(
+      SET_FOOTER_BLUEBUTTON({
+        blueButtonTitle: "Charge Deposit",
+        handleBlueButtonClick: () => {
+          dispatch(CHANGE_MODAL({ modal: "nowYouAreIn" }));
+        },
+      })
+    );
+  }, []);
+
   return (
     <BaseModal title="Win your goal" deletePath={undefined} show={true}>
       <SingleSimpleChallengeInfo
@@ -46,7 +82,7 @@ const DepositChargeModal = () => {
       </SliderContainer>
       <DepositContainer>
         <Deposit>{deposit}</Deposit>
-        <Currency>$USD</Currency>
+        <Currency>{currency as string}</Currency>
       </DepositContainer>
       <AverageDeposit>
         Members deposit <OrangeUnderline>150 $USD</OrangeUnderline> / 1 Week in
@@ -176,3 +212,6 @@ const OrangeUnderline = styled.span`
   font-weight: 500;
   text-decoration-line: underline;
 `;
+function dispatch(arg0: any) {
+  throw new Error("Function not implemented.");
+}

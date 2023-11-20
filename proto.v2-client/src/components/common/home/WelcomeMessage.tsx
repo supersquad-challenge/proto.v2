@@ -2,11 +2,12 @@ import colors from "@/styles/color";
 import styled from "styled-components";
 
 type Props = {
-  fontSize: number;
+  isLogin: boolean;
+  isScrolled: boolean;
 };
 
-const WelcomeMessage = () => {
-  return <BeforeLogin />;
+const WelcomeMessage = ({ isLogin, isScrolled }: Props) => {
+  return isLogin ? <AfterLogin isScrolled={isScrolled} /> : <BeforeLogin />;
 };
 
 export default WelcomeMessage;
@@ -26,7 +27,7 @@ const BeforeLogin = () => {
   );
 };
 
-const AfterLogin = () => {
+const AfterLogin = ({ isScrolled }: { isScrolled: boolean }) => {
   return (
     <Container>
       <div>
@@ -37,23 +38,27 @@ const AfterLogin = () => {
           Hack your goals with SuperSquad!
         </Greetings>
       </div>
-      <BadgeImage src="/asset/badges/gold_badge.svg" alt="gold badge" />
+      {isScrolled && (
+        <BadgeImage src="/asset/badges/gold_badge.svg" alt="gold badge" />
+      )}
     </Container>
   );
 };
 
 const Container = styled.div`
-  width: auto;
+  width: 100%;
   height: auto;
 
   box-sizing: border-box;
 
   display: flex;
   justify-content: space-between;
-  margin-top: 22px;
+
+  background-color: ${colors.primary};
+  padding-top: 22px;
 `;
 
-const Greetings = styled.div<Props>`
+const Greetings = styled.div<{ fontSize: number }>`
   color: ${colors.white};
   font-size: ${(props) => `${props.fontSize}px`};
   font-weight: 300;

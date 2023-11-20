@@ -16,7 +16,7 @@ const BadgePointPannel = () => {
         >
           points
         </div>
-        <Points>{thousandFormat(100000)}</Points>
+        <Points>{thousandFormat(1000)}</Points>
       </div>
     </Container>
   );
@@ -32,8 +32,8 @@ const Container = styled.div`
 
   display: flex;
 
-  /////
-  margin-top: 10px;
+  /* margin-top: 118px; */
+  margin-top: 40px;
 `;
 
 const BadgeImage = styled.img`
@@ -47,5 +47,5 @@ const Points = styled.div`
   font-size: 28px;
   font-weight: 800;
 
-  margin-top: 10px;
+  margin-top: -3px;
 `;
