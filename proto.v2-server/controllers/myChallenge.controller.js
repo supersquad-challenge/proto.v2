@@ -108,7 +108,7 @@ module.exports = {
           });
 
           const isPhotoUploadedToday = photoUploadedToday ? true : false;
-          console.log(isPhotoUploadedToday);
+          //console.log(isPhotoUploadedToday);
 
           return {
             userChallengeId: userChallengeInfo._id,
@@ -125,8 +125,11 @@ module.exports = {
         })
       );
 
+      const filteredUserChallengeInfos = allUserChallengeInfo.filter(
+        (info) => !status || info.status === status
+      );
       res.json({
-        userChallengeInfos: allUserChallengeInfo.reverse(),
+        userChallengeInfos: filteredUserChallengeInfos.reverse(),
       });
     } catch (error) {
       console.log(error);
