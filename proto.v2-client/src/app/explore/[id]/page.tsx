@@ -29,7 +29,7 @@ const ExploreID = () => {
   const challengeId: string = id as string;
   const dispatch = useDispatch();
   const modal: IModalState = useSelector(getModalState);
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(undefined);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("crypto");
   const router = useRouter();
 
   // useEffect //

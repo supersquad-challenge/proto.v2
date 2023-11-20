@@ -36,7 +36,8 @@ const MyChallenge = () => {
         userId: USERID,
         queryString,
       });
-      const challenges = res.userChallengeInfo.allUserChallengeInfo;
+      const challenges = res.userChallengeInfos;
+      console.log(challenges);
       return challenges;
     },
     {

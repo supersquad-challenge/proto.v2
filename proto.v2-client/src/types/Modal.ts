@@ -6,4 +6,4 @@ export type Modal =
   | "congrats_status"
   | "congrats_otherChallenges";
 
-export type PaymentMethod = "crypto" | "cash" | undefined;
+export type PaymentMethod = "crypto" | "cash";

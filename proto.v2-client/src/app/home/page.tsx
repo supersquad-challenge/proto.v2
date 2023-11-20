@@ -33,8 +33,8 @@ const Home_BeforeLogin = () => {
           alt="background image"
           priority={true}
         />
-        <TopContainer>
-          <WelcomeMessage isLogin={false} />
+        <TopContainer $isFixed={false}>
+          <WelcomeMessage isLogin={false} isScrolled={false} />
           <LoginBlock />
           <ExtendedChallengeHeader
             challengeHeader="Featured Challenge"
@@ -114,8 +114,8 @@ const Home_AfterLogin = () => {
           priority={true}
         />
 
-        <TopContainer>
-          <WelcomeMessage isLogin={true} />
+        <TopContainer $isFixed={true}>
+          <WelcomeMessage isLogin={true} isScrolled={isSrcolled} />
           {!isSrcolled && <BadgePointPannel />}
         </TopContainer>
 
@@ -168,15 +168,18 @@ const Container = styled.main<{ $isLogin: boolean }>`
   position: relative;
 `;
 
-const TopContainer = styled.section`
+const TopContainer = styled.section<{ $isFixed: boolean }>`
   width: 100%;
   height: auto;
 
   padding: 0 22px;
   box-sizing: border-box;
-  overflow: auto;
+  /* overflow: auto; */
+  overflow: scroll;
 
-  position: fixed;
+  position: ${(props) => props.$isFixed && "fixed"};
+  padding-bottom: ${(props) => !props.$isFixed && "115px"};
+
   top: 70px;
 `;
 

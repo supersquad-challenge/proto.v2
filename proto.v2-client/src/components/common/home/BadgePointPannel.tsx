@@ -16,7 +16,7 @@ const BadgePointPannel = () => {
         >
           points
         </div>
-        <Points>{thousandFormat(100000)}</Points>
+        <Points>{thousandFormat(1000)}</Points>
       </div>
     </Container>
   );

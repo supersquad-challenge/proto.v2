@@ -52,7 +52,7 @@ const Explore = () => {
   // 브라우저 너비 값에 맞게 ContainerPaddingTop 값 가변 적용
   const [windowWidth, setWindowWidth] = useState(392);
   const [challengesContainerPaddingTop, setChallengesContainerPaddingTop] =
-    useState(248);
+    useState(256);
 
   useEffect(() => {
     // 브라우저 환경에서만 실행
@@ -65,7 +65,7 @@ const Explore = () => {
 
       const handleResizeImg = () => {
         setChallengesContainerPaddingTop(
-          Number((windowWidth - 44 - 36) / 4 + 10 + 42 + 20 + 24 + 42 + 32)
+          Number((windowWidth - 44 - 36) / 4 + 10 + 42 + 20 + 24 + 42 + 32 + 17)
         );
       };
 
@@ -156,8 +156,6 @@ const SectionName = styled.div`
   color: ${colors.white};
   font-size: 24px;
   font-weight: 600;
-
-  height: 24px;
 `;
 
 const CategoriesWrapper = styled.div`

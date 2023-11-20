@@ -3,10 +3,11 @@ import styled from "styled-components";
 
 type Props = {
   isLogin: boolean;
+  isScrolled: boolean;
 };
 
-const WelcomeMessage = ({ isLogin }: Props) => {
-  return isLogin ? <AfterLogin /> : <BeforeLogin />;
+const WelcomeMessage = ({ isLogin, isScrolled }: Props) => {
+  return isLogin ? <AfterLogin isScrolled={isScrolled} /> : <BeforeLogin />;
 };
 
 export default WelcomeMessage;
@@ -26,7 +27,7 @@ const BeforeLogin = () => {
   );
 };
 
-const AfterLogin = () => {
+const AfterLogin = ({ isScrolled }: { isScrolled: boolean }) => {
   return (
     <Container>
       <div>
@@ -37,7 +38,9 @@ const AfterLogin = () => {
           Hack your goals with SuperSquad!
         </Greetings>
       </div>
-      <BadgeImage src="/asset/badges/gold_badge.svg" alt="gold badge" />
+      {isScrolled && (
+        <BadgeImage src="/asset/badges/gold_badge.svg" alt="gold badge" />
+      )}
     </Container>
   );
 };
