@@ -15,14 +15,52 @@ import { USERID } from "@/lib/api/testdata";
 import MyChallengeBlock from "@/components/common/MyChallengeBlock";
 import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { SET_USER_LOGIN, selectIsLoggedIn } from "@/redux/slice/authSlice";
+import { login } from "@/lib/api/axios/auth/login";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  // return <Home_BeforeLogin />;
+  const [auth, setAuth] = useState<boolean>(false);
+  // const isLoggedIn = useSelector(selectIsLoggedIn);
+  
+  useEffect(() => {
+    const _isLoggedIn = localStorage.getItem('supersquad_loggedIn');
+    if (_isLoggedIn === 'true') {
+      setAuth(true);
+    } else {
+      setAuth(false);
+    }
+  }, [])
+  if (!auth) {
+    return <Home_BeforeLogin />;
+  }
   return <Home_AfterLogin />;
 };
 export default Home;
 
 const Home_BeforeLogin = () => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) return ;
+    const _handlelogin = async() => {
+      const user = await login();
+      console.log(user)
+      if (user?.status !== 200) return ;
+      dispatch(SET_USER_LOGIN({
+        _isLoggedIn: true,
+        userID: user?.data?.userInfoId,
+        email: user?.data?.email,
+        userName: user?.data?.nickname,
+        profile: user?.data?.picture
+      }))
+      localStorage.setItem('supersquad_loggedIn', 'true');
+      localStorage.setItem('supersquad_userID', user?.data?.userInfoId);
+    }
+    _handlelogin();
+  }, [dispatch])
   return (
     <>
       <Container $isLogin={true}>
@@ -102,6 +140,7 @@ const Home_AfterLogin = () => {
       };
     }
   }, [windowHeight]);
+
 
   return (
     <>
