@@ -6,6 +6,7 @@ const VeriPhotoSchema = new Schema({
   uploadedAt: String,
   checkedAt: String,
   checkStatus: String, //notChecked, approved, rejected
+  timezone: String,
   userChallengeId: {
     type: Schema.Types.ObjectId,
     ref: 'UserChallenge',

@@ -12,7 +12,8 @@ const LogIn = () => {
   return (
     <Container>
       <FlowSectionName>Login</FlowSectionName>
-      <Link href={GOOGLE_LOGIN_URL}>
+      <Link href={"http://localhost:8080/auth/google"}>
+        {/* <Link href={GOOGLE_LOGIN_URL} */}
         <ButtonWrapper>
           <div
             style={{

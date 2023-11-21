@@ -53,13 +53,26 @@ module.exports = {
         });
       }
 
+      const challengeInfo = await ChallengeInfo.findByIdAndUpdate(
+        userChallenge.challengeId._id,
+        { $inc: { cryptoSuccessPool: -userChallenge.deposit, participants: -1 } },
+        { new: true }
+      );
+
+      const updatedUserChallenge = await UserChallenge.findByIdAndUpdate(
+        userChallengeId,
+        { $set: { isPaybackPaid: true } },
+        { new: true }
+      );
+
       res.status(200).json({
         message: 'Payback provided',
         paybackInfo: {
-          successRate: userChallenge.successRate,
-          totalPayback: userChallenge.deposit + userChallenge.profit,
-          myDeposit: userChallenge.deposit,
-          myProfit: userChallenge.profit,
+          successRate: updatedUserChallenge.successRate,
+          totalPayback: updatedUserChallenge.deposit + userChallenge.profit,
+          myDeposit: updatedUserChallenge.deposit,
+          myProfit: updatedUserChallenge.profit,
+          isPaybackPaid: updatedUserChallenge.isPaybackPaid,
         },
       });
     } catch (error) {

@@ -25,5 +25,5 @@ interface IDynamicPoolFactory is Struct {
 
   function changeOwner(address _owner) external;
 
-  function getOffsetPool(address _pool, uint256 _idx) external returns (address payable);
+  function responseReversePool(address _pool, uint256 _idx) external returns (address);
 }
