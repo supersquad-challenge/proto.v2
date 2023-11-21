@@ -34,11 +34,20 @@ export type SingleChallengeByUserChallengeId = {
   name: string;
   participants: number;
   successRate: number;
-  depositMethod: string;
   deposit: number;
   totalDeposit: number;
   cryptoSuccessPool: number;
   cryptoFailPool: number;
   challengeStartAt: string;
   challengeEndAt: string;
+  frequency: string;
+  howTo: string;
+  description: string;
+  status: string;
+  isPhotoUploadedToday: boolean;
+};
+
+export type SingleRegisteredChallenge = {
+  message: string;
+  userChallengeId: string;
 };

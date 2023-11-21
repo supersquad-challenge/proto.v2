@@ -63,9 +63,10 @@ const Home_AfterLogin = () => {
     async () => {
       const res = await getAllChallengesByUserId({
         userId: USERID,
-        queryString: "ongoing",
+        queryString: "status=ongoing",
       });
       const ongoingChallenges = res.userChallengeInfos;
+      console.log(ongoingChallenges);
       let photoUploadedChallenges: AllChallengesByUserId[] = [];
       let photoNotUploadedChallenges: AllChallengesByUserId[] = [];
       ongoingChallenges.forEach((challenge: AllChallengesByUserId) => {
@@ -176,49 +177,6 @@ const Home_AfterLogin = () => {
                 );
               }
             )}
-
-            {/* 
-            {ongoingChallenges?.map(
-              (challenge: AllChallengesByUserId, index: number) => {
-                return challenge.isPhotoUploadedToday ? (
-                  <CompletedChallengeBlock
-                    category={challenge.category}
-                    name={challenge.name}
-                  />
-                ) : (
-                  <MyChallengeBlock
-                    successRate={challenge.successRate}
-                    thumbnailUrl={challenge.thumbnailUrl}
-                    category={challenge.category}
-                    name={challenge.name}
-                    challengeStartAt={challenge.challengeStartAt}
-                    challengeEndAt={challenge.challengeEndAt}
-                    status={challenge.status}
-                    isPhotoUploadedToday={challenge.isPhotoUploadedToday}
-                    onClickHandler={() =>
-                      router.push(`/mychallenge/${challenge.userChallengeId}`)
-                    }
-                  />
-                );
-              }
-            )} */}
-
-            {/* <MyChallengeBlock
-              successRate={30}
-              thumbnailUrl="/asset/Saly-15.svg"
-              category="Mental Health"
-              name="15 minutes of meditation"
-              challengeStartAt="2023-11-10-17:51:56"
-              challengeEndAt="2023-11-15-17:51:56"
-              status="ongoing"
-              isPhotoUploadedToday={false}
-              onClickHandler={() => {}}
-            /> */}
-
-            {/* <CompletedChallengeBlock
-              category={"Digital Detox"}
-              name={"15 minutes of meditation"}
-            /> */}
 
             <ChallengeHeader
               $fontColor={colors.black}

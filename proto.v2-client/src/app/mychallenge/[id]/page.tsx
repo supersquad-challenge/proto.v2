@@ -59,7 +59,17 @@ const MyChallengeID = () => {
   useEffect(() => {
     // 수정 필요: 오늘 사진을 올렸을 경우, payback이 필요한 경우, complete했을 경우의 로직 추가 구현
 
+    // dispatch( // 사진 등록
+    //   SET_FOOTER_BLUEBUTTON({
+    //     blueButtonTitle: "Change Photo",
+    //     handleBlueButtonClick: () => {
+    //       dispatch(OPEN_MODAL({ modal: "snapYourScale" }));
+    //     },
+    //   })
+    // );
+
     dispatch(
+      // 사진 미등록
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Verify Mission",
         handleBlueButtonClick: () => {
@@ -67,6 +77,15 @@ const MyChallengeID = () => {
         },
       })
     );
+
+    // dispatch( // 사진 미등록
+    //   SET_FOOTER_BLUEBUTTON({
+    //     blueButtonTitle: "Verify Mission",
+    //     handleBlueButtonClick: () => {
+    //       dispatch(OPEN_MODAL({ modal: "snapYourScale" }));
+    //     },
+    //   })
+    // );
   }, [id, modal.visibility]);
 
   return (
@@ -84,7 +103,7 @@ const MyChallengeID = () => {
         <Container>
           <DetailedChallengePage
             thumbnailUrl={challenge?.thumbnailUrl!}
-            frequency={"Everyday"} //수정 필요
+            frequency={challenge?.frequency!}
             name={challenge?.name!}
             participants={30}
           >
@@ -146,18 +165,17 @@ const MyChallengeID = () => {
               content={`${convertIsoDateToReadable(
                 challenge?.challengeStartAt!
               )} - ${convertIsoDateToReadable(challenge?.challengeEndAt!)}`}
-              detail={"Everyday"} //수정 필요
+              detail={challenge?.frequency!}
             />
             <SingleChallengeInfo
-              title="How To" //수정 필요
-              content="Take a picture"
-              detail="Take a picture of your scale everyday to prove your weight.
-          Remind to have your both feet shown!"
+              title="How To"
+              content={challenge?.howTo.split("*")[0]!}
+              detail={challenge?.howTo.split("*")[1]!}
             />
             <SingleChallengeInfo
-              title="Why this challenge?" //수정 필요
+              title="Why this challenge?"
               content=""
-              detail="Replacing one meal a day with salad is the first step to changing your eating habits healthier."
+              detail={challenge?.description!}
             />
           </DetailedChallengePage>
         </Container>

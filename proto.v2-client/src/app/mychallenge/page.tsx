@@ -90,7 +90,7 @@ const MyChallenge = () => {
                 router.push(`/mychallenge/${challenge.userChallengeId}`)
               }
               status={challenge.status}
-              isPhotoUploadedToday={false}
+              isPhotoUploadedToday={challenge.isPhotoUploadedToday}
             />
           );
         })}
