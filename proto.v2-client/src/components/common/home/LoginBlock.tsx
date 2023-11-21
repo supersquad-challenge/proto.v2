@@ -2,9 +2,37 @@ import LongBlueButton from "@/components/base/Button/LongBlueButton";
 import colors from "@/styles/color";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
+import { useDispatch } from 'react-redux';
+import { login } from "@/lib/api/axios/auth/login";
+import { SET_USER_LOGIN } from "@/redux/slice/authSlice";
 
 const LoginBlock = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    const _isLoggedIn = localStorage.getItem('supersquad_loggedIn');
+    if (_isLoggedIn === 'true') {
+      const _handlelogin = async() => {
+        const user = await login();
+        if (user?.status !== 200) return ;
+        dispatch(SET_USER_LOGIN({
+          _isLoggedIn: true,
+          userID: user?.data?.userInfoId,
+          email: user?.data?.email,
+          userName: user?.data?.nickname,
+          profile: user?.data?.picture
+        }))
+        localStorage.setItem('supersquad_loggedIn', 'true');
+        localStorage.setItem('supersquad_userID', user?.data?.userInfoId);
+      }
+      _handlelogin();
+    } else {
+      router.push('/flow/login');
+    }
+  }
+  
+
   return (
     <BlockWrapper>
       <Wrapper>
@@ -13,7 +41,7 @@ const LoginBlock = () => {
         <LongBlueButton
           margin="15px 0 0 0"
           title="Login"
-          onClickHandler={() => router.push("/flow/login")}
+          onClickHandler={() => handleLogin()}
         />
       </Wrapper>
     </BlockWrapper>
