@@ -17,6 +17,7 @@ export type AllChallengesByUserId = {
   challengeStartAt: string;
   challengeEndAt: string;
   isPhotoUploadedToday: boolean;
+  isPaybackPaid: boolean;
 };
 
 export type SingleChallengeByChallengeId = {
@@ -45,6 +46,7 @@ export type SingleChallengeByUserChallengeId = {
   description: string;
   status: string;
   isPhotoUploadedToday: boolean;
+  isPaybackPaid: boolean;
 };
 
 export type SingleRegisteredChallenge = {

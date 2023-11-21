@@ -18,12 +18,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AllChallengesByUserId } from "@/types/api/Challenge";
 
 const Home = () => {
-  // return <Home_BeforeLogin />;
-  return <Home_AfterLogin />;
+  // return <HomeBeforeLogin />;
+  return <HomeAfterLogin />;
 };
 export default Home;
 
-const Home_BeforeLogin = () => {
+const HomeBeforeLogin = () => {
   return (
     <>
       <Container $isLogin={true}>
@@ -48,7 +48,7 @@ const Home_BeforeLogin = () => {
   );
 };
 
-const Home_AfterLogin = () => {
+const HomeAfterLogin = () => {
   // variables //
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -97,7 +97,7 @@ const Home_AfterLogin = () => {
   }, []);
 
   // 브라우저 높이 값에 맞게 ChallengesContainer 값 가변 적용
-  const [windowHeight, setWindowHeight] = useState(844);
+  const [windowHeight, setWindowHeight] = useState(0); //수정 필요 //이거 비슷한 거 다 수정
   useEffect(() => {
     // 브라우저 환경에서만 실행
     if (typeof window !== "undefined") {
@@ -162,6 +162,7 @@ const Home_AfterLogin = () => {
                       router.push(`/mychallenge/${challenge.userChallengeId}`)
                     }
                     key={index}
+                    margin={index !== 0 ? "15px 0 0 0" : "none"}
                   />
                 );
               }

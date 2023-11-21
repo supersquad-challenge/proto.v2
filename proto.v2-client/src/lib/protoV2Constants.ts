@@ -2,3 +2,4 @@
 
 export const DURATION = "2 Weeks";
 export const DURATION_DAYS = 14;
+export const POINT = 1000;
