@@ -82,6 +82,7 @@ module.exports = {
           frequency: challengeInfo.frequency,
           howTo: challengeInfo.howTo,
           description: challengeInfo.description,
+          category: challengeInfo.category,
         },
       });
     } catch (error) {

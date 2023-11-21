@@ -13,22 +13,9 @@ module.exports = {
         return res.status(400).json({ error: 'Failed to upload file.' });
       }
 
-      // const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      // const createdAtLocalTime = moment(Date.now())
-      //   .tz(timezone)
-      //   .format('YYYY-MM-DD-HH:mm:ss');
-
-      // const veriPhoto = await VeriPhoto.create({
-      //   photoUrl: req.file.location,
-      //   uploadedAt: createdAtLocalTime,
-      //   checkedAt: null,
-      //   checkStatus: 'notChecked',
-      //   timezone: timezone,
-      //   userChallengeId: userChallengeId,
-      // });
-
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       const createdAtLocalTime = moment(Date.now()).tz(timezone).format('YYYY-MM-DD');
+      console.log(timezone);
 
       const filter = {
         userChallengeId: userChallengeId,
