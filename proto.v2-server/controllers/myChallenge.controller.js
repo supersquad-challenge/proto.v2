@@ -185,6 +185,7 @@ module.exports = {
         description: userChallengeInfo.challengeId.description,
         status: userChallengeInfo.status,
         isPhotoUploadedToday,
+        isPaybackPaid: userChallengeInfo.isPaybackPaid,
       };
 
       res.status(200).json({
