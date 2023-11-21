@@ -22,6 +22,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
     }
     return false;
   };
+
+  const isBodyContainerTop = () => {
+    if (pathname == "/profile") {
+      return false;
+    }
+    return true;
+  };
   const isBodyContainerBottom = () => {
     if (
       activeModal == "congrats_otherChallenges" ||
@@ -34,11 +41,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
     }
     return true;
   };
+
   return (
     <>
       <Header />
       <BodyContainer
-        $top={68}
+        $top={isBodyContainerTop() ? 68 : 0}
         $bot={isBodyContainerBottom() ? 85 : 0}
         $backgroundColor={
           isBackgroundPrimary() ? `${colors.primary}` : `${colors.white}`
