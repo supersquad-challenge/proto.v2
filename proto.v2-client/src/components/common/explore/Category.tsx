@@ -11,11 +11,11 @@ type Props = {
 
 const Category = ({ title, imgSrc, isClicked, onClickHandler }: Props) => {
   // 브라우저 너비 값에 맞게 width, height 값 가변 적용
-  const [windowWidth, setWindowWidth] = useState(392);
+  const [windowWidth, setWindowWidth] = useState(0);
 
   const [imgStyle, setImgStyle] = useState({
-    width: 78,
-    height: 78,
+    width: 0,
+    height: 0,
   });
 
   useEffect(() => {

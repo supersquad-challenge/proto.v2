@@ -137,7 +137,7 @@ const HomeAfterLogin = () => {
   }, []);
 
   // 브라우저 높이 값에 맞게 ChallengesContainer 값 가변 적용
-  const [windowHeight, setWindowHeight] = useState(0); //수정 필요 //이거 비슷한 거 다 수정
+  const [windowHeight, setWindowHeight] = useState(0);
   useEffect(() => {
     // 브라우저 환경에서만 실행
     if (typeof window !== "undefined") {
