@@ -34,7 +34,7 @@ module.exports = {
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
       const localtime = moment().tz(timezone).format('YYYY-MM-DD');
-      const endtime = moment().tz(timezone).add(14, 'days').format('YYYY-MM-DD');
+      const endtime = moment().tz(timezone).add(13, 'days').format('YYYY-MM-DD');
 
       const userChallengeInfo = await UserChallenge.create({
         challengeStartAt: localtime,
@@ -272,6 +272,7 @@ module.exports = {
   deleteUserChallengeById: async (req, res) => {
     try {
       const { userChallengeId } = req.params;
+      console.log(userChallengeId);
 
       const userChallengeInfo = await UserChallenge.findByIdAndDelete(userChallengeId);
 
