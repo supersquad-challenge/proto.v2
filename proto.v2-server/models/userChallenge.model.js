@@ -12,6 +12,7 @@ const UserChallengeSchema = new Schema({
   successStatus: String, //success, fail ; badge
   cashPayback: Number,
   cryptoPayback: Number,
+  isPaybackPaid: Boolean,
   profit: Number,
   veriStatus: {
     type: Schema.Types.Mixed,

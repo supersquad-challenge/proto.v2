@@ -46,6 +46,7 @@ module.exports = {
         successStatus: false,
         cashPayback: 0,
         cryptoPayback: 0,
+        isPaybackPaid: false,
         profit: 0,
         userId: userId,
         challengeId: challengeId,
@@ -96,7 +97,7 @@ module.exports = {
             moment(localtime, 'YYYY-MM-DD').startOf('day')
           ) {
             userChallengeInfo.status = 'ongoing';
-          } else {
+          } else if (userChallengeInfo.paybackStatus === true) {
             userChallengeInfo.status = 'complete';
           }
           await userChallengeInfo.save();
@@ -121,6 +122,7 @@ module.exports = {
             challengeStartAt: userChallengeInfo.challengeStartAt,
             challengeEndAt: userChallengeInfo.challengeEndAt,
             isPhotoUploadedToday,
+            isPaybackPaid: userChallengeInfo.isPaybackPaid,
           };
         })
       );
