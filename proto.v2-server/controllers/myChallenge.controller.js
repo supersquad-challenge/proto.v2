@@ -96,7 +96,7 @@ module.exports = {
             moment(localtime, 'YYYY-MM-DD').startOf('day')
           ) {
             userChallengeInfo.status = 'ongoing';
-          } else if (userChallengeInfo.paybackStatus === true) {
+          } else if (userChallengeInfo.isPaybackPaid === true) {
             userChallengeInfo.status = 'complete';
           }
           await userChallengeInfo.save();
