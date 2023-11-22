@@ -16,10 +16,13 @@ import MyChallengeBlock from "@/components/common/MyChallengeBlock";
 import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { SET_USER_LOGIN, selectIsLoggedIn } from "@/redux/slice/authSlice";
+import { SET_USER_LOGIN, getIsLoggedInState } from "@/redux/slice/authSlice";
 import { login } from "@/lib/api/axios/auth/login";
 import { useSelector } from "react-redux";
 import { AllChallengesByUserId } from "@/types/api/Challenge";
+import NoOngoingChallengesBlock from "@/components/common/home/NoOngoingChallengesBlock";
+import { AxiosError } from "axios";
+import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
 
 const Home = () => {
   const [auth, setAuth] = useState<boolean>(false);
@@ -42,25 +45,27 @@ export default Home;
 
 const HomeBeforeLogin = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isLoggedIn = useSelector(getIsLoggedInState);
 
   useEffect(() => {
     if (isLoggedIn) return;
     const _handlelogin = async () => {
-      const user = await login();
-      console.log(user);
-      if (user?.status !== 200) return;
+      const loginRes = await login();
+      if (loginRes?.status !== 200) return;
+      const userId = loginRes?.data?.email;
+      const UserRes = await getUserInfo({ userId });
+
       dispatch(
         SET_USER_LOGIN({
-          _isLoggedIn: true,
-          userID: user?.data?.userInfoId,
-          email: user?.data?.email,
-          userName: user?.data?.nickname,
-          profile: user?.data?.picture,
+          userID: loginRes?.data?.userInfoId,
+          email: loginRes?.data?.email,
+          nickname: UserRes?.data?.nickname,
+          profile: UserRes?.data?.profileUrl,
         })
       );
       localStorage.setItem("supersquad_loggedIn", "true");
-      localStorage.setItem("supersquad_userID", user?.data?.userInfoId);
+      localStorage.setItem("supersquad_userID", loginRes?.data?.userInfoId);
+      console.log(loginRes?.data);
     };
     _handlelogin();
   }, [dispatch]);
@@ -106,17 +111,17 @@ const HomeAfterLogin = () => {
         queryString: "status=ongoing",
       });
       const ongoingChallenges = res.userChallengeInfos;
-      console.log(ongoingChallenges);
       let photoUploadedChallenges: AllChallengesByUserId[] = [];
       let photoNotUploadedChallenges: AllChallengesByUserId[] = [];
-      ongoingChallenges.forEach((challenge: AllChallengesByUserId) => {
-        if (challenge.isPhotoUploadedToday) {
-          photoUploadedChallenges.push(challenge);
-        } else {
-          photoNotUploadedChallenges.push(challenge);
-        }
-      });
-
+      if (ongoingChallenges) {
+        ongoingChallenges.forEach((challenge: AllChallengesByUserId) => {
+          if (challenge.isPhotoUploadedToday) {
+            photoUploadedChallenges.push(challenge);
+          } else {
+            photoNotUploadedChallenges.push(challenge);
+          }
+        });
+      }
       return { photoUploadedChallenges, photoNotUploadedChallenges };
     },
     {
@@ -185,7 +190,10 @@ const HomeAfterLogin = () => {
             >
               Today challenges
             </ChallengeHeader>
-
+            {photoNotUploadedChallenges?.length === 0 &&
+              photoUploadedChallenges?.length === 0 && (
+                <NoOngoingChallengesBlock />
+              )}
             {photoNotUploadedChallenges?.map(
               (challenge: AllChallengesByUserId, index: number) => {
                 return (
@@ -225,6 +233,7 @@ const HomeAfterLogin = () => {
             >
               Featured Challenge
             </ChallengeHeader>
+            <FeaturedChallengeBlock margin="20px 0 0 0" />
             <FeaturedChallengeBlock margin="20px 0 0 0" />
           </ChallengesWrapper>
         </ChallengesContainer>

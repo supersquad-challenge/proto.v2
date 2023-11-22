@@ -24,8 +24,12 @@ import {
   getModalState,
 } from "@/redux/slice/modalSlice";
 import SnapYourScaleModal from "@/components/common/mychallenge/SnapYourScaleModal";
-import { congrats_statusSrc } from "@/lib/components/fullPageModal";
+import {
+  congrats_otherChallengesSrc,
+  congrats_statusSrc,
+} from "@/lib/components/fullPageModal";
 import FullPageModal from "@/components/base/Modal/FullPageModal";
+import PaybackClaimModal from "@/components/common/mychallenge/PaybackClaimModal";
 
 const MyChallengeID = () => {
   // variables //
@@ -34,6 +38,7 @@ const MyChallengeID = () => {
   let currency;
   const modal: IModalState = useSelector(getModalState);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   // API //
   const {
@@ -74,7 +79,9 @@ const MyChallengeID = () => {
       dispatch(
         SET_FOOTER_BLUEBUTTON({
           blueButtonTitle: "Get Payback",
-          handleBlueButtonClick: () => {}, //수정 필요
+          handleBlueButtonClick: () => {
+            dispatch(OPEN_MODAL({ modal: "paybackClaim" }));
+          },
         })
       );
     } else if (
@@ -112,6 +119,19 @@ const MyChallengeID = () => {
 
   return (
     <>
+      {modal.activeModal == "congrats_otherChallenges" &&
+        modal.visibility == true && (
+          <FullPageModal
+            {...congrats_otherChallengesSrc}
+            onClickHandler={() => {
+              router.push("/explore");
+              dispatch(CLOSE_MODAL());
+            }}
+          />
+        )}
+      {modal.activeModal == "paybackClaim" && modal.visibility == true && (
+        <PaybackClaimModal successRate={challenge?.successRate!} />
+      )}
       {modal.activeModal == "congrats_status" && modal.visibility == true && (
         <FullPageModal
           {...congrats_statusSrc}
@@ -134,7 +154,7 @@ const MyChallengeID = () => {
             </Wrapper>
 
             <ProgressBarWrapper>
-              <BaseProgressBar rate={challenge?.successRate!} />
+              <BaseProgressBar rate={Math.round(challenge?.successRate!)} />
               <TargetSuccess>
                 Target Success <TargetSuccessBold>100%</TargetSuccessBold>
               </TargetSuccess>
@@ -208,6 +228,12 @@ const MyChallengeID = () => {
 
 export default MyChallengeID;
 
+const Container = styled.main`
+  width: 100%;
+  height: auto;
+  background-color: ${colors.white};
+`;
+
 const Wrapper = styled.div`
   width: 100%;
   height: auto;
@@ -271,10 +297,4 @@ const PoolDetail = styled.div`
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.28px;
-`;
-
-const Container = styled.main`
-  width: 100%;
-  height: auto;
-  background-color: ${colors.white};
 `;

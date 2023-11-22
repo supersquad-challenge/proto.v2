@@ -4,6 +4,7 @@ export type Modal =
   | "nowYouAreIn"
   | "snapYourScale"
   | "congrats_status"
-  | "congrats_otherChallenges";
+  | "congrats_otherChallenges"
+  | "paybackClaim";
 
 export type PaymentMethod = "crypto" | "cash";
