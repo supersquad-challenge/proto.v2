@@ -74,8 +74,8 @@ module.exports = {
         });
       }
 
-      if (veriStatus === 'success') {
-      } else if (veriStatus === false) {
+      if (veriStatus === 'pass') {
+      } else if (veriStatus === 'fail') {
         userChallenge.completeNum = userChallenge.completeNum - 1;
 
         if (userChallenge.completeNum < 0) {
@@ -89,34 +89,43 @@ module.exports = {
           userChallenge.challengeId.totalVeriNum * 0.8
         );
 
-        const slashDeposit = userChallenge.deposit / requiredCompleteNum;
-        // slashDeposit 만큼 passPool 에서 failPool로 이동
-        // slashDeposit 값을 Wei로 변환
-        const slashDepositInWei = ethers.utils.parseEther(slashDeposit.toString());
+        let slashDeposit = 0;
+        if (userChallenge.completeNum < requiredCompleteNum) {
+          slashDeposit = userChallenge.deposit / (requiredCompleteNum + 1);
+          console.log(slashDeposit);
+          // slashDeposit 만큼 passPool 에서 failPool로 이동
+          // slashDeposit 값을 Wei로 변환
+          // const slashDepositInWei = ethers.utils.parseEther(slashDeposit.toString());
 
-        const successPoolAddress = userChallenge.challengeId.successPoolAddress;
-        const failPoolAddress = userChallenge.challengeId.failPoolAddress;
+          const slashDepositDivided = slashDeposit / 100;
+          const slashDepositInWei = ethers.utils.parseEther(
+            slashDepositDivided.toString()
+          );
+          console.log(slashDepositInWei);
+          const successPoolAddress = userChallenge.challengeId.successPoolAddress;
+          console.log(successPoolAddress);
+          const failPoolAddress = userChallenge.challengeId.failPoolAddress;
+          console.log(failPoolAddress);
 
-        const successPoolContract = new ethers.Contract(
-          successPoolAddress,
-          dynamicPoolContractAbi,
-          ServerWallet
-        );
+          const successPoolContract = new ethers.Contract(
+            successPoolAddress,
+            dynamicPoolContractAbi,
+            ServerWallet
+          );
 
-        const slashTx = await successPoolContract.transferTo(
-          failPoolAddress,
-          slashDepositInWei
-        );
-        const receipt = await createPool.wait();
+          const slashTx = await successPoolContract.transferTo(
+            failPoolAddress,
+            slashDepositInWei
+          );
+          const receipt = await slashTx.wait();
 
-        console.log(receipt);
+          console.log(receipt);
+        }
 
         const updatedUserChallenge = await UserChallenge.findByIdAndUpdate(
           userChallengeId,
           {
             $set: {
-              completeNum: userChallenge.completeNum,
-              successRate: checkSuccessRate,
               profit: userChallenge.profit - slashDeposit,
               [`veriStatus.${date.toString()}`]: veriStatus,
             },

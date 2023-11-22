@@ -39,15 +39,12 @@ const googleStrategyConfig = new GoogleStrategy(
         return done(null, existingUser);
       }
 
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
       const newUser = new User({
         email: profile.emails[0].value,
         googleId: profile.id,
         name: profile.displayName,
         profileUrl: profile.photos[0].value,
         locale: profile._json.locale,
-        timezone: timezone,
       });
       const user = await newUser.save();
       done(null, user);

@@ -159,8 +159,8 @@ module.exports = {
       const challengeData = await Challenge.create({
         ...challenge,
         thumbnailUrl: req.file.location,
-        SuccessPoolAddress: address[0],
-        FailPoolAddress: address[1],
+        successPoolAddress: address[0],
+        failPoolAddress: address[1],
         createdAt: createdAtLocalTime,
       });
 
