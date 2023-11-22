@@ -72,7 +72,8 @@ const MyChallenge = () => {
       </StatusContainer>
       <ChallengesContainer>
         <TotalWrapper>
-          Total <TotalBold>{data?.length}</TotalBold>
+          Total{" "}
+          <TotalBold>{data?.length == undefined ? 0 : data?.length}</TotalBold>
         </TotalWrapper>
         {data?.map((challenge: AllChallengesByUserId, index: number) => {
           return (

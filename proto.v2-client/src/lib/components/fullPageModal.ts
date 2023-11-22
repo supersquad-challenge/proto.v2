@@ -26,3 +26,11 @@ export const congrats_statusSrc: Props = {
   detail: "You have completed today’s challenge!",
   buttonText: "Check Your Status",
 };
+
+export const congrats_otherChallengesSrc: Props = {
+  imgSrc: "/asset/full_page_modal/thumbs_up.svg",
+  title: "Congrats!",
+  detail:
+    "Wait up to 24h for others members to complete the last mission and calculate total reward",
+  buttonText: "Explore Other Challenges",
+};

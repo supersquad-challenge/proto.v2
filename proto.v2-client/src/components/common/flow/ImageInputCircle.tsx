@@ -4,16 +4,26 @@ import styled from "styled-components";
 
 type Props = {
   profileSrc: string;
+  file: File | undefined;
 };
 
-const ImageInputCircle = ({ profileSrc }: Props) => {
+const ImageInputCircle = ({ profileSrc, file }: Props) => {
   const [backgroundImage, setBackgroundImage] = useState<string>(profileSrc);
+  const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(null);
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const imageFile = event.target.files[0];
       const imageUrl = URL.createObjectURL(imageFile);
       setBackgroundImage(imageUrl);
+
+      file = event.target.files?.[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setImageSrc(reader.result);
+      };
+      //여기에 이미지 바꾸는 로직 추가해야함. (api 미생성) //수정 필요
     }
   };
 
