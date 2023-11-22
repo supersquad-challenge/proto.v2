@@ -1,3 +1,4 @@
+import { POINT } from "@/lib/protoV2Constants";
 import colors from "@/styles/color";
 import thousandFormat from "@/utils/thousandFormat";
 import styled from "styled-components";
@@ -16,7 +17,7 @@ const BadgePointPannel = () => {
         >
           points
         </div>
-        <Points>{thousandFormat(1000)}</Points>
+        <Points>{thousandFormat(POINT)}</Points>
       </div>
     </Container>
   );

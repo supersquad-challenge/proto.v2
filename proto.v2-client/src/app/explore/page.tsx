@@ -50,9 +50,9 @@ const Explore = () => {
 
   // Change Padding //
   // 브라우저 너비 값에 맞게 ContainerPaddingTop 값 가변 적용
-  const [windowWidth, setWindowWidth] = useState(392);
+  const [windowWidth, setWindowWidth] = useState(0);
   const [challengesContainerPaddingTop, setChallengesContainerPaddingTop] =
-    useState(256);
+    useState(0);
 
   useEffect(() => {
     // 브라우저 환경에서만 실행

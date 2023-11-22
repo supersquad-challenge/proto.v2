@@ -66,6 +66,7 @@ const BaseButtonWrapper = styled.button<{
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: "Poppin";
 
   &:hover {
     cursor: pointer;

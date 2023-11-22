@@ -30,6 +30,7 @@ const ExploreID = () => {
   const dispatch = useDispatch();
   const modal: IModalState = useSelector(getModalState);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("crypto");
+  const [deposit, setDeposit] = useState<number>(10);
   const router = useRouter();
 
   // useEffect //
@@ -77,7 +78,12 @@ const ExploreID = () => {
         />
       )}
       {modal.activeModal == "depositCharge" && modal.visibility == true && (
-        <DepositChargeModal paymentMethod={paymentMethod} />
+        <DepositChargeModal
+          paymentMethod={paymentMethod}
+          challengeId={challengeId}
+          deposit={deposit}
+          setDeposit={setDeposit}
+        />
       )}
 
       <DetailedChallengePage
