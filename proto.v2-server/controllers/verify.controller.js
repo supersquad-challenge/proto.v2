@@ -1,9 +1,20 @@
 const moment = require('moment-timezone');
+const ethers = require('ethers');
 
 const path = require('path');
 
 const VeriPhoto = require('../models/veriPhoto.model');
 const UserChallenge = require('../models/userChallenge.model');
+
+const dynamicPoolContractAbi =
+  require('./../../proto.v2-contract/artifacts/contracts/dynamicpool/DynamicPool.sol/DynamicPool.json').abi;
+
+require('dotenv').config();
+
+const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_URL);
+
+const ServerPrivateKey = process.env.SERVER_PRIVATE_KEY;
+const ServerWallet = new ethers.Wallet(ServerPrivateKey, provider);
 
 module.exports = {
   postPhoto: async (req, res) => {
@@ -79,7 +90,26 @@ module.exports = {
         );
 
         const slashDeposit = userChallenge.deposit / requiredCompleteNum;
-        // slashDeposit 만큼 passPool 에서 failPool로 이동 구현필요
+        // slashDeposit 만큼 passPool 에서 failPool로 이동
+        // slashDeposit 값을 Wei로 변환
+        const slashDepositInWei = ethers.utils.parseEther(slashDeposit.toString());
+
+        const successPoolAddress = userChallenge.challengeId.successPoolAddress;
+        const failPoolAddress = userChallenge.challengeId.failPoolAddress;
+
+        const successPoolContract = new ethers.Contract(
+          successPoolAddress,
+          dynamicPoolContractAbi,
+          ServerWallet
+        );
+
+        const slashTx = await successPoolContract.transferTo(
+          failPoolAddress,
+          slashDepositInWei
+        );
+        const receipt = await createPool.wait();
+
+        console.log(receipt);
 
         const updatedUserChallenge = await UserChallenge.findByIdAndUpdate(
           userChallengeId,
