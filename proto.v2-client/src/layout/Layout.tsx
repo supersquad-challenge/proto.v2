@@ -35,7 +35,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
       activeModal == "congrats_status" ||
       activeModal == "nowYouAreIn" ||
       activeModal == "snapYourScale" ||
-      pathname == "/home"
+      pathname == "/home" ||
+      activeModal == "paybackClaim"
     ) {
       return false;
     }

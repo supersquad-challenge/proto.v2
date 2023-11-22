@@ -1,4 +1,6 @@
+import { getNicknameState } from "@/redux/slice/authSlice";
 import colors from "@/styles/color";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 type Props = {
@@ -28,11 +30,12 @@ const BeforeLogin = () => {
 };
 
 const AfterLogin = ({ isScrolled }: { isScrolled: boolean }) => {
+  const nickname = useSelector(getNicknameState);
   return (
     <Container>
       <div>
         <Greetings fontSize={26}>
-          Hi, <GreetingsBold>Nickname</GreetingsBold>
+          Hi, <GreetingsBold>{nickname}</GreetingsBold>
         </Greetings>
         <Greetings fontSize={16} style={{ marginTop: "10px" }}>
           Hack your goals with SuperSquad!
