@@ -22,9 +22,9 @@ const FullPageModal = ({
   children,
 }: Props) => {
   // 브라우저 높이 값에 맞게 height 값 가변 적용
-  const [windowHeight, setWindowHeight] = useState(801);
+  const [windowHeight, setWindowHeight] = useState(0);
 
-  const [containerHeight, setContainerHeight] = useState(731);
+  const [containerHeight, setContainerHeight] = useState(0);
 
   useEffect(() => {
     // 브라우저 환경에서만 실행

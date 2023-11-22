@@ -1,5 +1,8 @@
 import BaseModal from "@/components/base/Modal/BaseModal";
 import BaseSlider from "@/components/base/Slider/BaseSlider";
+import setChallenge from "@/lib/api/axios/myChallenge/setChallenge";
+import setDepositInfo from "@/lib/api/axios/tx/setDepositInfo";
+import { USERID } from "@/lib/api/testdata";
 import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
 import {
   CHANGE_MODAL,
@@ -9,17 +12,25 @@ import {
 } from "@/redux/slice/modalSlice";
 import colors from "@/styles/color";
 import { PaymentMethod } from "@/types/Modal";
-import { useEffect, useState } from "react";
+import { SingleRegisteredChallenge } from "@/types/api/Challenge";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 type Props = {
   paymentMethod: PaymentMethod;
+  challengeId: string;
+  deposit: number;
+  setDeposit: Dispatch<SetStateAction<number>>;
 };
 
-const DepositChargeModal = ({ paymentMethod }: Props) => {
+const DepositChargeModal = ({
+  paymentMethod,
+  challengeId,
+  deposit,
+  setDeposit,
+}: Props) => {
   // variables
-  const [deposit, setDeposit] = useState<number>(10);
   const dispatch = useDispatch();
   let currency;
   if (paymentMethod == "crypto") {
@@ -41,7 +52,22 @@ const DepositChargeModal = ({ paymentMethod }: Props) => {
     dispatch(
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Charge Deposit",
-        handleBlueButtonClick: () => {
+        handleBlueButtonClick: async () => {
+          const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          const challengeRes = await setChallenge({
+            userId: USERID,
+            challengeId: challengeId,
+            timezone: timezone,
+          });
+
+          const depositRes = await setDepositInfo({
+            userChallengeId: challengeRes?.data.userChallengeId!,
+            depositMethod: paymentMethod,
+            deposit: deposit,
+          });
+
+          console.log(challengeRes);
+          console.log(depositRes);
           dispatch(CHANGE_MODAL({ modal: "nowYouAreIn" }));
         },
       })

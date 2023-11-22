@@ -13,7 +13,10 @@ import thousandFormat from "@/utils/thousandFormat";
 import { convertIsoDateToReadable } from "@/utils/dateFormatUtils";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
+import {
+  REMOVE_FOOTER_BLUEBUTTON,
+  SET_FOOTER_BLUEBUTTON,
+} from "@/redux/slice/footerSlice";
 import {
   CLOSE_MODAL,
   IModalState,
@@ -49,6 +52,7 @@ const MyChallengeID = () => {
       } else if (challenge.depositMethod == "cash") {
         currency = "$USD";
       }
+      console.log("나는 승은이야");
       return challenge;
     },
     staleTime: 5000,
@@ -57,17 +61,54 @@ const MyChallengeID = () => {
 
   // useEffect //
   useEffect(() => {
+    const today = new Date();
+    const nextDayOfEndDay = new Date(challenge?.challengeEndAt!);
+    nextDayOfEndDay.setDate(nextDayOfEndDay.getDate() + 1);
+    let isChallengeEnded = false;
+    if (today >= nextDayOfEndDay) {
+      isChallengeEnded = true;
+    }
     // 수정 필요: 오늘 사진을 올렸을 경우, payback이 필요한 경우, complete했을 경우의 로직 추가 구현
-
-    dispatch(
-      SET_FOOTER_BLUEBUTTON({
-        blueButtonTitle: "Verify Mission",
-        handleBlueButtonClick: () => {
-          dispatch(OPEN_MODAL({ modal: "snapYourScale" }));
-        },
-      })
-    );
-  }, [id, modal.visibility]);
+    // complete와 payback받기 직전 확인 필요
+    if (challenge?.status == "ongoing" && isChallengeEnded) {
+      dispatch(
+        SET_FOOTER_BLUEBUTTON({
+          blueButtonTitle: "Get Payback",
+          handleBlueButtonClick: () => {}, //수정 필요
+        })
+      );
+    } else if (
+      challenge?.status == "ongoing" &&
+      challenge.isPhotoUploadedToday
+    ) {
+      //사진 등록
+      dispatch(
+        SET_FOOTER_BLUEBUTTON({
+          blueButtonTitle: "Change Photo",
+          handleBlueButtonClick: () => {
+            dispatch(OPEN_MODAL({ modal: "snapYourScale" }));
+          },
+        })
+      );
+    } else if (
+      challenge?.status == "ongoing" &&
+      !challenge.isPhotoUploadedToday
+    ) {
+      // 사진 미등록
+      dispatch(
+        SET_FOOTER_BLUEBUTTON({
+          blueButtonTitle: "Verify Mission",
+          handleBlueButtonClick: () => {
+            dispatch(OPEN_MODAL({ modal: "snapYourScale" }));
+          },
+        })
+      );
+    } else if (challenge?.status == "complete") {
+      //챌린지 완료
+      dispatch(REMOVE_FOOTER_BLUEBUTTON());
+    }
+    console.log("안녕");
+  }, [isLoading]);
 
   return (
     <>
@@ -84,7 +125,7 @@ const MyChallengeID = () => {
         <Container>
           <DetailedChallengePage
             thumbnailUrl={challenge?.thumbnailUrl!}
-            frequency={"Everyday"} //수정 필요
+            frequency={challenge?.frequency!}
             name={challenge?.name!}
             participants={30}
           >
@@ -146,18 +187,17 @@ const MyChallengeID = () => {
               content={`${convertIsoDateToReadable(
                 challenge?.challengeStartAt!
               )} - ${convertIsoDateToReadable(challenge?.challengeEndAt!)}`}
-              detail={"Everyday"} //수정 필요
+              detail={challenge?.frequency!}
             />
             <SingleChallengeInfo
-              title="How To" //수정 필요
-              content="Take a picture"
-              detail="Take a picture of your scale everyday to prove your weight.
-          Remind to have your both feet shown!"
+              title="How To"
+              content={challenge?.howTo.split("*")[0]!}
+              detail={challenge?.howTo.split("*")[1]!}
             />
             <SingleChallengeInfo
-              title="Why this challenge?" //수정 필요
+              title="Why this challenge?"
               content=""
-              detail="Replacing one meal a day with salad is the first step to changing your eating habits healthier."
+              detail={challenge?.description!}
             />
           </DetailedChallengePage>
         </Container>

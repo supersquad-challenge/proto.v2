@@ -1,6 +1,7 @@
 "use client";
 import {
   getBlueButtonTitleState,
+  getBlueButtonVisibilityState,
   getHandleBlueButtonClickState,
 } from "@/redux/slice/footerSlice";
 import {
@@ -19,6 +20,7 @@ const Footer = () => {
   // variable //
   const pathname = usePathname();
   const activeModal: Modal | undefined = useSelector(getActiveModalState);
+  const blueButtonVisibility = useSelector(getBlueButtonVisibilityState);
 
   const showNaviBar = () => {
     if (
@@ -38,7 +40,8 @@ const Footer = () => {
       activeModal == "congrats_status" ||
       activeModal == "nowYouAreIn" ||
       activeModal == "snapYourScale" ||
-      pathname == "/flow/login"
+      pathname == "/flow/login" ||
+      blueButtonVisibility == false
     ) {
       return false;
     }

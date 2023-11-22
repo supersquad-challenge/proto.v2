@@ -6,6 +6,7 @@ const NicknameMessage = styled.div`
   font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.36px;
+  line-height: 100%;
 
   margin-bottom: 20px;
 `;

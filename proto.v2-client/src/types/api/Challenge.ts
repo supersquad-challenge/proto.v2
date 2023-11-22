@@ -16,6 +16,8 @@ export type AllChallengesByUserId = {
   successRate: number;
   challengeStartAt: string;
   challengeEndAt: string;
+  isPhotoUploadedToday: boolean;
+  isPaybackPaid: boolean;
 };
 
 export type SingleChallengeByChallengeId = {
@@ -33,11 +35,21 @@ export type SingleChallengeByUserChallengeId = {
   name: string;
   participants: number;
   successRate: number;
-  depositMethod: string;
   deposit: number;
   totalDeposit: number;
   cryptoSuccessPool: number;
   cryptoFailPool: number;
   challengeStartAt: string;
   challengeEndAt: string;
+  frequency: string;
+  howTo: string;
+  description: string;
+  status: string;
+  isPhotoUploadedToday: boolean;
+  isPaybackPaid: boolean;
+};
+
+export type SingleRegisteredChallenge = {
+  message: string;
+  userChallengeId: string;
 };

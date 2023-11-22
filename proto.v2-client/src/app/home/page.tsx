@@ -9,7 +9,7 @@ import ExtendedChallengeHeader from "@/components/common/home/ExtendedChallengeH
 import BadgePointPannel from "@/components/common/home/BadgePointPannel";
 import ChallengeHeader from "@/components/common/home/ChallengeHeader";
 import { useQuery } from "react-query";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getAllChallengesByUserId } from "@/lib/api/querys/myChallenge/getAllChallengesByUserId";
 import { USERID } from "@/lib/api/testdata";
 import MyChallengeBlock from "@/components/common/MyChallengeBlock";
@@ -19,48 +19,51 @@ import { useDispatch } from "react-redux";
 import { SET_USER_LOGIN, selectIsLoggedIn } from "@/redux/slice/authSlice";
 import { login } from "@/lib/api/axios/auth/login";
 import { useSelector } from "react-redux";
+import { AllChallengesByUserId } from "@/types/api/Challenge";
 
 const Home = () => {
   const [auth, setAuth] = useState<boolean>(false);
   // const isLoggedIn = useSelector(selectIsLoggedIn);
-  
+
   useEffect(() => {
-    const _isLoggedIn = localStorage.getItem('supersquad_loggedIn');
-    if (_isLoggedIn === 'true') {
+    const _isLoggedIn = localStorage.getItem("supersquad_loggedIn");
+    if (_isLoggedIn === "true") {
       setAuth(true);
     } else {
       setAuth(false);
     }
-  }, [])
+  }, []);
   if (!auth) {
-    return <Home_BeforeLogin />;
+    return <HomeBeforeLogin />;
   }
-  return <Home_AfterLogin />;
+  return <HomeAfterLogin />;
 };
 export default Home;
 
-const Home_BeforeLogin = () => {
+const HomeBeforeLogin = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   useEffect(() => {
-    if (isLoggedIn) return ;
-    const _handlelogin = async() => {
+    if (isLoggedIn) return;
+    const _handlelogin = async () => {
       const user = await login();
-      console.log(user)
-      if (user?.status !== 200) return ;
-      dispatch(SET_USER_LOGIN({
-        _isLoggedIn: true,
-        userID: user?.data?.userInfoId,
-        email: user?.data?.email,
-        userName: user?.data?.nickname,
-        profile: user?.data?.picture
-      }))
-      localStorage.setItem('supersquad_loggedIn', 'true');
-      localStorage.setItem('supersquad_userID', user?.data?.userInfoId);
-    }
+      console.log(user);
+      if (user?.status !== 200) return;
+      dispatch(
+        SET_USER_LOGIN({
+          _isLoggedIn: true,
+          userID: user?.data?.userInfoId,
+          email: user?.data?.email,
+          userName: user?.data?.nickname,
+          profile: user?.data?.picture,
+        })
+      );
+      localStorage.setItem("supersquad_loggedIn", "true");
+      localStorage.setItem("supersquad_userID", user?.data?.userInfoId);
+    };
     _handlelogin();
-  }, [dispatch])
+  }, [dispatch]);
   return (
     <>
       <Container $isLogin={true}>
@@ -85,32 +88,45 @@ const Home_BeforeLogin = () => {
   );
 };
 
-const Home_AfterLogin = () => {
+const HomeAfterLogin = () => {
   // variables //
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isSrcolled, setIsScrolled] = useState(false);
   const [isBlurred, setIsBlurred] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
-  // // API //
-  // const { data, error, isLoading } = useQuery(
-  //   ["all MyChallenges", searchParams.get("status")],
-  //   async () => {
-  //     const status = searchParams.get("status") ?? "";
-  //     const queryString = new URLSearchParams({ status }).toString();
-  //     const res = await getAllChallengesByUserId({
-  //       userId: USERID,
-  //       queryString,
-  //     });
-  //     const challenges = res.userChallengeInfo.allUserChallengeInfo;
-  //     return challenges;
-  //   },
-  //   {
-  //     staleTime: 5000,
-  //     cacheTime: 60 * 60 * 1000,
-  //   }
-  // );
+  // API //
+  const { data, error, isLoading } = useQuery(
+    ["all MyChallenges", pathname],
+    async () => {
+      const res = await getAllChallengesByUserId({
+        userId: USERID,
+        queryString: "status=ongoing",
+      });
+      const ongoingChallenges = res.userChallengeInfos;
+      console.log(ongoingChallenges);
+      let photoUploadedChallenges: AllChallengesByUserId[] = [];
+      let photoNotUploadedChallenges: AllChallengesByUserId[] = [];
+      ongoingChallenges.forEach((challenge: AllChallengesByUserId) => {
+        if (challenge.isPhotoUploadedToday) {
+          photoUploadedChallenges.push(challenge);
+        } else {
+          photoNotUploadedChallenges.push(challenge);
+        }
+      });
+
+      return { photoUploadedChallenges, photoNotUploadedChallenges };
+    },
+    {
+      staleTime: 5000,
+      cacheTime: 60 * 60 * 1000,
+    }
+  );
+
+  const photoUploadedChallenges = data?.photoUploadedChallenges;
+  const photoNotUploadedChallenges = data?.photoNotUploadedChallenges;
 
   const handleScroll = useCallback(() => {
     if (wrapperRef.current) {
@@ -121,8 +137,7 @@ const Home_AfterLogin = () => {
   }, []);
 
   // 브라우저 높이 값에 맞게 ChallengesContainer 값 가변 적용
-  const [windowHeight, setWindowHeight] = useState(844);
-
+  const [windowHeight, setWindowHeight] = useState(0);
   useEffect(() => {
     // 브라우저 환경에서만 실행
     if (typeof window !== "undefined") {
@@ -140,7 +155,6 @@ const Home_AfterLogin = () => {
       };
     }
   }, [windowHeight]);
-
 
   return (
     <>
@@ -171,19 +185,39 @@ const Home_AfterLogin = () => {
             >
               Today challenges
             </ChallengeHeader>
-            <MyChallengeBlock
-              successRate={30}
-              thumbnailUrl="/asset/Saly-15.svg"
-              category="Mental Health"
-              name="15 minutes of meditation"
-              challengeStartAt="2023-11-10-17:51:56"
-              challengeEndAt="2023-11-15-17:51:56"
-              status="ongoing"
-              isPhotoUploadedToday={false}
-              onClickHandler={() => {}}
-            />
 
-            <CompletedChallengeBlock />
+            {photoNotUploadedChallenges?.map(
+              (challenge: AllChallengesByUserId, index: number) => {
+                return (
+                  <MyChallengeBlock
+                    successRate={challenge.successRate}
+                    thumbnailUrl={challenge.thumbnailUrl}
+                    category={challenge.category}
+                    name={challenge.name}
+                    challengeStartAt={challenge.challengeStartAt}
+                    challengeEndAt={challenge.challengeEndAt}
+                    status={challenge.status}
+                    isPhotoUploadedToday={challenge.isPhotoUploadedToday}
+                    onClickHandler={() =>
+                      router.push(`/mychallenge/${challenge.userChallengeId}`)
+                    }
+                    key={index}
+                    margin={index !== 0 ? "15px 0 0 0" : "none"}
+                  />
+                );
+              }
+            )}
+            {photoUploadedChallenges?.map(
+              (challenge: AllChallengesByUserId, index: number) => {
+                return (
+                  <CompletedChallengeBlock
+                    category={challenge.category}
+                    name={challenge.name}
+                    key={index}
+                  />
+                );
+              }
+            )}
 
             <ChallengeHeader
               $fontColor={colors.black}

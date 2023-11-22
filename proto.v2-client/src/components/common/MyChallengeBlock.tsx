@@ -37,12 +37,23 @@ const MyChallengeBlock = ({
   isPhotoUploadedToday,
   onClickHandler,
 }: Props) => {
+  const today = new Date();
+  const nextDayOfEndDay = new Date(challengeEndAt);
+  nextDayOfEndDay.setDate(nextDayOfEndDay.getDate() + 1);
+  let isChallengeEnded = false;
+  if (today >= nextDayOfEndDay) {
+    isChallengeEnded = true;
+  }
+
   let myChallengeExtendedStatus: MyChallengeExtendedStatus = {
     title: "",
     isCircularProgressBarPrimary: false,
     isButtonPrimary: true,
-  }; //수정 필요: get payback 로직 추가
-  if (status == "ongoing" && !isPhotoUploadedToday) {
+  }; //수정 필요: get payback 로직 추가 //payback 확인 필요
+  if (status == "ongoing" && isChallengeEnded) {
+    myChallengeExtendedStatus.title = "Get Payback";
+    myChallengeExtendedStatus.isCircularProgressBarPrimary = true;
+  } else if (status == "ongoing" && !isPhotoUploadedToday) {
     myChallengeExtendedStatus.title = "Verify Mission";
     myChallengeExtendedStatus.isCircularProgressBarPrimary = true;
   } else if (status == "ongoing" && isPhotoUploadedToday) {
