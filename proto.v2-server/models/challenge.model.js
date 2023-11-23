@@ -18,8 +18,8 @@ const ChallengeSchema = new Schema({
   cryptoFailPool: Number,
   howTo: String,
   description: String,
-  SuccessPoolAddress: String,
-	FailPoolAddress: String,
+  successPoolAddress: String,
+  failPoolAddress: String,
   createdAt: String,
 });
 

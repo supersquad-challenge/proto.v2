@@ -31,6 +31,7 @@ const BeforeLogin = () => {
 
 const AfterLogin = ({ isScrolled }: { isScrolled: boolean }) => {
   const nickname = useSelector(getNicknameState);
+  console.log(nickname);
   return (
     <Container>
       <div>

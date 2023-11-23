@@ -8,7 +8,7 @@ const VeriPhoto = require('../models/veriPhoto.model');
 module.exports = {
   registerMyChallenge: async (req, res) => {
     try {
-      const { userId, challengeId } = req.body;
+      const { userId, challengeId, timezone } = req.body;
 
       const userChallenge = await UserChallenge.findOne({
         userId,
@@ -31,8 +31,7 @@ module.exports = {
         });
       }
 
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
+      console.log(timezone);
       const localtime = moment().tz(timezone).format('YYYY-MM-DD');
       const endtime = moment().tz(timezone).add(13, 'days').format('YYYY-MM-DD');
 

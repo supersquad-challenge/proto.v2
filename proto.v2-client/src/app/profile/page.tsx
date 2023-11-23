@@ -8,15 +8,36 @@ import SingleCollection from "@/components/common/profile/SingleCollection";
 import Wallet from "@/components/common/profile/Wallet";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import {
+  getEmailState,
+  getNicknameState,
+  getProfileState,
+} from "@/redux/slice/authSlice";
+import { useEffect, useState } from "react";
 
 const Profile = () => {
   const router = useRouter();
+  const profile = useSelector(getProfileState);
+  const nickname = useSelector(getNicknameState);
+  const email = useSelector(getEmailState);
+  console.log(profile);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
   return (
     <Container>
       <AccountOverviewContainer>
         <ProfileImageWrapper>
           <Image
-            src="/asset/profile-circle.svg" //여기 프로필 사진이 들어가면 됨.
+            src={profile ? profile : "/asset/profile-circle.svg"} //여기 프로필 사진이 들어가면 됨.
             alt="Profile Image"
             fill
             style={{
@@ -26,7 +47,7 @@ const Profile = () => {
         </ProfileImageWrapper>
         <AccountOverviewWrapper>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Nickname>Nickname</Nickname>
+            <Nickname>{nickname}</Nickname>
             <Image
               src="/asset/pencil.svg"
               width={16}
@@ -36,7 +57,7 @@ const Profile = () => {
               onClick={() => router.push("/flow/profile-setting")}
             />
           </div>
-          <Email>ddd0000@gmail.com</Email>
+          <Email>{email}</Email>
           <div
             style={{
               display: "flex",
