@@ -301,4 +301,32 @@ module.exports = {
       });
     }
   },
+  getChallenge: async (req, res) => {
+    try {
+      const { challengeId, userId } = req.params;
+
+      const userChallengeInfo = await UserChallenge.findOne({ challengeId, userId });
+
+      console.log(challengeId, userId);
+      if (!userChallengeInfo) {
+        return res.status(404).json({
+          error: 'User Challenge not found',
+        });
+      }
+
+      console.log(userChallengeInfo);
+
+      res.status(200).json({
+        message: 'User Challenge found',
+        userChallengeInfo: {
+          userChallengeId: userChallengeInfo._id,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        error: 'Internal Server Error',
+      });
+    }
+  },
 };
