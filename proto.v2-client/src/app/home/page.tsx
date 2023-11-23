@@ -16,11 +16,15 @@ import MyChallengeBlock from "@/components/common/MyChallengeBlock";
 import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+<<<<<<< HEAD
+import { SET_USER_LOGIN, getIsLoggedInState } from "@/redux/slice/authSlice";
+=======
 import {
   SET_USER_LOGIN,
   getAuthState,
   getIsLoggedInState,
 } from "@/redux/slice/authSlice";
+>>>>>>> origin
 import { login } from "@/lib/api/axios/auth/login";
 import { useSelector } from "react-redux";
 import { AllChallengesByUserId } from "@/types/api/Challenge";
@@ -55,17 +59,32 @@ const HomeBeforeLogin = () => {
     const _handlelogin = async () => {
       const loginRes = await login();
       if (loginRes?.status !== 200) return;
+<<<<<<< HEAD
+      const userId = loginRes?.data?.email;
+      const UserRes = await getUserInfo({ userId });
+=======
       const userId = loginRes?.data.userInfoId;
       const userRes = await getUserInfo({ userId });
+>>>>>>> origin
 
       dispatch(
         SET_USER_LOGIN({
           userID: loginRes?.data?.userInfoId,
           email: loginRes?.data?.email,
+<<<<<<< HEAD
+          nickname: UserRes?.data?.nickname,
+          profile: UserRes?.data?.profileUrl,
+        })
+      );
+      localStorage.setItem("supersquad_loggedIn", "true");
+      localStorage.setItem("supersquad_userID", loginRes?.data?.userInfoId);
+      console.log(loginRes?.data);
+=======
           nickname: userRes?.userInfo?.nickname,
           profile: userRes?.userInfo?.profileUrl,
         })
       );
+>>>>>>> origin
     };
     _handlelogin();
   }, [dispatch]);
