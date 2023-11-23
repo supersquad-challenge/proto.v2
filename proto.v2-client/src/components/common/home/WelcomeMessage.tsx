@@ -1,7 +1,7 @@
-import { getNicknameState } from "@/redux/slice/authSlice";
-import colors from "@/styles/color";
-import { useSelector } from "react-redux";
-import styled from "styled-components";
+import { getNicknameState } from '@/redux/slice/authSlice';
+import colors from '@/styles/color';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 
 type Props = {
   isLogin: boolean;
@@ -21,7 +21,7 @@ const BeforeLogin = () => {
         <Greetings fontSize={26}>
           Hi, <GreetingsBold>Challengers</GreetingsBold>
         </Greetings>
-        <Greetings fontSize={16} style={{ marginTop: "10px" }}>
+        <Greetings fontSize={16} style={{ marginTop: '10px' }}>
           Hack your goals with SuperSquad!
         </Greetings>
       </div>
@@ -31,19 +31,18 @@ const BeforeLogin = () => {
 
 const AfterLogin = ({ isScrolled }: { isScrolled: boolean }) => {
   const nickname = useSelector(getNicknameState);
+  // console.log(nickname);
   return (
     <Container>
       <div>
         <Greetings fontSize={26}>
           Hi, <GreetingsBold>{nickname}</GreetingsBold>
         </Greetings>
-        <Greetings fontSize={16} style={{ marginTop: "10px" }}>
+        <Greetings fontSize={16} style={{ marginTop: '10px' }}>
           Hack your goals with SuperSquad!
         </Greetings>
       </div>
-      {isScrolled && (
-        <BadgeImage src="/asset/badges/gold_badge.svg" alt="gold badge" />
-      )}
+      {isScrolled && <BadgeImage src="/asset/badges/gold_badge.svg" alt="gold badge" />}
     </Container>
   );
 };

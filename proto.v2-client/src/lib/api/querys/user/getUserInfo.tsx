@@ -6,6 +6,6 @@ export const getUserInfo = async ({ userId }: Props) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/detail/${userId}`
   );
-  const data = res.json();
+  const data = await res.json();
   return data;
 };
