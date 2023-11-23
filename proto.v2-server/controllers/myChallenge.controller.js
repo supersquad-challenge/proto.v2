@@ -15,7 +15,11 @@ module.exports = {
         challengeId,
       });
 
-      //console.log(userChallenge);
+      if (userId === undefined || challengeId === undefined || timezone === undefined) {
+        return res.status(400).json({
+          error: 'Bad Request',
+        });
+      }
 
       if (userChallenge) {
         return res.status(409).json({
