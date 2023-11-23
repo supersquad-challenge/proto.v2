@@ -8,6 +8,8 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { USERID } from "@/lib/api/testdata";
 import { AllChallengesByUserId } from "@/types/api/Challenge";
+import { useSelector } from "react-redux";
+import { getUserIDState } from "@/redux/slice/authSlice";
 
 const MyChallenge = () => {
   // variables //
@@ -15,6 +17,7 @@ const MyChallenge = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState("ongoing");
+  const userId = useSelector(getUserIDState);
 
   // Use Effect //
   useEffect(() => {
@@ -33,7 +36,8 @@ const MyChallenge = () => {
       const status = searchParams.get("status") ?? "";
       const queryString = new URLSearchParams({ status }).toString();
       const res = await getAllChallengesByUserId({
-        userId: USERID,
+        // userId: USERID,
+        userId: userId!,
         queryString,
       });
       const challenges = res.userChallengeInfos;

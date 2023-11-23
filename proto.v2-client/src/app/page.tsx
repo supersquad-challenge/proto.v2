@@ -14,13 +14,13 @@ import styled from "styled-components";
 const Home = () => {
   return (
     <Container>
-      <WelcomeMessage></WelcomeMessage>
+      {/* <WelcomeMessage></WelcomeMessage> */}
       <BadgePointPannel />
       <ChallengeHeader $fontColor={colors.white}>
         Today Challenges
       </ChallengeHeader>
-      <MyChallengeBlock />
-      <CompletedChallengeBlock></CompletedChallengeBlock>
+      {/* <MyChallengeBlock />
+      <CompletedChallengeBlock></CompletedChallengeBlock> */}
       <div style={{ width: "100%", backgroundColor: "white" }}>
         <LongBlueButton
           margin="10 0 0 0"

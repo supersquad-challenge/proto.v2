@@ -3,6 +3,7 @@ import BaseSlider from "@/components/base/Slider/BaseSlider";
 import setChallenge from "@/lib/api/axios/myChallenge/setChallenge";
 import setDepositInfo from "@/lib/api/axios/tx/setDepositInfo";
 import { USERID } from "@/lib/api/testdata";
+import { getUserIDState } from "@/redux/slice/authSlice";
 import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
 import {
   CHANGE_MODAL,
@@ -38,6 +39,7 @@ const DepositChargeModal = ({
   } else if (paymentMethod == "cash") {
     currency = "$USD";
   }
+  const userId = useSelector(getUserIDState);
 
   // handle functions //
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +57,8 @@ const DepositChargeModal = ({
         handleBlueButtonClick: async () => {
           const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
           const challengeRes = await setChallenge({
-            userId: USERID,
+            // userId: USERID,
+            userId: userId!,
             challengeId: challengeId,
             timezone: timezone,
           });

@@ -20,6 +20,7 @@ import {
   SET_USER_LOGIN,
   getAuthState,
   getIsLoggedInState,
+  getUserIDState,
 } from "@/redux/slice/authSlice";
 import { login } from "@/lib/api/axios/auth/login";
 import { useSelector } from "react-redux";
@@ -101,13 +102,15 @@ const HomeAfterLogin = () => {
   const [isBlurred, setIsBlurred] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const userId = useSelector(getUserIDState);
 
   // API //
   const { data, error, isLoading } = useQuery(
     ["all MyChallenges", pathname],
     async () => {
       const res = await getAllChallengesByUserId({
-        userId: USERID,
+        // userId: USERID,
+        userId: userId!,
         queryString: "status=ongoing",
       });
       const ongoingChallenges = res.userChallengeInfos;
