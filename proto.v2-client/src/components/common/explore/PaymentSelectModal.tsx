@@ -3,7 +3,7 @@ import BaseModal from "../../base/Modal/BaseModal";
 import BaseBlock from "../../base/Block/BaseBlock";
 import colors from "@/styles/color";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
+import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import {
   CHANGE_MODAL,
   IModalState,

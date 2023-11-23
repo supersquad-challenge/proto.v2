@@ -4,7 +4,7 @@ import Image from "next/image";
 import thousandFormat from "@/utils/thousandFormat";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
+import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import { CHANGE_MODAL } from "@/redux/slice/modalSlice";
 
 type Props = {

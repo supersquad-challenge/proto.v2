@@ -4,7 +4,7 @@ import setChallenge from "@/lib/api/axios/myChallenge/setChallenge";
 import setDepositInfo from "@/lib/api/axios/tx/setDepositInfo";
 import { USERID } from "@/lib/api/testdata";
 import { getUserIDState } from "@/redux/slice/authSlice";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
+import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import {
   CHANGE_MODAL,
   CLOSE_MODAL,
@@ -114,8 +114,16 @@ const DepositChargeModal = ({
         <Currency>{currency as string}</Currency>
       </DepositContainer>
       <AverageDeposit>
-        Members deposit <OrangeUnderline>150 $USD</OrangeUnderline> / 1 Week in
-        average
+        Members deposit{" "}
+        <OrangeUnderline>
+          {" "}
+          {paymentMethod === "crypto"
+            ? "50 MATIC"
+            : paymentMethod === "cash"
+            ? "25 $USD"
+            : ""}
+        </OrangeUnderline>{" "}
+        / 1 Week in average
       </AverageDeposit>
     </BaseModal>
   );

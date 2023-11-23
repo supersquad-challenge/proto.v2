@@ -26,7 +26,6 @@ import { login } from "@/lib/api/axios/auth/login";
 import { useSelector } from "react-redux";
 import { AllChallengesByUserId } from "@/types/api/Challenge";
 import NoOngoingChallengesBlock from "@/components/common/home/NoOngoingChallengesBlock";
-import { AxiosError } from "axios";
 import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
 
 const Home = () => {
@@ -43,6 +42,7 @@ const Home = () => {
   if (!auth) {
     return <HomeBeforeLogin />;
   }
+
   return <HomeAfterLogin />;
 };
 export default Home;
@@ -72,7 +72,7 @@ const HomeBeforeLogin = () => {
   }, [dispatch]);
   return (
     <>
-      <Container $isLogin={true}>
+      <Container $isLogin={false}>
         <BackgroundImage
           src="/asset/Saly-36.png"
           width={271}
@@ -97,7 +97,6 @@ const HomeBeforeLogin = () => {
 const HomeAfterLogin = () => {
   // variables //
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [isSrcolled, setIsScrolled] = useState(false);
   const [isBlurred, setIsBlurred] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -144,26 +143,6 @@ const HomeAfterLogin = () => {
     }
   }, []);
 
-  // 브라우저 높이 값에 맞게 ChallengesContainer 값 가변 적용
-  const [windowHeight, setWindowHeight] = useState(0);
-  useEffect(() => {
-    // 브라우저 환경에서만 실행
-    if (typeof window !== "undefined") {
-      setWindowHeight(window.innerHeight);
-
-      const handleResize = () => {
-        setWindowHeight(window.innerHeight);
-      };
-
-      window.addEventListener("resize", handleResize);
-
-      // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }
-  }, [windowHeight]);
-
   return (
     <>
       <Container $isLogin={true}>
@@ -182,7 +161,8 @@ const HomeAfterLogin = () => {
 
         <ChallengesContainer $isScrolled={isSrcolled}>
           <ChallengesWrapper
-            style={{ height: `${windowHeight - 184}px` }}
+            // style={{ height: `${windowHeight - 184}px` }}
+            style={{ height: "calc(100vh - 184px)" }}
             ref={wrapperRef}
             onScroll={handleScroll}
           >
@@ -247,12 +227,11 @@ const HomeAfterLogin = () => {
 
 const Container = styled.main<{ $isLogin: boolean }>`
   width: 100%;
-  height: auto;
-  padding: ${(props) => !props.$isLogin && "0 0 30px 0"};
+  height: ${(props) => (props.$isLogin ? "auto" : "calc(100vh - 68px)")};
   background-color: ${colors.primary};
   position: relative;
+  overflow: auto;
 `;
-
 const TopContainer = styled.section<{ $isFixed: boolean }>`
   width: 100%;
   height: auto;

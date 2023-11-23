@@ -5,16 +5,13 @@ import ImageInputCircle from "@/components/common/flow/ImageInputCircle";
 import NicknameInput from "@/components/common/flow/NicknameInput";
 import NicknameMessage from "@/components/common/flow/NicknameMessage";
 import { setNickname } from "@/lib/api/axios/user/setNickname";
-import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
 import {
-  SET_USER_LOGIN,
-  getAuthState,
   getIsLoggedInState,
   getNicknameState,
   getProfileState,
   getUserIDState,
 } from "@/redux/slice/authSlice";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
+import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import { profile } from "console";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";

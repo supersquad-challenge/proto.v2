@@ -6,7 +6,10 @@ import NicknameMessage from "@/components/common/flow/NicknameMessage";
 import { login } from "@/lib/api/axios/auth/login";
 import { setNickname } from "@/lib/api/axios/user/setNickname";
 import { getUserIDState } from "@/redux/slice/authSlice";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
+import {
+  INITIALIZE_FOOTER_BLUEBUTTON,
+  SET_FOOTER_BLUEBUTTON,
+} from "@/redux/slice/layoutSlice";
 import colors from "@/styles/color";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
@@ -34,13 +37,15 @@ const NicknameSetup = () => {
         handleBlueButtonClick: async () => {
           // console.log(newNickname);
           // console.log(userId);
-          router.push("/home");
+          if (newNickname !== "") {
+            router.push("/home");
 
-          const res = await setNickname({
-            userInfoId: userId!,
-            nickname: newNickname,
-          });
-          console.log(res);
+            const res = await setNickname({
+              userInfoId: userId!,
+              nickname: newNickname,
+            });
+            console.log(res);
+          }
         },
       })
     );

@@ -8,7 +8,7 @@ import { SingleChallengeByChallengeId } from "@/types/api/Challenge";
 import { DURATION } from "@/lib/protoV2Constants";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
+import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import {
   CLOSE_MODAL,
   IModalState,

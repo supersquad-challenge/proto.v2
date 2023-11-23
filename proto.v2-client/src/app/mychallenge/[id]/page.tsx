@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   REMOVE_FOOTER_BLUEBUTTON,
   SET_FOOTER_BLUEBUTTON,
-} from "@/redux/slice/footerSlice";
+} from "@/redux/slice/layoutSlice";
 import {
   CLOSE_MODAL,
   IModalState,
