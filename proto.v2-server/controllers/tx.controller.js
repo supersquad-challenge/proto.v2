@@ -71,15 +71,60 @@ module.exports = {
     try {
       const { userChallengeId } = req.body;
 
-      const userChallenge = await UserChallenge.findById(userChallengeId).populate(
+      const userChallenge = await UserChallenge.findById(userChallengeId).populate([
         'challengeId',
-        'userId'
-      );
+        'userId',
+      ]);
 
       if (!userChallenge) {
         return res.status(404).json({
           error: 'User Challenge not found',
         });
+      }
+
+      const userAddress = userChallenge.userId.wallet;
+
+      if (userChallenge.successRate === 100) {
+        await transferToUser(
+          userChallenge.challengeId.successPoolAddress,
+          userChallenge.deposit,
+          userAddress
+        );
+
+        const profit =
+          userChallenge.challengeId.cryptoFailPool *
+          (userChallenge.deposit / userChallenge.challengeId.cryptoSuccessPool) *
+          0.6;
+
+        console.log(profit);
+
+        const updatedUserChallenge = await UserChallenge.findByIdAndUpdate(
+          userChallengeId,
+          {
+            $set: { profit: profit },
+          },
+          { new: true }
+        );
+
+        await transferToUser(
+          userChallenge.challengeId.failPoolAddress,
+          profit,
+          userAddress
+        );
+      } else if (userChallenge.successRate >= 80) {
+        await transferToUser(
+          userChallenge.challengeId.successPoolAddress,
+          userChallenge.deposit,
+          userAddress
+        );
+      } else if (userChallenge.successRate === 0) {
+      } else {
+        const total = userChallenge.deposit + userChallenge.profit;
+        await transferToUser(
+          userChallenge.challengeId.successPoolAddress,
+          total,
+          userAddress
+        );
       }
 
       const updatedUserChallenge = await UserChallenge.findByIdAndUpdate(
@@ -93,41 +138,6 @@ module.exports = {
         { $inc: { participants: -1 } },
         { new: true }
       );
-
-      const userAddress = userChallenge.userId.wallet;
-
-      if (updatedUserChallenge.successRate === 100) {
-        await transferToUser(
-          challengeInfo.successPoolAddress,
-          updatedUserChallenge.deposit,
-          userAddress
-        );
-
-        const profit =
-          updatedUserChallenge.challengeId.cryptoFailPool *
-          (updatedUserChallenge.deposit /
-            updatedUserChallenge.challengeId.cryptoSuccessPool) *
-          0.6;
-
-        const updatedUserChallenge = await UserChallenge.findByIdAndUpdate(
-          userChallengeId,
-          {
-            $set: { profit: profit },
-          },
-          { new: true }
-        );
-
-        await transferToUser(challengeInfo.failPoolAddress, reward, userAddress);
-      } else if (updatedUserChallenge.successRate >= 80) {
-        await transferToUser(
-          challengeInfo.successPoolAddress,
-          updatedUserChallenge.deposit,
-          userAddress
-        );
-      } else {
-        const total = updatedUserChallenge.deposit + updatedUserChallenge.profit;
-        await transferToUser(challengeInfo.successPoolAddress, total, userAddress);
-      }
 
       res.status(200).json({
         message: 'Payback provided',

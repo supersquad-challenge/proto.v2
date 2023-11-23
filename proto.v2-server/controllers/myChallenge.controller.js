@@ -31,7 +31,6 @@ module.exports = {
         });
       }
 
-      console.log(timezone);
       const localtime = moment().tz(timezone).format('YYYY-MM-DD');
       const endtime = moment().tz(timezone).add(13, 'days').format('YYYY-MM-DD');
 
@@ -51,13 +50,18 @@ module.exports = {
         challengeId: challengeId,
       });
 
-      const userInfo = await User.findByIdAndUpdate(userId, {
-        $push: {
-          badge: {
-            challengeName: challengeInfo.name,
+      const userInfo = await User.findByIdAndUpdate(
+        userId,
+        {
+          $set: { timezone },
+          $push: {
+            badge: {
+              challengeName: challengeInfo.name,
+            },
           },
         },
-      });
+        { new: true }
+      );
 
       res.status(200).json({
         message: 'My challenge registered',
@@ -75,9 +79,10 @@ module.exports = {
       const { userId } = req.params;
       const status = req.query.status;
 
-      let allUserChallengeInfo = await UserChallenge.find({ userId }).populate(
-        'challengeId'
-      );
+      let allUserChallengeInfo = await UserChallenge.find({ userId }).populate([
+        'challengeId',
+        'userId',
+      ]);
 
       if (allUserChallengeInfo.length === 0) {
         return res.status(404).json({
@@ -85,7 +90,7 @@ module.exports = {
         });
       }
 
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const timezone = allUserChallengeInfo[0].userId.timezone;
       const localtime = moment().tz(timezone);
 
       allUserChallengeInfo = await Promise.all(
@@ -143,9 +148,10 @@ module.exports = {
     try {
       const { userChallengeId } = req.params;
 
-      const userChallengeInfo = await UserChallenge.findById(userChallengeId).populate(
-        'challengeId'
-      );
+      const userChallengeInfo = await UserChallenge.findById(userChallengeId).populate([
+        'challengeId',
+        'userId',
+      ]);
 
       if (!userChallengeInfo) {
         return res.status(404).json({
@@ -153,7 +159,7 @@ module.exports = {
         });
       }
 
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const timezone = userChallengeInfo.userId.timezone;
       const today = moment().tz(timezone).format('YYYY-MM-DD');
       const photoUploadedToday = await VeriPhoto.exists({
         userChallengeId: userChallengeId,
