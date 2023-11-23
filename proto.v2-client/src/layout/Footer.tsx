@@ -21,6 +21,12 @@ const Footer = () => {
   const pathname = usePathname();
   const activeModal: Modal | undefined = useSelector(getActiveModalState);
   const blueButtonVisibility = useSelector(getBlueButtonVisibilityState);
+  const [isClient, setIsClient] = useState(false);
+
+  // useEffect //
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const showNaviBar = () => {
     if (
@@ -47,6 +53,10 @@ const Footer = () => {
     }
     return true;
   };
+
+  if (!isClient) {
+    return null;
+  }
   return showNaviBar() ? <NavigationBar /> : showBlueButton() && <BlueButton />;
 };
 

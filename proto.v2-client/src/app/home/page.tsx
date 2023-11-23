@@ -30,7 +30,6 @@ import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
 
 const Home = () => {
   const [auth, setAuth] = useState<boolean>(false);
-  // const isLoggedIn = useSelector(selectIsLoggedIn);
 
   useEffect(() => {
     const _isLoggedIn = localStorage.getItem("supersquad_loggedIn");
@@ -52,7 +51,7 @@ const HomeBeforeLogin = () => {
   const isLoggedIn = useSelector(getIsLoggedInState);
 
   useEffect(() => {
-    if (isLoggedIn) return;
+    // if (isLoggedIn) return;
     const _handlelogin = async () => {
       const loginRes = await login();
       if (loginRes?.status !== 200) return;
