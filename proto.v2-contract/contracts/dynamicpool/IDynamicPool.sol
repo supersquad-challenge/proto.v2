@@ -23,7 +23,7 @@ interface IDynamicPool is Struct {
         bool Result
     );
 
-    event Transfered(address From, address To, uint256 Deposit, bool Result);
+    event Transfered(address From, address To, uint256 Amount, bool Result);
 
     function getOwner() external returns (address);
 

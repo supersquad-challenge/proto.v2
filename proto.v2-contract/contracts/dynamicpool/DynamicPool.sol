@@ -258,16 +258,15 @@ contract DynamicPool is IDynamicPool, Context {
     }
 
     function transferTo(
-        address payable _to,
+        address _to,
         uint256 _amount
-    ) public returns (bool) {
-        require(msg.sender == owner, "Only the owner can transfer ether.");
+    ) external payable onlyOwner returns (bool) {
         require(address(this).balance >= _amount, "Not enough balance.");
 
-        (bool success, ) = _to.call{value: _amount}("");
+        (bool success, ) = payable(_to).call{value: _amount}("");
         require(success, "Transfer failed.");
 
-        emit Transfered(address(this), _to, _amount);
+        emit Transfered(address(this), _to, _amount, true);
 
         return true;
     }
