@@ -49,7 +49,7 @@ const MyChallengeBlock = ({
     title: "",
     isCircularProgressBarPrimary: false,
     isButtonPrimary: true,
-  }; //수정 필요: get payback 로직 추가 //payback 확인 필요
+  };
   if (status == "ongoing" && isChallengeEnded) {
     myChallengeExtendedStatus.title = "Get Payback";
     myChallengeExtendedStatus.isCircularProgressBarPrimary = true;

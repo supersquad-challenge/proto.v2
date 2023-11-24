@@ -2,6 +2,7 @@ import colors from "@/styles/color";
 import styled from "styled-components";
 import Image from "next/image";
 import ChallengeHeader from "./ChallengeHeader";
+import { useRouter } from "next/navigation";
 
 type Props = {
   challengeHeader: string;
@@ -9,12 +10,13 @@ type Props = {
 };
 
 const ExtendedChallengeHeader = ({ challengeHeader, margin }: Props) => {
+  const router = useRouter();
   return (
     <Container $margin={margin}>
       <ChallengeHeader $fontColor={colors.white}>
         {challengeHeader}
       </ChallengeHeader>
-      <MoreWrapper>
+      <MoreWrapper onClick={() => router.push("/explore")}>
         <More>more</More>
         <MoreDetailImg
           width={14}

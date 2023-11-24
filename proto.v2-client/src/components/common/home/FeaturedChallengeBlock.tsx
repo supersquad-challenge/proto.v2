@@ -3,12 +3,42 @@ import SmallArrowButton from "../../base/Button/SmallArrowButton";
 import BaseBlock from "@/components/base/Block/BaseBlock";
 import colors from "@/styles/color";
 import Image from "next/image";
+import { useQuery } from "react-query";
+import { SingleChallengeByChallengeId } from "@/types/api/Challenge";
+import { getSingleChallenge } from "@/lib/api/querys/challenge/getSingleChallenge";
+import {
+  addDaysToDate,
+  convertIsoDateToReadable,
+} from "@/utils/dateFormatUtils";
+import { DURATION_DAYS } from "@/lib/protoV2Constants";
+import { useRouter } from "next/navigation";
 
 type Props = {
   margin: string;
+  challengeId: string;
 };
 
-const FeaturedChallengeBlock = ({ margin }: Props) => {
+const FeaturedChallengeBlock = ({ margin, challengeId }: Props) => {
+  // variables //
+  const today = new Date();
+  const router = useRouter();
+
+  // API //
+  const {
+    data: challenge,
+    error,
+    isLoading,
+  } = useQuery<SingleChallengeByChallengeId>({
+    queryKey: [`singleChallenge-${challengeId}`],
+    queryFn: async () => {
+      const res = await getSingleChallenge({ challengeId: challengeId });
+      const challenge = res.challengeInfo;
+      return challenge;
+    },
+    staleTime: 5000,
+    cacheTime: 60 * 60 * 1000,
+  });
+
   return (
     <BlockWrapper $margin={margin}>
       <BaseBlock
@@ -18,14 +48,23 @@ const FeaturedChallengeBlock = ({ margin }: Props) => {
         onClickHandler={() => {}}
       >
         <Wrapper>
-          <Catergory>Digital Detox</Catergory>
-          <Name>15 minutes of meditation</Name>
-          <Period>Sep 11st - Oct 11st</Period>
+          <Catergory>
+            {challenge?.category ? challenge?.category : "Digital Detox"}
+          </Catergory>
+          <Name>{challenge?.name}</Name>
+          <Period>
+            {convertIsoDateToReadable(today.toString())} -{" "}
+            {convertIsoDateToReadable(
+              addDaysToDate(today, DURATION_DAYS).toString()
+            )}
+          </Period>
           <SmallArrowButton
             title="Read more"
             margin="24px 0 0 0"
             backgroundColor={colors.primary}
-            onClickHandler={() => []}
+            onClickHandler={() => {
+              router.push(`/explore/${challengeId}`);
+            }}
           />
         </Wrapper>
       </BaseBlock>

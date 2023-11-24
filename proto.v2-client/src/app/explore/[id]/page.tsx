@@ -76,7 +76,12 @@ const ExploreID = () => {
         // userId: USERID,
         userId: userId!,
       });
-      const isRegistered = res.userChallengeInfo.userChallengeId;
+      let isRegistered;
+      if (res.userChallengeInfo.userChallengeId) {
+        isRegistered = true;
+      } else {
+        isRegistered = false;
+      }
       return isRegistered;
     },
     staleTime: 5000,

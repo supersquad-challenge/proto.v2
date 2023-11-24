@@ -16,22 +16,25 @@ import MyChallengeBlock from "@/components/common/MyChallengeBlock";
 import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+
 import {
   SET_USER_LOGIN,
   getAuthState,
   getIsLoggedInState,
   getUserIDState,
 } from "@/redux/slice/authSlice";
+
 import { login } from "@/lib/api/axios/auth/login";
 import { useSelector } from "react-redux";
 import { AllChallengesByUserId } from "@/types/api/Challenge";
 import NoOngoingChallengesBlock from "@/components/common/home/NoOngoingChallengesBlock";
 import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
+import { FEATURED_CHALLENGE_IDS } from "@/lib/protoV2Constants";
 
 const Home = () => {
   const [auth, setAuth] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(getIsLoggedInState);
+  const isLoggedIn = useSelector(getIsLoggedInState); // 수정 필요: 여기도 불필요한 로직 수정해야할 듯
 
   // useEffect(() => {
   //   const _handlelogin = async () => {
@@ -48,7 +51,9 @@ const Home = () => {
     const _handlelogin = async () => {
       const loginRes = await login();
       if (loginRes?.status !== 200) return;
+
       setAuth(true);
+
       const userId = loginRes?.data.userInfoId;
       const userRes = await getUserInfo({ userId });
 
@@ -56,6 +61,7 @@ const Home = () => {
         SET_USER_LOGIN({
           userID: loginRes?.data?.userInfoId,
           email: loginRes?.data?.email,
+
           nickname: userRes?.userInfo?.nickname,
           profile: userRes?.userInfo?.profileUrl,
         })
@@ -90,7 +96,15 @@ const HomeBeforeLogin = () => {
             challengeHeader="Featured Challenge"
             margin="40px 0 0 0"
           />
-          <FeaturedChallengeBlock margin="22px 0 0 0" />
+          {FEATURED_CHALLENGE_IDS.map((challengeId, index) => {
+            return (
+              <FeaturedChallengeBlock
+                challengeId={challengeId}
+                margin="20px 0 0 0"
+                key={index}
+              />
+            );
+          })}
         </TopContainer>
       </Container>
     </>
@@ -219,8 +233,18 @@ const HomeAfterLogin = () => {
             >
               Featured Challenge
             </ChallengeHeader>
-            <FeaturedChallengeBlock margin="20px 0 0 0" />
-            <FeaturedChallengeBlock margin="20px 0 0 0" />
+            {FEATURED_CHALLENGE_IDS.map((challengeId, index) => {
+              console.log(challengeId);
+              return (
+                <FeaturedChallengeBlock
+                  challengeId={challengeId}
+                  margin="20px 0 0 0"
+                  key={index}
+                />
+              );
+            })}
+
+            {/* <FeaturedChallengeBlock margin="20px 0 0 0" /> */}
           </ChallengesWrapper>
         </ChallengesContainer>
       </Container>

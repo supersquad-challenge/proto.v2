@@ -52,7 +52,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:3000', 'https://proto-v2-client.vercel.app/'],
     credentials: true,
   })
 );

@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import {
   getEmailState,
+  getIsLoggedInState,
   getNicknameState,
   getProfileState,
 } from "@/redux/slice/authSlice";
@@ -22,6 +23,7 @@ const Profile = () => {
   const nickname = useSelector(getNicknameState);
   const email = useSelector(getEmailState);
   const [isClient, setIsClient] = useState(false);
+  const isLoggedIn = useSelector(getIsLoggedInState);
 
   useEffect(() => {
     setIsClient(true);
@@ -36,7 +38,7 @@ const Profile = () => {
       <AccountOverviewContainer>
         <ProfileImageWrapper>
           <Image
-            src={profile ? profile : "/asset/profile-circle.svg"} //여기 프로필 사진이 들어가면 됨.
+            src={profile ? profile : "/asset/profile-circle.svg"} // 프로필 사진
             alt="Profile Image"
             fill
             style={{
@@ -44,54 +46,61 @@ const Profile = () => {
             }}
           />
         </ProfileImageWrapper>
-        <AccountOverviewWrapper>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Nickname>{nickname}</Nickname>
-            <Image
-              src="/asset/pencil.svg"
-              width={16}
-              height={16}
-              alt="edit profile"
-              style={{ marginLeft: "9px", cursor: "pointer" }}
-              onClick={() => router.push("/flow/profile-setting")}
-            />
-          </div>
-          <Email>{email}</Email>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              boxSizing: "border-box",
-              marginTop: "17px",
-            }}
-          >
-            <Points>{thousandFormat(POINT)}</Points>
+        {isLoggedIn && (
+          <AccountOverviewWrapper>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Nickname>{nickname}</Nickname>
+              <Image
+                src="/asset/pencil.svg"
+                width={16}
+                height={16}
+                alt="edit profile"
+                style={{ marginLeft: "9px", cursor: "pointer" }}
+                onClick={() => router.push("/flow/profile-setting")}
+              />
+            </div>
+            <Email>{email}</Email>
             <div
               style={{
-                color: "rgba(255, 255, 255, 0.60)",
-                fontSize: "16px",
-                fontWeight: 400,
-                lineHeight: "112.5%",
-                letterSpacing: "-0.32px",
-                padding: "8px 0px 4px 5px",
+                display: "flex",
+                alignItems: "center",
                 boxSizing: "border-box",
+                marginTop: "17px",
               }}
             >
-              points
+              <Points>{thousandFormat(POINT)}</Points>
+              <div
+                style={{
+                  color: "rgba(255, 255, 255, 0.60)",
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  lineHeight: "112.5%",
+                  letterSpacing: "-0.32px",
+                  padding: "8px 0px 4px 5px",
+                  boxSizing: "border-box",
+                }}
+              >
+                points
+              </div>
             </div>
-          </div>
-        </AccountOverviewWrapper>
+          </AccountOverviewWrapper>
+        )}
       </AccountOverviewContainer>
       <AssetsContainer>
         <SectionName style={{ marginBottom: "5px" }}>Collection</SectionName>
         <SectionDetail>Choose a badge and proudly display it</SectionDetail>
-        <CollectionContainer>
-          <SingleCollection name="Lose 4lbs" />
-          <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
-          <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
-          <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
-          <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
-        </CollectionContainer>
+        {isLoggedIn ? (
+          <CollectionContainer>
+            <SingleCollection name="Lose 4lbs" />
+            <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
+            <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
+            <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
+            <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
+          </CollectionContainer>
+        ) : (
+          <div style={{ width: "100%", height: "140px" }}></div>
+        )}
+
         <SectionName style={{ marginTop: "30px" }}>Wallet</SectionName>
         <Wallet walletName="WalletConnect" />
         <a href="mailto:official@supersquad.xyz">

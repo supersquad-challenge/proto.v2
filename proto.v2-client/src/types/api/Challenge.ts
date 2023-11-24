@@ -28,6 +28,7 @@ export type SingleChallengeByChallengeId = {
   frequency: string;
   howTo: string;
   description: string;
+  category: string;
 };
 
 export type SingleChallengeByUserChallengeId = {

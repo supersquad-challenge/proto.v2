@@ -45,6 +45,7 @@ const googleStrategyConfig = new GoogleStrategy(
         name: profile.displayName,
         profileUrl: profile.photos[0].value,
         locale: profile._json.locale,
+        timezone: null,
       });
       const user = await newUser.save();
       done(null, user);

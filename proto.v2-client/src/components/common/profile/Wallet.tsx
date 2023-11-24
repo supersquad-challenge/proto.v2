@@ -2,12 +2,15 @@ import styled from "styled-components";
 import Image from "next/image";
 import colors from "@/styles/color";
 import BaseButton from "@/components/base/Button/BaseButton";
+import { useSelector } from "react-redux";
+import { getIsLoggedInState } from "@/redux/slice/authSlice";
 
 type Props = {
   walletName: string;
 };
 
 const Wallet = ({ walletName }: Props) => {
+  const isLoggedIn = useSelector(getIsLoggedInState);
   return (
     <Wrapper>
       <Image
@@ -23,10 +26,16 @@ const Wallet = ({ walletName }: Props) => {
           fontSize={12}
           fontWeight={500}
           borderRadius={21}
-          backgroundColor={colors.primary}
+          backgroundColor={isLoggedIn ? colors.primary : colors.gray}
           padding="7px 23px 5px 22px"
           title={"Connect"}
-          onClickHandler={() => {}} //지갑 연결 함수
+          onClickHandler={
+            isLoggedIn
+              ? () => {
+                  console.log("여기에 지갑 연결 함수가 들어가야 합니다.");
+                }
+              : () => {}
+          } //지갑 연결 함수
         />
       </ButtonWrapper>
     </Wrapper>
