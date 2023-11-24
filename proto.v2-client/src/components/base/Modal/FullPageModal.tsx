@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Image from "next/image";
 import colors from "@/styles/color";
 import LongBlueButton from "../Button/LongBlueButton";
+import { useDispatch } from "react-redux";
+import { SET_HEADER_GOBACK } from "@/redux/slice/layoutSlice";
 
 type Props = {
   imgSrc: string;
@@ -11,6 +13,7 @@ type Props = {
   buttonText: string;
   onClickHandler: () => void;
   children?: React.ReactNode;
+  goBackButtonClickHandler: () => void;
 };
 
 const FullPageModal = ({
@@ -20,7 +23,18 @@ const FullPageModal = ({
   buttonText,
   onClickHandler,
   children,
+  goBackButtonClickHandler,
 }: Props) => {
+  // variables //
+  const dispatch = useDispatch();
+
+  // useEffect //
+  useEffect(() => {
+    dispatch(
+      SET_HEADER_GOBACK({ handleGoBackButtonClick: goBackButtonClickHandler })
+    );
+  }, []);
+
   // 브라우저 높이 값에 맞게 height 값 가변 적용
   const [windowHeight, setWindowHeight] = useState(0);
 

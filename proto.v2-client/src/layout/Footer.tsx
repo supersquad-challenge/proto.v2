@@ -3,7 +3,7 @@ import {
   getBlueButtonTitleState,
   getBlueButtonVisibilityState,
   getHandleBlueButtonClickState,
-} from "@/redux/slice/footerSlice";
+} from "@/redux/slice/layoutSlice";
 import {
   IModalState,
   getActiveModalState,

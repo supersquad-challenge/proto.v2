@@ -195,7 +195,7 @@ const CollectionContainer = styled.div`
   box-sizing: border-box;
   overflow: scroll;
   display: flex;
-  padding: 0 22px;
+  padding: 0 22px 10px 22px;
   margin-left: -22px;
 `;
 
