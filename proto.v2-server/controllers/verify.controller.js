@@ -24,7 +24,11 @@ module.exports = {
         return res.status(400).json({ error: 'Failed to upload file.' });
       }
 
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const userChallenge = await UserChallenge.findById(userChallengeId).populate(
+        'userId'
+      );
+
+      const timezone = userChallenge.userId.timezone;
       const createdAtLocalTime = moment(Date.now()).tz(timezone).format('YYYY-MM-DD');
       console.log(timezone);
 
@@ -74,86 +78,135 @@ module.exports = {
         });
       }
 
-      if (veriStatus === 'pass') {
-      } else if (veriStatus === 'fail') {
+      const requiredCompleteNum = Math.floor(
+        userChallenge.challengeId.totalVeriNum * 0.8
+      );
+
+      if (veriStatus === true) {
+        return res.status(200).json({
+          message: 'Verification Photo updated',
+          CheckedAdminInfo: {
+            userChallengeId: userChallenge._id,
+            successRate: userChallenge.successRate,
+            completeNum: userChallenge.completeNum,
+            profit: userChallenge.profit,
+            veriStatus: userChallenge.veriStatus,
+          },
+        });
+      } else if (
+        veriStatus === false &&
+        (userChallenge.completeNum - 1) / userChallenge.challengeId.totalVeriNum >= 0.8
+      ) {
+        const updatedUserChallenge = await UserChallenge.findByIdAndUpdate(
+          userChallengeId,
+          {
+            $set: {
+              completeNum: userChallenge.completeNum - 1,
+              successRate:
+                ((userChallenge.completeNum - 1) /
+                  userChallenge.challengeId.totalVeriNum) *
+                100,
+              [`veriStatus.${date.toString()}`]: veriStatus,
+            },
+          },
+          { new: true }
+        );
+
+        return res.status(200).json({
+          message: 'Verification Photo updated',
+          CheckedAdminInfo: {
+            userChallengeId: updatedUserChallenge._id,
+            successRate: updatedUserChallenge.successRate,
+            completeNum: updatedUserChallenge.completeNum,
+            profit: updatedUserChallenge.profit,
+            veriStatus: updatedUserChallenge.veriStatus,
+          },
+        });
+      } else if (userChallenge.completeNum - 1 === 0) {
+        const updatedUserChallenge = await UserChallenge.findByIdAndUpdate(
+          userChallengeId,
+          {
+            $set: {
+              completeNum: 0,
+              successRate: 0,
+              profit: -userChallenge.deposit,
+              [`veriStatus.${date.toString()}`]: veriStatus,
+            },
+          },
+          { new: true }
+        );
+
+        res.status(200).json({
+          message: 'Verification Photo updated',
+          CheckedAdminInfo: {
+            userChallengeId: updatedUserChallenge._id,
+            successRate: updatedUserChallenge.successRate,
+            completeNum: updatedUserChallenge.completeNum,
+            profit: updatedUserChallenge.profit,
+            veriStatus: updatedUserChallenge.veriStatus,
+          },
+        });
+      } else {
         userChallenge.completeNum = userChallenge.completeNum - 1;
 
         if (userChallenge.completeNum < 0) {
-          userChallenge.completeNum = 0;
+          return res.status(400).json({
+            error: 'Invalid value: completeNum cannot be less than 0',
+          });
         }
 
         const checkSuccessRate =
           (userChallenge.completeNum / userChallenge.challengeId.totalVeriNum) * 100;
 
-        const requiredCompleteNum = Math.floor(
-          userChallenge.challengeId.totalVeriNum * 0.8
+        const slashDeposit = userChallenge.deposit / (requiredCompleteNum + 1);
+
+        // slashDeposit 만큼 passPool 에서 failPool로 이동
+        // slashDeposit 값을 Wei로 변환
+        // const slashDepositInWei = ethers.utils.parseEther(slashDeposit.toString());
+
+        const slashDepositDivided = slashDeposit.toFixed(18);
+        const slashDepositInWei = ethers.utils.parseEther(slashDepositDivided.toString());
+        const successPoolAddress = userChallenge.challengeId.successPoolAddress;
+        const failPoolAddress = userChallenge.challengeId.failPoolAddress;
+
+        const successPoolContract = new ethers.Contract(
+          successPoolAddress,
+          dynamicPoolContractAbi,
+          ServerWallet
         );
 
-        let slashDeposit = 0;
-        if (userChallenge.completeNum < requiredCompleteNum) {
-          slashDeposit = userChallenge.deposit / (requiredCompleteNum + 1);
-          console.log(slashDeposit);
-          // slashDeposit 만큼 passPool 에서 failPool로 이동
-          // slashDeposit 값을 Wei로 변환
-          // const slashDepositInWei = ethers.utils.parseEther(slashDeposit.toString());
-
-          const slashDepositDivided = slashDeposit / 100;
-          const slashDepositInWei = ethers.utils.parseEther(
-            slashDepositDivided.toString()
-          );
-          console.log(slashDepositInWei);
-          const successPoolAddress = userChallenge.challengeId.successPoolAddress;
-          console.log(successPoolAddress);
-          const failPoolAddress = userChallenge.challengeId.failPoolAddress;
-          console.log(failPoolAddress);
-
-          const successPoolContract = new ethers.Contract(
-            successPoolAddress,
-            dynamicPoolContractAbi,
-            ServerWallet
-          );
-
-          const slashTx = await successPoolContract.transferTo(
-            failPoolAddress,
-            slashDepositInWei
-          );
-          const receipt = await slashTx.wait();
-
-          console.log(receipt);
-        }
+        const slashTx = await successPoolContract.transferTo(
+          failPoolAddress,
+          slashDepositInWei
+        );
+        const receipt = await slashTx.wait();
 
         const updatedUserChallenge = await UserChallenge.findByIdAndUpdate(
           userChallengeId,
           {
             $set: {
+              completeNum: userChallenge.completeNum,
+              successRate:
+                (userChallenge.completeNum / userChallenge.challengeId.totalVeriNum) *
+                100,
               profit: userChallenge.profit - slashDeposit,
               [`veriStatus.${date.toString()}`]: veriStatus,
             },
           },
           { new: true }
         );
-      }
 
-      const updatedUserChallenge = await UserChallenge.findByIdAndUpdate(
-        userChallengeId,
-        {
-          $set: {
-            [`veriStatus.${date.toString()}`]: veriStatus,
+        res.status(200).json({
+          message: 'Verification Photo updated',
+          CheckedAdminInfo: {
+            userChallengeId: updatedUserChallenge._id,
+            successRate: updatedUserChallenge.successRate,
+            completeNum: updatedUserChallenge.completeNum,
+            profit: updatedUserChallenge.profit,
+            veriStatus: updatedUserChallenge.veriStatus,
           },
-        },
-        { new: true }
-      );
-
-      res.status(200).json({
-        message: 'Verification Photo updated',
-        CheckedAdminInfo: {
-          userChallengeId: updatedUserChallenge._id,
-          successRate: updatedUserChallenge.successRate,
-          completeNum: updatedUserChallenge.completeNum,
-          profit: updatedUserChallenge.profit,
-          veriStatus: updatedUserChallenge.veriStatus,
-        },
-      });
+        });
+      }
     } catch (error) {
       console.log(error);
       res.status(500).json({

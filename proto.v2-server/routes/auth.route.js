@@ -17,10 +17,14 @@ router.get('/google/callback', (req, res, next) => {
   })(req, res, () => {
     const userInfo = User.findOne({ googleId: req.user.googleId });
 
+    console.log(req.user.googleId);
+    console.log(userInfo.nickname);
     if (userInfo.nickname) {
       res.redirect('http://localhost:3000');
+      // res.redirect('https://proto-v2-client.vercel.app');
     } else {
       res.redirect('http://localhost:3000/flow/nickname-setup');
+      // res.redirect('https://proto-v2-client.vercel.app/flow/nickname-setup');
     }
   });
 });
