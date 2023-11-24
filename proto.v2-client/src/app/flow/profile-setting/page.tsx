@@ -35,7 +35,6 @@ const ProfileSetting = () => {
     originalNickname ? originalNickname : ""
   );
   const router = useRouter();
-  // console.log(profile);
 
   // useEffect //
   useEffect(() => {

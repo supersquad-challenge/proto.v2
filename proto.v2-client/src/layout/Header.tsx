@@ -43,6 +43,7 @@ const GoBack = () => {
         height={32}
         alt="go back"
         onClick={() => handleGoBackButtonClick()}
+        style={{ cursor: "pointer" }}
       />
     </GoBackContainer>
   );

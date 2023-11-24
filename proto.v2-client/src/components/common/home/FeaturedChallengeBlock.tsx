@@ -48,9 +48,7 @@ const FeaturedChallengeBlock = ({ margin, challengeId }: Props) => {
         onClickHandler={() => {}}
       >
         <Wrapper>
-          <Catergory>
-            {challenge?.category ? challenge?.category : "Digital Detox"}
-          </Catergory>
+          <Catergory>{challenge?.category!}</Catergory>
           <Name>{challenge?.name}</Name>
           <Period>
             {convertIsoDateToReadable(today.toString())} -{" "}

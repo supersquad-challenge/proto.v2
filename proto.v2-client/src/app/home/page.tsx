@@ -36,16 +36,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getIsLoggedInState); // 수정 필요: 여기도 불필요한 로직 수정해야할 듯
 
-  // useEffect(() => {
-  //   const _handlelogin = async () => {
-  //     const loginRes = await login();
-  //     if (loginRes?.status !== 200) return;
-  //     else [];
-  //   };
-
-  //   _handlelogin();
-  // }, []);
-
   useEffect(() => {
     // if (isLoggedIn) return;
     const _handlelogin = async () => {

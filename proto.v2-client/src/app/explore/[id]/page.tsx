@@ -40,28 +40,6 @@ const ExploreID = () => {
   const router = useRouter();
   const userId = useSelector(getUserIDState);
 
-  // useEffect //
-  useEffect(() => {
-    dispatch(
-      SET_FOOTER_BLUEBUTTON({
-        blueButtonTitle: "I am in!",
-        handleBlueButtonClick: () => {
-          dispatch(OPEN_MODAL({ modal: "paymentSelect" }));
-        },
-      })
-    );
-  }, [id, modal.visibility]);
-
-  useEffect(() => {
-    dispatch(
-      SET_HEADER_GOBACK({
-        handleGoBackButtonClick: () => {
-          router.push("/explore");
-        },
-      })
-    );
-  }, []);
-
   // API //
   const {
     data: isRegistered,
@@ -102,6 +80,37 @@ const ExploreID = () => {
     staleTime: 5000,
     cacheTime: 60 * 60 * 1000,
   });
+
+  // useEffect //
+  useEffect(() => {
+    if (isRegistered) {
+      dispatch(
+        SET_FOOTER_BLUEBUTTON({
+          blueButtonTitle: "I am in!",
+          handleBlueButtonClick: () => {
+            dispatch(OPEN_MODAL({ modal: "paymentSelect" }));
+          },
+        })
+      );
+    } else {
+      dispatch(
+        SET_FOOTER_BLUEBUTTON({
+          blueButtonTitle: "You are already in",
+          handleBlueButtonClick: () => {},
+        })
+      );
+    }
+  }, [id, modal.visibility, isRegistered]);
+
+  useEffect(() => {
+    dispatch(
+      SET_HEADER_GOBACK({
+        handleGoBackButtonClick: () => {
+          router.push("/explore");
+        },
+      })
+    );
+  }, []);
 
   return modal.activeModal == "nowYouAreIn" && modal.visibility == true ? (
     <FullPageModal
