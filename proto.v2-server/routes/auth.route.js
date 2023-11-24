@@ -17,6 +17,7 @@ router.get('/google/callback', (req, res, next) => {
   })(req, res, async () => {
     const userInfo = await User.findOne({ googleId: req.user.googleId });
 
+    console.log(userInfo);
     if (userInfo.nickname) {
       // res.redirect('http://localhost:3000');
       res.redirect('https://v2.supersquad.store');
