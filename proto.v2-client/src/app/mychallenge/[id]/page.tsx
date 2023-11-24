@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   REMOVE_FOOTER_BLUEBUTTON,
   SET_FOOTER_BLUEBUTTON,
+  SET_HEADER_GOBACK,
 } from "@/redux/slice/layoutSlice";
 import {
   CLOSE_MODAL,
@@ -66,6 +67,16 @@ const MyChallengeID = () => {
 
   // useEffect //
   useEffect(() => {
+    dispatch(
+      SET_HEADER_GOBACK({
+        handleGoBackButtonClick: () => {
+          router.push("/mychallenge");
+        },
+      })
+    );
+  }, []);
+
+  useEffect(() => {
     const today = new Date();
     const nextDayOfEndDay = new Date(challenge?.challengeEndAt!);
     nextDayOfEndDay.setDate(nextDayOfEndDay.getDate() + 1);
@@ -73,8 +84,6 @@ const MyChallengeID = () => {
     if (today >= nextDayOfEndDay) {
       isChallengeEnded = true;
     }
-    // 수정 필요: 오늘 사진을 올렸을 경우, payback이 필요한 경우, complete했을 경우의 로직 추가 구현
-    // complete와 payback받기 직전 확인 필요
     if (challenge?.status == "ongoing" && isChallengeEnded) {
       dispatch(
         SET_FOOTER_BLUEBUTTON({
@@ -127,6 +136,10 @@ const MyChallengeID = () => {
               router.push("/explore");
               dispatch(CLOSE_MODAL());
             }}
+            goBackButtonClickHandler={() => {
+              router.push(`/mychallenge/${userChallengeId}`);
+              dispatch(CLOSE_MODAL());
+            }}
           />
         )}
       {modal.activeModal == "paybackClaim" && modal.visibility == true && (
@@ -136,6 +149,10 @@ const MyChallengeID = () => {
         <FullPageModal
           {...congrats_statusSrc}
           onClickHandler={() => dispatch(CLOSE_MODAL())}
+          goBackButtonClickHandler={() => {
+            router.push(`/mychallenge/${userChallengeId}`);
+            dispatch(CLOSE_MODAL());
+          }}
         />
       )}
       {modal.activeModal == "snapYourScale" && modal.visibility == true && (

@@ -8,7 +8,10 @@ import { SingleChallengeByChallengeId } from "@/types/api/Challenge";
 import { DURATION } from "@/lib/protoV2Constants";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
+import {
+  SET_FOOTER_BLUEBUTTON,
+  SET_HEADER_GOBACK,
+} from "@/redux/slice/layoutSlice";
 import {
   CLOSE_MODAL,
   IModalState,
@@ -45,6 +48,16 @@ const ExploreID = () => {
     );
   }, [id, modal.visibility]);
 
+  useEffect(() => {
+    dispatch(
+      SET_HEADER_GOBACK({
+        handleGoBackButtonClick: () => {
+          router.push("/explore");
+        },
+      })
+    );
+  }, []);
+
   // API //
   const {
     data: challenge,
@@ -66,6 +79,10 @@ const ExploreID = () => {
       {...nowYouAreInSrc}
       onClickHandler={() => {
         router.push("/mychallenge");
+        dispatch(CLOSE_MODAL());
+      }}
+      goBackButtonClickHandler={() => {
+        router.push("/explore");
         dispatch(CLOSE_MODAL());
       }}
     />

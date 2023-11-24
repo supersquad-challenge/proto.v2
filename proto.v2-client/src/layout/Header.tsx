@@ -1,6 +1,9 @@
+import { getHandleGoBackButtonClickState } from "@/redux/slice/layoutSlice";
 import colors from "@/styles/color";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import Image from "next/image";
 
 const Header = () => {
   const pathname = usePathname();
@@ -29,9 +32,18 @@ const ServiceTitle = () => {
 };
 
 const GoBack = () => {
+  const handleGoBackButtonClick = useSelector(getHandleGoBackButtonClickState);
+
+  const router = useRouter();
   return (
     <GoBackContainer>
-      <img src="/asset/arrow-left.svg" width={32} height={32} />
+      <Image
+        src="/asset/arrow-left.svg"
+        width={32}
+        height={32}
+        alt="go back"
+        onClick={() => handleGoBackButtonClick()}
+      />
     </GoBackContainer>
   );
 };

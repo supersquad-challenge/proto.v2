@@ -12,15 +12,18 @@ const setChallenge = async ({
   timezone,
 }: Props): Promise<AxiosResponse<SingleRegisteredChallenge> | undefined> => {
   try {
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/myChallenge/register`,
-      {
-        userId: userId,
-        challengeId: challengeId,
-        timezone: timezone,
-      }
-    );
-    return res;
+    if (userId && challengeId && timezone) {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/myChallenge/register`,
+        {
+          userId: userId,
+          challengeId: challengeId,
+          timezone: timezone,
+        }
+      );
+      return res;
+    }
+    return;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.log(error);

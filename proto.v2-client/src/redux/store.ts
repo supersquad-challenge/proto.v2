@@ -3,7 +3,7 @@ import authReducer from "@/redux/slice/authSlice";
 import modalReducer from "@/redux/slice/modalSlice";
 import layoutReducer from "@/redux/slice/layoutSlice";
 import { persistReducer, persistStore } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import sessionStorage from "redux-persist/lib/storage/session";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: sessionStorage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

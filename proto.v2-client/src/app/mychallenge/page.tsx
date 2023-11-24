@@ -36,8 +36,8 @@ const MyChallenge = () => {
       const status = searchParams.get("status") ?? "";
       const queryString = new URLSearchParams({ status }).toString();
       const res = await getAllChallengesByUserId({
-        // userId: USERID,
-        userId: userId!,
+        userId: USERID,
+        // userId: userId!,
         queryString,
       });
       const challenges = res.userChallengeInfos;

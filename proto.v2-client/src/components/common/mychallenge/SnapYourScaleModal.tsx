@@ -21,6 +21,7 @@ const SnapYourScaleModal = ({ userChallengeId }: Props) => {
   const modal: IModalState = useSelector(getModalState);
   const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   // handle functions //
   const handleBlueButtonClick = () => {
@@ -50,7 +51,13 @@ const SnapYourScaleModal = ({ userChallengeId }: Props) => {
     }
   };
   return (
-    <FullPageModal {...snapYourScaleSrc} onClickHandler={handleBlueButtonClick}>
+    <FullPageModal
+      {...snapYourScaleSrc}
+      onClickHandler={handleBlueButtonClick}
+      goBackButtonClickHandler={() => {
+        dispatch(CLOSE_MODAL());
+      }}
+    >
       <input
         ref={inputRef}
         id="file"
