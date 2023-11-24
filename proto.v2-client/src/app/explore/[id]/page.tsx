@@ -36,6 +36,7 @@ const ExploreID = () => {
   const [deposit, setDeposit] = useState<number>(10);
   const router = useRouter();
   const userId = useSelector(getUserIDState);
+  const [register, setRegister] = useState(false);
 
   // useEffect //
   useEffect(() => {
@@ -70,11 +71,9 @@ const ExploreID = () => {
     queryFn: async () => {
       const res = await getIsChallengeRegistered({
         challengeId: challengeId,
-        // userId: USERID,
         userId: userId!,
       });
-      const isRegistered = res.userChallengeInfo.userChallengeId;
-      return isRegistered;
+      return res.userChallengeInfo.userChallengeId != undefined;
     },
     staleTime: 5000,
     cacheTime: 60 * 60 * 1000,
@@ -97,7 +96,14 @@ const ExploreID = () => {
 
   // useEffect //
   useEffect(() => {
-    if (isRegistered) {
+    if (register) {
+      dispatch(
+        SET_FOOTER_BLUEBUTTON({
+          blueButtonTitle: 'You are already in',
+          handleBlueButtonClick: () => {},
+        })
+      );
+    } else {
       dispatch(
         SET_FOOTER_BLUEBUTTON({
           blueButtonTitle: 'I am in!',
@@ -106,15 +112,8 @@ const ExploreID = () => {
           },
         })
       );
-    } else {
-      dispatch(
-        SET_FOOTER_BLUEBUTTON({
-          blueButtonTitle: 'You are already in',
-          handleBlueButtonClick: () => {},
-        })
-      );
     }
-  }, [id, modal.visibility, isRegistered]);
+  }, [id, modal.visibility, register, dispatch]);
 
   useEffect(() => {
     dispatch(
@@ -125,6 +124,10 @@ const ExploreID = () => {
       })
     );
   }, []);
+
+  useEffect(() => {
+    setRegister(isRegistered!);
+  }, [isRegistered]);
 
   return modal.activeModal === 'nowYouAreIn' && modal.visibility === true ? (
     <FullPageModal
