@@ -14,8 +14,8 @@ router.get('/google/callback', (req, res, next) => {
   passport.authenticate('google', {
     failureRedirect: '/',
     session: true,
-  })(req, res, () => {
-    const userInfo = User.findOne({ googleId: req.user.googleId });
+  })(req, res, async () => {
+    const userInfo = await User.findOne({ googleId: req.user.googleId });
 
     if (userInfo.nickname) {
       res.redirect('http://localhost:3000');
