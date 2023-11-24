@@ -58,7 +58,6 @@ const MyChallengeID = () => {
       } else if (challenge.depositMethod === "cash") {
         currency = "$USD";
       }
-      console.log("나는 승은이야");
       return challenge;
     },
     staleTime: 5000,
@@ -123,7 +122,6 @@ const MyChallengeID = () => {
       //챌린지 완료
       dispatch(REMOVE_FOOTER_BLUEBUTTON());
     }
-    console.log("안녕");
   }, [isLoading]);
 
   return (
