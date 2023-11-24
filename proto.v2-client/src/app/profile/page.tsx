@@ -21,7 +21,6 @@ const Profile = () => {
   const profile = useSelector(getProfileState);
   const nickname = useSelector(getNicknameState);
   const email = useSelector(getEmailState);
-  console.log(profile);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -195,7 +194,7 @@ const CollectionContainer = styled.div`
   box-sizing: border-box;
   overflow: scroll;
   display: flex;
-  padding: 0 22px;
+  padding: 0 22px 10px 22px;
   margin-left: -22px;
 `;
 

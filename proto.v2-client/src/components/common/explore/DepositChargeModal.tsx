@@ -3,7 +3,8 @@ import BaseSlider from "@/components/base/Slider/BaseSlider";
 import setChallenge from "@/lib/api/axios/myChallenge/setChallenge";
 import setDepositInfo from "@/lib/api/axios/tx/setDepositInfo";
 import { USERID } from "@/lib/api/testdata";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
+import { getUserIDState } from "@/redux/slice/authSlice";
+import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import {
   CHANGE_MODAL,
   CLOSE_MODAL,
@@ -38,6 +39,7 @@ const DepositChargeModal = ({
   } else if (paymentMethod == "cash") {
     currency = "$USD";
   }
+  const userId = useSelector(getUserIDState);
 
   // handle functions //
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +57,8 @@ const DepositChargeModal = ({
         handleBlueButtonClick: async () => {
           const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
           const challengeRes = await setChallenge({
-            userId: USERID,
+            // userId: USERID,
+            userId: userId!,
             challengeId: challengeId,
             timezone: timezone,
           });
@@ -111,8 +114,16 @@ const DepositChargeModal = ({
         <Currency>{currency as string}</Currency>
       </DepositContainer>
       <AverageDeposit>
-        Members deposit <OrangeUnderline>150 $USD</OrangeUnderline> / 1 Week in
-        average
+        Members deposit{" "}
+        <OrangeUnderline>
+          {" "}
+          {paymentMethod === "crypto"
+            ? "50 MATIC"
+            : paymentMethod === "cash"
+            ? "25 $USD"
+            : ""}
+        </OrangeUnderline>{" "}
+        / 1 Week in average
       </AverageDeposit>
     </BaseModal>
   );

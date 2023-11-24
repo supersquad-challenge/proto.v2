@@ -4,18 +4,20 @@ import FlowSectionName from "@/components/common/flow/FlowSectionName";
 import ImageInputCircle from "@/components/common/flow/ImageInputCircle";
 import NicknameInput from "@/components/common/flow/NicknameInput";
 import NicknameMessage from "@/components/common/flow/NicknameMessage";
+import { login } from "@/lib/api/axios/auth/login";
 import { setNickname } from "@/lib/api/axios/user/setNickname";
-import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
 import {
-  SET_USER_LOGIN,
-  getAuthState,
   getIsLoggedInState,
   getNicknameState,
   getProfileState,
   getUserIDState,
 } from "@/redux/slice/authSlice";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
+import {
+  SET_FOOTER_BLUEBUTTON,
+  SET_HEADER_GOBACK,
+} from "@/redux/slice/layoutSlice";
 import { profile } from "console";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -29,17 +31,38 @@ const ProfileSetting = () => {
   const isLoggedIn = useSelector(getIsLoggedInState);
   const profile = useSelector(getProfileState);
   const originalNickname = useSelector(getNicknameState);
-  const [nowNickname, setNowNickname] = useState(
+  const [newNickname, setNewNickname] = useState(
     originalNickname ? originalNickname : ""
   );
-  console.log(profile);
+  const router = useRouter();
+  // console.log(profile);
 
   // useEffect //
   useEffect(() => {
     dispatch(
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Save Changes",
-        handleBlueButtonClick: handleBlueButtonClick,
+        handleBlueButtonClick: async () => {
+          // console.log(newNickname);
+          // console.log(userId);
+          if (newNickname !== "") {
+            router.push("/profile");
+
+            const res = await setNickname({
+              userInfoId: userId!,
+              nickname: newNickname,
+            });
+            console.log(res);
+          }
+        },
+      })
+    );
+
+    dispatch(
+      SET_HEADER_GOBACK({
+        handleGoBackButtonClick: () => {
+          router.push("/profile");
+        },
       })
     );
   }, []);
@@ -49,13 +72,13 @@ const ProfileSetting = () => {
 
   // Nickname Input functions //
   const updateInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setNowNickname(event.target.value);
+    setNewNickname(event.target.value);
   };
 
   const submitInput = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       // 닉네임 제출 로직 (예: 서버로 전송)
-      console.log("Submitted Nickname:", nowNickname);
+      console.log("Submitted Nickname:", newNickname);
       handleBlueButtonClick();
     }
   };
@@ -65,7 +88,7 @@ const ProfileSetting = () => {
     if (userId) {
       const res = await setNickname({
         userInfoId: userId,
-        nickname: nowNickname,
+        nickname: newNickname,
       });
     }
   };
@@ -80,7 +103,7 @@ const ProfileSetting = () => {
         </ImageInputWrapper>
         <NicknameMessage>Nickname</NicknameMessage>
         <NicknameInput
-          nickname={nowNickname}
+          nickname={newNickname}
           updateInput={updateInput}
           submitInput={submitInput}
         />

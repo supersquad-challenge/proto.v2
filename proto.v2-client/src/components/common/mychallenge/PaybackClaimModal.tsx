@@ -4,8 +4,16 @@ import Image from "next/image";
 import thousandFormat from "@/utils/thousandFormat";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/footerSlice";
-import { CHANGE_MODAL } from "@/redux/slice/modalSlice";
+import {
+  SET_FOOTER_BLUEBUTTON,
+  SET_HEADER_GOBACK,
+} from "@/redux/slice/layoutSlice";
+import {
+  CHANGE_MODAL,
+  CLOSE_MODAL,
+  OPEN_MODAL,
+} from "@/redux/slice/modalSlice";
+import { useParams, useRouter } from "next/navigation";
 
 type Props = {
   successRate: number;
@@ -13,6 +21,9 @@ type Props = {
 
 const PaybackClaimModal = ({ successRate }: Props) => {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { id } = useParams<{ id: string }>();
+  const userChallengeId: string = id as string;
   // useEffect //
   useEffect(() => {
     dispatch(
@@ -20,6 +31,23 @@ const PaybackClaimModal = ({ successRate }: Props) => {
         blueButtonTitle: "Claim",
         handleBlueButtonClick: () => {
           dispatch(CHANGE_MODAL({ modal: "congrats_otherChallenges" })); //수정 필요 //tx claim 하는 로직 추가해야 함
+        },
+      })
+    );
+
+    dispatch(
+      SET_HEADER_GOBACK({
+        handleGoBackButtonClick: () => {
+          dispatch(CLOSE_MODAL());
+          router.push(`/mychallenge/${userChallengeId}`);
+          dispatch(
+            SET_FOOTER_BLUEBUTTON({
+              blueButtonTitle: "Get Payback",
+              handleBlueButtonClick: () => {
+                dispatch(OPEN_MODAL({ modal: "paybackClaim" }));
+              },
+            })
+          );
         },
       })
     );
