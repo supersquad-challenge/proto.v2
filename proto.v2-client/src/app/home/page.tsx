@@ -30,32 +30,25 @@ import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
 
 const Home = () => {
   const [auth, setAuth] = useState<boolean>(false);
-
-  useEffect(() => {
-    const _isLoggedIn = localStorage.getItem("supersquad_loggedIn");
-    if (_isLoggedIn === "true") {
-      setAuth(true);
-    } else {
-      setAuth(false);
-    }
-  }, []);
-  if (!auth) {
-    return <HomeBeforeLogin />;
-  }
-
-  return <HomeAfterLogin />;
-};
-export default Home;
-
-const HomeBeforeLogin = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getIsLoggedInState);
+
+  // useEffect(() => {
+  //   const _handlelogin = async () => {
+  //     const loginRes = await login();
+  //     if (loginRes?.status !== 200) return;
+  //     else [];
+  //   };
+
+  //   _handlelogin();
+  // }, []);
 
   useEffect(() => {
     // if (isLoggedIn) return;
     const _handlelogin = async () => {
       const loginRes = await login();
       if (loginRes?.status !== 200) return;
+      setAuth(true);
       const userId = loginRes?.data.userInfoId;
       const userRes = await getUserInfo({ userId });
 
@@ -70,6 +63,16 @@ const HomeBeforeLogin = () => {
     };
     _handlelogin();
   }, [dispatch]);
+
+  if (!auth) {
+    return <HomeBeforeLogin />;
+  }
+
+  return <HomeAfterLogin />;
+};
+export default Home;
+
+const HomeBeforeLogin = () => {
   return (
     <>
       <Container $isLogin={false}>

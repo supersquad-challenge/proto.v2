@@ -21,7 +21,6 @@ const Profile = () => {
   const profile = useSelector(getProfileState);
   const nickname = useSelector(getNicknameState);
   const email = useSelector(getEmailState);
-  console.log(profile);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {

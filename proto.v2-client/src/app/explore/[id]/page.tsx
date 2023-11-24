@@ -25,6 +25,9 @@ import DepositChargeModal from "@/components/common/explore/DepositChargeModal";
 import { PaymentMethod } from "@/types/Modal";
 import FullPageModal from "@/components/base/Modal/FullPageModal";
 import { nowYouAreInSrc } from "@/lib/components/fullPageModal";
+import { USERID } from "@/lib/api/testdata";
+import { getIsChallengeRegistered } from "@/lib/api/querys/myChallenge/getIsChallengeRegistered";
+import { getUserIDState } from "@/redux/slice/authSlice";
 
 const ExploreID = () => {
   // variables //
@@ -35,6 +38,7 @@ const ExploreID = () => {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("crypto");
   const [deposit, setDeposit] = useState<number>(10);
   const router = useRouter();
+  const userId = useSelector(getUserIDState);
 
   // useEffect //
   useEffect(() => {
@@ -59,6 +63,26 @@ const ExploreID = () => {
   }, []);
 
   // API //
+  const {
+    data: isRegistered,
+    error: isRegisteredError,
+    isLoading: isRegisteredLoading,
+  } = useQuery({
+    // queryKey: [`isRegistered-${challengeId} - ${USERID}`],
+    queryKey: [`isRegistered-${challengeId} - ${userId}`],
+    queryFn: async () => {
+      const res = await getIsChallengeRegistered({
+        challengeId: challengeId,
+        // userId: USERID,
+        userId: userId!,
+      });
+      const isRegistered = res.userChallengeInfo.userChallengeId;
+      return isRegistered;
+    },
+    staleTime: 5000,
+    cacheTime: 60 * 60 * 1000,
+  });
+
   const {
     data: challenge,
     error,
