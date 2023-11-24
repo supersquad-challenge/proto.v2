@@ -24,7 +24,7 @@ const Explore = () => {
 
   // handle functions //
   const handleCategoryClick = (title: string) => {
-    if (category == title) {
+    if (category === title) {
       router.push("/explore");
     } else {
       router.push(`/explore?category=${title}`);
@@ -87,7 +87,7 @@ const Explore = () => {
           <Category
             title="Diet"
             imgSrc="/asset/categories/diet.svg"
-            isClicked={category == "Diet"}
+            isClicked={category === "Diet"}
             onClickHandler={() => {
               handleCategoryClick("Diet");
             }}
@@ -95,7 +95,7 @@ const Explore = () => {
           <Category
             title="Fitness"
             imgSrc="/asset/categories/fitness.svg"
-            isClicked={category == "Fitness"}
+            isClicked={category === "Fitness"}
             onClickHandler={() => {
               handleCategoryClick("Fitness");
             }}
@@ -103,7 +103,7 @@ const Explore = () => {
           <Category
             title="Mental Health"
             imgSrc="/asset/categories/mental_health.svg"
-            isClicked={category == "Mental_health"}
+            isClicked={category === "Mental_health"}
             onClickHandler={() => {
               handleCategoryClick("Mental_health");
             }}
@@ -111,7 +111,7 @@ const Explore = () => {
           <Category
             title="Habit"
             imgSrc="/asset/categories/habit.svg"
-            isClicked={category == "Habit"}
+            isClicked={category === "Habit"}
             onClickHandler={() => {
               handleCategoryClick("Habit");
             }}

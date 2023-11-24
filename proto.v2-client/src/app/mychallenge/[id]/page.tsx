@@ -53,9 +53,9 @@ const MyChallengeID = () => {
         userChallengeId: userChallengeId,
       });
       const challenge = res.myStatus;
-      if (challenge.depositMethod == "crypto") {
+      if (challenge.depositMethod === "crypto") {
         currency = "MATIC";
-      } else if (challenge.depositMethod == "cash") {
+      } else if (challenge.depositMethod === "cash") {
         currency = "$USD";
       }
       console.log("나는 승은이야");
@@ -84,7 +84,7 @@ const MyChallengeID = () => {
     if (today >= nextDayOfEndDay) {
       isChallengeEnded = true;
     }
-    if (challenge?.status == "ongoing" && isChallengeEnded) {
+    if (challenge?.status === "ongoing" && isChallengeEnded) {
       dispatch(
         SET_FOOTER_BLUEBUTTON({
           blueButtonTitle: "Get Payback",
@@ -94,7 +94,7 @@ const MyChallengeID = () => {
         })
       );
     } else if (
-      challenge?.status == "ongoing" &&
+      challenge?.status === "ongoing" &&
       challenge.isPhotoUploadedToday
     ) {
       //사진 등록
@@ -107,7 +107,7 @@ const MyChallengeID = () => {
         })
       );
     } else if (
-      challenge?.status == "ongoing" &&
+      challenge?.status === "ongoing" &&
       !challenge.isPhotoUploadedToday
     ) {
       // 사진 미등록
@@ -119,7 +119,7 @@ const MyChallengeID = () => {
           },
         })
       );
-    } else if (challenge?.status == "complete") {
+    } else if (challenge?.status === "complete") {
       //챌린지 완료
       dispatch(REMOVE_FOOTER_BLUEBUTTON());
     }
@@ -128,8 +128,8 @@ const MyChallengeID = () => {
 
   return (
     <>
-      {modal.activeModal == "congrats_otherChallenges" &&
-        modal.visibility == true && (
+      {modal.activeModal === "congrats_otherChallenges" &&
+        modal.visibility === true && (
           <FullPageModal
             {...congrats_otherChallengesSrc}
             onClickHandler={() => {
@@ -142,10 +142,10 @@ const MyChallengeID = () => {
             }}
           />
         )}
-      {modal.activeModal == "paybackClaim" && modal.visibility == true && (
+      {modal.activeModal === "paybackClaim" && modal.visibility === true && (
         <PaybackClaimModal successRate={challenge?.successRate!} />
       )}
-      {modal.activeModal == "congrats_status" && modal.visibility == true && (
+      {modal.activeModal === "congrats_status" && modal.visibility === true && (
         <FullPageModal
           {...congrats_statusSrc}
           onClickHandler={() => dispatch(CLOSE_MODAL())}
@@ -155,10 +155,10 @@ const MyChallengeID = () => {
           }}
         />
       )}
-      {modal.activeModal == "snapYourScale" && modal.visibility == true && (
+      {modal.activeModal === "snapYourScale" && modal.visibility === true && (
         <SnapYourScaleModal userChallengeId={userChallengeId} />
       )}
-      {modal.activeModal == undefined && (
+      {modal.activeModal === undefined && (
         <Container>
           <DetailedChallengePage
             thumbnailUrl={challenge?.thumbnailUrl!}

@@ -42,7 +42,7 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
           borderRadius={20}
           padding="26px 25px"
           border={
-            paymentMethod == "crypto"
+            paymentMethod === "crypto"
               ? `2px solid ${colors.primary}`
               : "2px solid #dddddd"
           }
@@ -63,7 +63,7 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
           borderRadius={20}
           padding="26px 25px"
           border={
-            paymentMethod == "cash"
+            paymentMethod === "cash"
               ? `2px solid ${colors.primary}`
               : "2px solid #dddddd"
           }

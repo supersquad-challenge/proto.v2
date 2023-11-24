@@ -56,7 +56,7 @@ const MyChallenge = () => {
         <SectionName>My Challenge</SectionName>
         <StatusesWrapper>
           <Status
-            $isclicked={status == "ongoing"}
+            $isclicked={status === "ongoing"}
             onClick={() => {
               router.push("/mychallenge?status=ongoing");
             }}
@@ -64,7 +64,7 @@ const MyChallenge = () => {
             Ongoing
           </Status>
           <Status
-            $isclicked={status == "complete"}
+            $isclicked={status === "complete"}
             style={{ marginLeft: "20px" }}
             onClick={() => {
               router.push("/mychallenge?status=complete");
@@ -77,7 +77,7 @@ const MyChallenge = () => {
       <ChallengesContainer>
         <TotalWrapper>
           Total{" "}
-          <TotalBold>{data?.length == undefined ? 0 : data?.length}</TotalBold>
+          <TotalBold>{data?.length === undefined ? 0 : data?.length}</TotalBold>
         </TotalWrapper>
         {data?.map((challenge: AllChallengesByUserId, index: number) => {
           return (

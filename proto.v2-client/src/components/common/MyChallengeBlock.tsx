@@ -1,9 +1,9 @@
-import colors from "@/styles/color";
-import BaseBlock from "../base/Block/BaseBlock";
-import styled from "styled-components";
-import CircularProgressBar from "./CircularProgressBar";
-import SmallArrowButton from "../base/Button/SmallArrowButton";
-import { convertIsoDateToReadable } from "@/utils/dateFormatUtils";
+import colors from '@/styles/color';
+import BaseBlock from '../base/Block/BaseBlock';
+import styled from 'styled-components';
+import CircularProgressBar from './CircularProgressBar';
+import SmallArrowButton from '../base/Button/SmallArrowButton';
+import { convertIsoDateToReadable } from '@/utils/dateFormatUtils';
 type Props = {
   border?: string;
   margin?: string;
@@ -46,21 +46,21 @@ const MyChallengeBlock = ({
   }
 
   let myChallengeExtendedStatus: MyChallengeExtendedStatus = {
-    title: "",
+    title: '',
     isCircularProgressBarPrimary: false,
     isButtonPrimary: true,
-  }; //수정 필요: get payback 로직 추가 //payback 확인 필요
-  if (status == "ongoing" && isChallengeEnded) {
-    myChallengeExtendedStatus.title = "Get Payback";
+  };
+  if (status === 'ongoing' && isChallengeEnded) {
+    myChallengeExtendedStatus.title = 'Get Payback';
     myChallengeExtendedStatus.isCircularProgressBarPrimary = true;
-  } else if (status == "ongoing" && !isPhotoUploadedToday) {
-    myChallengeExtendedStatus.title = "Verify Mission";
+  } else if (status === 'ongoing' && !isPhotoUploadedToday) {
+    myChallengeExtendedStatus.title = 'Verify Mission';
     myChallengeExtendedStatus.isCircularProgressBarPrimary = true;
-  } else if (status == "ongoing" && isPhotoUploadedToday) {
-    myChallengeExtendedStatus.title = "Mission Completed";
+  } else if (status === 'ongoing' && isPhotoUploadedToday) {
+    myChallengeExtendedStatus.title = 'Mission Completed';
     myChallengeExtendedStatus.isButtonPrimary = false;
-  } else if (status == "complete") {
-    myChallengeExtendedStatus.title = "Read more";
+  } else if (status === 'complete') {
+    myChallengeExtendedStatus.title = 'Read more';
   }
   return (
     <BlockWrapper $margin={margin}>
@@ -71,7 +71,7 @@ const MyChallengeBlock = ({
         onClickHandler={() => {}}
         border={border}
       >
-        <div style={{ display: "flex" }}>
+        <div style={{ display: 'flex' }}>
           <CircularProgressBar
             progress={successRate}
             width={100}
@@ -84,16 +84,14 @@ const MyChallengeBlock = ({
             <Catergory>{category}</Catergory>
             <Name>{name}</Name>
             <Period>
-              {convertIsoDateToReadable(challengeStartAt)} -{" "}
+              {convertIsoDateToReadable(challengeStartAt)} -{' '}
               {convertIsoDateToReadable(challengeEndAt)}
             </Period>
             <SmallArrowButton
               title={myChallengeExtendedStatus.title}
               margin="15px 0 0 0"
               backgroundColor={
-                myChallengeExtendedStatus.isButtonPrimary
-                  ? colors.primary
-                  : colors.gray
+                myChallengeExtendedStatus.isButtonPrimary ? colors.primary : colors.gray
               }
               onClickHandler={onClickHandler}
             />
