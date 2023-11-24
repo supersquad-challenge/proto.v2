@@ -16,12 +16,14 @@ import MyChallengeBlock from "@/components/common/MyChallengeBlock";
 import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+
 import {
   SET_USER_LOGIN,
   getAuthState,
   getIsLoggedInState,
   getUserIDState,
 } from "@/redux/slice/authSlice";
+
 import { login } from "@/lib/api/axios/auth/login";
 import { useSelector } from "react-redux";
 import { AllChallengesByUserId } from "@/types/api/Challenge";
@@ -48,7 +50,9 @@ const Home = () => {
     const _handlelogin = async () => {
       const loginRes = await login();
       if (loginRes?.status !== 200) return;
+
       setAuth(true);
+
       const userId = loginRes?.data.userInfoId;
       const userRes = await getUserInfo({ userId });
 
@@ -56,6 +60,7 @@ const Home = () => {
         SET_USER_LOGIN({
           userID: loginRes?.data?.userInfoId,
           email: loginRes?.data?.email,
+
           nickname: userRes?.userInfo?.nickname,
           profile: userRes?.userInfo?.profileUrl,
         })

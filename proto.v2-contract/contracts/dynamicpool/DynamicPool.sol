@@ -258,14 +258,15 @@ contract DynamicPool is IDynamicPool, Context {
     }
 
     function transferTo(
-        address payable _to,
+        address _to,
         uint256 _amount
-    ) public returns (bool) {
-        require(msg.sender == owner, "Only the owner can transfer ether."); // 소유자만 이 함수를 호출할 수 있음
-        require(address(this).balance >= _amount, "Not enough balance."); // 컨트랙트에 충분한 잔액이 있는지 확인
+    ) external payable onlyOwner returns (bool) {
+        require(address(this).balance >= _amount, "Not enough balance.");
 
-        (bool success, ) = _to.call{value: _amount}(""); // 이더 전송
-        require(success, "Transfer failed."); // 전송 실패 시 오류 발생
+        (bool success, ) = payable(_to).call{value: _amount}("");
+        require(success, "Transfer failed.");
+
+        emit Transfered(address(this), _to, _amount, true);
 
         return true;
     }
