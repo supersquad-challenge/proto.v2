@@ -68,12 +68,18 @@ mongoose
       );
       console.log('updatedChallengeSuccess: ', updatedChallengeSuccess.cryptoSuccessPool);
 
-      const updatedChallengeFail = await Challenge.findOneAndUpdate(
-        { failPoolAddress: To },
-        { $set: { cryptoFailPool: failPoolBalanceInEther } },
-        { new: true }
-      );
-      console.log('updatedChallengeFail: ', updatedChallengeFail.cryptoFailPool);
+      const challengeFail = await Challenge.findOne({ failPoolAddress: To });
+
+      if (challengeFail) {
+        const updatedChallengeFail = await Challenge.findOneAndUpdate(
+          { failPoolAddress: To },
+          { $set: { cryptoFailPool: failPoolBalanceInEther } },
+          { new: true }
+        );
+        console.log('updatedChallengeFail: ', updatedChallengeFail.cryptoFailPool);
+      } else {
+        console.log('To user', ethers.utils.formatEther(Amount));
+      }
     });
   });
 
