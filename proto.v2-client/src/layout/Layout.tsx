@@ -17,26 +17,26 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const activeModal: Modal | undefined = useSelector(getActiveModalState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isBackgroundPrimary = () => {
-    if (pathname == "/home") {
+    if (pathname === "/home") {
       return true;
     }
     return false;
   };
 
   const isBodyContainerTop = () => {
-    if (pathname == "/profile") {
+    if (pathname === "/profile") {
       return false;
     }
     return true;
   };
   const isBodyContainerBottom = () => {
     if (
-      activeModal == "congrats_otherChallenges" ||
-      activeModal == "congrats_status" ||
-      activeModal == "nowYouAreIn" ||
-      activeModal == "snapYourScale" ||
-      pathname == "/home" ||
-      activeModal == "paybackClaim"
+      activeModal === "congrats_otherChallenges" ||
+      activeModal === "congrats_status" ||
+      activeModal === "nowYouAreIn" ||
+      activeModal === "snapYourScale" ||
+      pathname === "/home" ||
+      activeModal === "paybackClaim"
     ) {
       return false;
     }

@@ -34,9 +34,9 @@ const DepositChargeModal = ({
   // variables
   const dispatch = useDispatch();
   let currency;
-  if (paymentMethod == "crypto") {
+  if (paymentMethod === "crypto") {
     currency = "MATIC";
-  } else if (paymentMethod == "cash") {
+  } else if (paymentMethod === "cash") {
     currency = "$USD";
   }
   const userId = useSelector(getUserIDState);

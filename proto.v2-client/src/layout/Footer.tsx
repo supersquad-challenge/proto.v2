@@ -42,12 +42,12 @@ const Footer = () => {
 
   const showBlueButton = () => {
     if (
-      activeModal == "congrats_otherChallenges" ||
-      activeModal == "congrats_status" ||
-      activeModal == "nowYouAreIn" ||
-      activeModal == "snapYourScale" ||
-      pathname == "/flow/login" ||
-      blueButtonVisibility == false
+      activeModal === "congrats_otherChallenges" ||
+      activeModal === "congrats_status" ||
+      activeModal === "nowYouAreIn" ||
+      activeModal === "snapYourScale" ||
+      pathname === "/flow/login" ||
+      blueButtonVisibility === false
     ) {
       return false;
     }
@@ -70,7 +70,7 @@ const NavigationBar = () => {
       <NaviBarImage
         onClick={() => router.push("/home")}
         src={
-          pathname == "/home"
+          pathname === "/home"
             ? "/asset/footer/ic_home_on.svg"
             : "/asset/footer/ic_home_off.svg"
         }
@@ -78,7 +78,7 @@ const NavigationBar = () => {
       <NaviBarImage
         onClick={() => router.push("/explore")}
         src={
-          pathname == "/explore"
+          pathname === "/explore"
             ? "/asset/footer/ic_explore_on.svg"
             : "/asset/footer/ic_explore_off.svg"
         }
@@ -86,7 +86,7 @@ const NavigationBar = () => {
       <NaviBarImage
         onClick={() => router.push("/mychallenge")}
         src={
-          pathname == "/mychallenge"
+          pathname === "/mychallenge"
             ? "/asset/footer/ic_mychallenge_on.svg"
             : "/asset/footer/ic_mychallenge_off.svg"
         }
@@ -94,7 +94,7 @@ const NavigationBar = () => {
       <NaviBarImage
         onClick={() => router.push("/profile")}
         src={
-          pathname == "/profile"
+          pathname === "/profile"
             ? "/asset/footer/ic_profile_on.svg"
             : "/asset/footer/ic_profile_off.svg"
         }

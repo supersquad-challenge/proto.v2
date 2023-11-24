@@ -112,7 +112,7 @@ const ExploreID = () => {
     );
   }, []);
 
-  return modal.activeModal == "nowYouAreIn" && modal.visibility == true ? (
+  return modal.activeModal === "nowYouAreIn" && modal.visibility === true ? (
     <FullPageModal
       {...nowYouAreInSrc}
       onClickHandler={() => {
@@ -126,13 +126,13 @@ const ExploreID = () => {
     />
   ) : (
     <Container>
-      {modal.activeModal == "paymentSelect" && modal.visibility == true && (
+      {modal.activeModal === "paymentSelect" && modal.visibility === true && (
         <PaymentSelectModal
           paymentMethod={paymentMethod}
           setPaymentMethod={setPaymentMethod}
         />
       )}
-      {modal.activeModal == "depositCharge" && modal.visibility == true && (
+      {modal.activeModal === "depositCharge" && modal.visibility === true && (
         <DepositChargeModal
           paymentMethod={paymentMethod}
           challengeId={challengeId}

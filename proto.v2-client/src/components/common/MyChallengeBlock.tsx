@@ -50,16 +50,16 @@ const MyChallengeBlock = ({
     isCircularProgressBarPrimary: false,
     isButtonPrimary: true,
   };
-  if (status == "ongoing" && isChallengeEnded) {
+  if (status === "ongoing" && isChallengeEnded) {
     myChallengeExtendedStatus.title = "Get Payback";
     myChallengeExtendedStatus.isCircularProgressBarPrimary = true;
-  } else if (status == "ongoing" && !isPhotoUploadedToday) {
+  } else if (status === "ongoing" && !isPhotoUploadedToday) {
     myChallengeExtendedStatus.title = "Verify Mission";
     myChallengeExtendedStatus.isCircularProgressBarPrimary = true;
-  } else if (status == "ongoing" && isPhotoUploadedToday) {
+  } else if (status === "ongoing" && isPhotoUploadedToday) {
     myChallengeExtendedStatus.title = "Mission Completed";
     myChallengeExtendedStatus.isButtonPrimary = false;
-  } else if (status == "complete") {
+  } else if (status === "complete") {
     myChallengeExtendedStatus.title = "Read more";
   }
   return (
