@@ -143,6 +143,7 @@ const ExploreID = () => {
           setPaymentMethod={setPaymentMethod}
         />
       )}
+
       {modal.activeModal === "depositCharge" && modal.visibility === true && (
         <DepositChargeModal
           paymentMethod={paymentMethod}

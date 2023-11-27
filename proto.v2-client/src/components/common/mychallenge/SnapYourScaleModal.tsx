@@ -6,6 +6,7 @@ import {
   CHANGE_MODAL,
   CLOSE_MODAL,
   IModalState,
+  OPEN_MODAL,
   getModalState,
 } from "@/redux/slice/modalSlice";
 import { useRouter } from "next/navigation";
@@ -53,7 +54,7 @@ const SnapYourScaleModal = ({ userChallengeId }: Props) => {
       };
       const res = await postPhoto(userChallengeId, file);
       if (res.status === 200) {
-        dispatch(CHANGE_MODAL({ modal: "congrats_status" }));
+        dispatch(OPEN_MODAL({ modal: "congrats_status" }));
       }
       if (res === undefined || res === null || res.status === 0) {
         // router.push("/error");

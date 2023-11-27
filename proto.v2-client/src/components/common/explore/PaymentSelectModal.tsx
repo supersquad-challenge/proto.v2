@@ -7,6 +7,7 @@ import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import {
   CHANGE_MODAL,
   IModalState,
+  OPEN_MODAL,
   getModalState,
 } from "@/redux/slice/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,11 +29,11 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Go on",
         handleBlueButtonClick: () => {
-          dispatch(CHANGE_MODAL({ modal: "depositCharge" }));
+          dispatch(OPEN_MODAL({ modal: "depositCharge" }));
         },
       })
     );
-  }, []);
+  }, [dispatch]);
 
   return (
     <BaseModal title="You are paying with" deletePath={undefined} show={true}>
