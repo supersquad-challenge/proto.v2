@@ -46,10 +46,8 @@ const Profile = () => {
     queryFn: async () => {
       if (userId) {
         const res = await getUserInfo({ userId });
-        console.log(res);
         const userInfo = res.userInfo;
-        console.log(userInfo);
-        return userInfo; // 이 부분에서 API 응답을 올바르게 반환하고 있는지 확인
+        return userInfo;
       } else return;
     },
     staleTime: 5000,
