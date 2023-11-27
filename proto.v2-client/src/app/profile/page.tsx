@@ -123,7 +123,7 @@ const Profile = () => {
         <SectionDetail>Choose a badge and proudly display it</SectionDetail>
         {isLoggedIn ? (
           <CollectionContainer>
-            {userInfo &&
+            {userId &&
               userInfo?.badge.map((singleBadge: BadgeT, index: number) => {
                 return (
                   <SingleCollection
