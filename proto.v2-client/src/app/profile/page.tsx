@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 'use client';
 import colors from '@/styles/color';
 import styled from 'styled-components';
@@ -23,6 +24,35 @@ import { login } from '@/lib/api/axios/auth/login';
 import { useQuery } from 'react-query';
 import { getUserInfo } from '@/lib/api/querys/user/getUserInfo';
 import { BadgeT, UserInfoT } from '@/types/api/User';
+=======
+"use client";
+import colors from "@/styles/color";
+import styled from "styled-components";
+import Image from "next/image";
+import { POINT } from "@/lib/protoV2Constants";
+import thousandFormat from "@/utils/thousandFormat";
+import SingleCollection from "@/components/common/profile/SingleCollection";
+import Wallet from "@/components/common/profile/Wallet";
+import { useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  SET_USER_LOGOUT,
+  getEmailState,
+  getIsConnectedState,
+  getIsLoggedInState,
+  getNicknameState,
+  getProfileState,
+  getUserIDState,
+} from "@/redux/slice/authSlice";
+import { useEffect, useState } from "react";
+import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
+import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
+import { login } from "@/lib/api/axios/auth/login";
+import { useQuery } from "react-query";
+import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
+import { BadgeT, UserInfoT } from "@/types/api/User";
+import { useSwitchNetwork } from "wagmi";
+>>>>>>> f0a6483 (Add: connect wallet)
 
 const Profile = () => {
   // variables //
@@ -34,6 +64,8 @@ const Profile = () => {
   const isLoggedIn = useSelector(getIsLoggedInState);
   const dispatch = useDispatch();
   const userId = useSelector(getUserIDState);
+  const isConnected = useSelector(getIsConnectedState);
+  const { switchNetwork } = useSwitchNetwork();
 
   // API //
   const {
@@ -59,6 +91,12 @@ const Profile = () => {
     dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
     dispatch(CLOSE_MODAL());
   }, []);
+
+  useEffect(() => {
+    if (isConnected) {
+      switchNetwork?.(137);
+    }
+  }, [isConnected, switchNetwork]);
 
   if (!isClient) {
     return null;
