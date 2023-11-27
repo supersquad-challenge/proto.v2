@@ -13,7 +13,8 @@ const dynamicPoolContractAbi =
   require('./../proto.v2-contract/artifacts/contracts/dynamicpool/DynamicPool.sol/DynamicPool.json').abi;
 
 // Ethereum JSON-RPC 프로바이더 생성
-const providerUrl = process.env.INFURA_URL;
+// const providerUrl = process.env.INFURA_URL;
+const providerUrl = process.env.KLAYTN_URL;
 const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 
 // MongoDB 연결
