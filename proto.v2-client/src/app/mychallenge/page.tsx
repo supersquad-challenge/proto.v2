@@ -8,8 +8,10 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { USERID } from "@/lib/api/testdata";
 import { AllChallengesByUserId } from "@/types/api/Challenge";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUserIDState } from "@/redux/slice/authSlice";
+import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
+import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
 
 const MyChallenge = () => {
   // variables //
@@ -18,10 +20,13 @@ const MyChallenge = () => {
   const searchParams = useSearchParams();
   const [status, setStatus] = useState("ongoing");
   const userId = useSelector(getUserIDState);
+  const dispatch = useDispatch();
 
   // Use Effect //
   useEffect(() => {
     router.push("/mychallenge?status=ongoing");
+    dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
+    dispatch(CLOSE_MODAL());
   }, []);
 
   useEffect(() => {

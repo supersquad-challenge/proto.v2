@@ -1,34 +1,39 @@
-"use client";
-import FeaturedChallengeBlock from "@/components/common/home/FeaturedChallengeBlock";
-import WelcomeMessage from "@/components/common/home/WelcomeMessage";
-import colors from "@/styles/color";
-import styled from "styled-components";
-import LoginBlock from "@/components/common/home/LoginBlock";
-import Image from "next/image";
-import ExtendedChallengeHeader from "@/components/common/home/ExtendedChallengeHeader";
-import BadgePointPannel from "@/components/common/home/BadgePointPannel";
-import ChallengeHeader from "@/components/common/home/ChallengeHeader";
-import { useQuery } from "react-query";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { getAllChallengesByUserId } from "@/lib/api/querys/myChallenge/getAllChallengesByUserId";
-import { USERID } from "@/lib/api/testdata";
-import MyChallengeBlock from "@/components/common/MyChallengeBlock";
-import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+'use client';
+import FeaturedChallengeBlock from '@/components/common/home/FeaturedChallengeBlock';
+import WelcomeMessage from '@/components/common/home/WelcomeMessage';
+import colors from '@/styles/color';
+import styled from 'styled-components';
+import LoginBlock from '@/components/common/home/LoginBlock';
+import Image from 'next/image';
+import ExtendedChallengeHeader from '@/components/common/home/ExtendedChallengeHeader';
+import BadgePointPannel from '@/components/common/home/BadgePointPannel';
+import ChallengeHeader from '@/components/common/home/ChallengeHeader';
+import { useQuery } from 'react-query';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { getAllChallengesByUserId } from '@/lib/api/querys/myChallenge/getAllChallengesByUserId';
+import { USERID } from '@/lib/api/testdata';
+import MyChallengeBlock from '@/components/common/MyChallengeBlock';
+import CompletedChallengeBlock from '@/components/common/home/CompletedChallengeBlock';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
+  SET_USER_DISCONNECT,
   SET_USER_LOGIN,
+  SET_USER_LOGOUT,
   getAuthState,
   getIsLoggedInState,
   getUserIDState,
-} from "@/redux/slice/authSlice";
+} from '@/redux/slice/authSlice';
 
-import { login } from "@/lib/api/axios/auth/login";
-import { useSelector } from "react-redux";
-import { AllChallengesByUserId } from "@/types/api/Challenge";
-import NoOngoingChallengesBlock from "@/components/common/home/NoOngoingChallengesBlock";
-import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
+import { login } from '@/lib/api/axios/auth/login';
+import { useSelector } from 'react-redux';
+import { AllChallengesByUserId } from '@/types/api/Challenge';
+import NoOngoingChallengesBlock from '@/components/common/home/NoOngoingChallengesBlock';
+import { getUserInfo } from '@/lib/api/querys/user/getUserInfo';
+import { FEATURED_CHALLENGE_IDS } from '@/lib/protoV2Constants';
+import { INITIALIZE_FOOTER_BLUEBUTTON } from '@/redux/slice/layoutSlice';
+import { CLOSE_MODAL } from '@/redux/slice/modalSlice';
 
 const Home = () => {
   const [auth, setAuth] = useState<boolean>(false);
@@ -45,11 +50,21 @@ const Home = () => {
   //   _handlelogin();
   // }, []);
 
+  // Use Effect //
+  useEffect(() => {
+    dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
+    dispatch(CLOSE_MODAL());
+  }, []);
+
   useEffect(() => {
     // if (isLoggedIn) return;
     const _handlelogin = async () => {
       const loginRes = await login();
-      if (loginRes?.status !== 200) return;
+      if (loginRes?.status !== 200) {
+        dispatch(SET_USER_LOGOUT());
+        console.log(isLoggedIn);
+        return;
+      }
 
       setAuth(true);
 
@@ -92,7 +107,7 @@ const HomeBeforeLogin = () => {
           <WelcomeMessage isLogin={false} isScrolled={false} />
           <LoginBlock />
           <ExtendedChallengeHeader
-            challengeHeader="Featured Challenge"
+            challengeHeader="Featured Challenges"
             margin="40px 0 0 0"
           />
           <FeaturedChallengeBlock margin="22px 0 0 0" />
@@ -113,12 +128,12 @@ const HomeAfterLogin = () => {
 
   // API //
   const { data, error, isLoading } = useQuery(
-    ["all MyChallenges", pathname],
+    ['all MyChallenges', pathname],
     async () => {
       const res = await getAllChallengesByUserId({
         // userId: USERID,
         userId: userId!,
-        queryString: "status=ongoing",
+        queryString: 'status=ongoing',
       });
       const ongoingChallenges = res.userChallengeInfos;
       let photoUploadedChallenges: AllChallengesByUserId[] = [];
@@ -170,21 +185,16 @@ const HomeAfterLogin = () => {
         <ChallengesContainer $isScrolled={isSrcolled}>
           <ChallengesWrapper
             // style={{ height: `${windowHeight - 184}px` }}
-            style={{ height: "calc(100vh - 184px)" }}
+            style={{ height: 'calc(100vh - 184px)' }}
             ref={wrapperRef}
             onScroll={handleScroll}
           >
             {isBlurred && <BlurOverlay />}
-            <ChallengeHeader
-              $fontColor={colors.black}
-              style={{ marginBottom: "20px" }}
-            >
+            <ChallengeHeader $fontColor={colors.black} style={{ marginBottom: '20px' }}>
               Today challenges
             </ChallengeHeader>
             {photoNotUploadedChallenges?.length === 0 &&
-              photoUploadedChallenges?.length === 0 && (
-                <NoOngoingChallengesBlock />
-              )}
+              photoUploadedChallenges?.length === 0 && <NoOngoingChallengesBlock />}
             {photoNotUploadedChallenges?.map(
               (challenge: AllChallengesByUserId, index: number) => {
                 return (
@@ -201,7 +211,7 @@ const HomeAfterLogin = () => {
                       router.push(`/mychallenge/${challenge.userChallengeId}`)
                     }
                     key={index}
-                    margin={index !== 0 ? "15px 0 0 0" : "none"}
+                    margin={index !== 0 ? '15px 0 0 0' : 'none'}
                   />
                 );
               }
@@ -218,14 +228,20 @@ const HomeAfterLogin = () => {
               }
             )}
 
-            <ChallengeHeader
-              $fontColor={colors.black}
-              style={{ margin: "40px 0 0 0" }}
-            >
+            <ChallengeHeader $fontColor={colors.black} style={{ margin: '40px 0 0 0' }}>
               Featured Challenge
             </ChallengeHeader>
-            <FeaturedChallengeBlock margin="20px 0 0 0" />
-            <FeaturedChallengeBlock margin="20px 0 0 0" />
+            {FEATURED_CHALLENGE_IDS.map((challengeId, index) => {
+              return (
+                <FeaturedChallengeBlock
+                  challengeId={challengeId}
+                  margin="20px 0 0 0"
+                  key={index}
+                />
+              );
+            })}
+
+            {/* <FeaturedChallengeBlock margin="20px 0 0 0" /> */}
           </ChallengesWrapper>
         </ChallengesContainer>
       </Container>
@@ -235,7 +251,7 @@ const HomeAfterLogin = () => {
 
 const Container = styled.main<{ $isLogin: boolean }>`
   width: 100%;
-  height: ${(props) => (props.$isLogin ? "auto" : "calc(100vh - 68px)")};
+  height: ${(props) => (props.$isLogin ? 'auto' : 'calc(100vh - 68px)')};
   background-color: ${colors.primary};
   position: relative;
   overflow: auto;
@@ -249,8 +265,8 @@ const TopContainer = styled.section<{ $isFixed: boolean }>`
   /* overflow: auto; */
   overflow: scroll;
 
-  position: ${(props) => props.$isFixed && "fixed"};
-  padding-bottom: ${(props) => !props.$isFixed && "115px"};
+  position: ${(props) => props.$isFixed && 'fixed'};
+  padding-bottom: ${(props) => !props.$isFixed && '115px'};
 
   top: 70px;
 `;
@@ -267,7 +283,7 @@ const ChallengesContainer = styled.section<{ $isScrolled: boolean }>`
   box-sizing: border-box;
   overflow: hidden;
 
-  margin-top: ${(props) => (props.$isScrolled ? "114px" : "214px")};
+  margin-top: ${(props) => (props.$isScrolled ? '114px' : '214px')};
   transition: margin-top 0.3s ease-in-out; // 부드러운 전환 효과
 
   border-radius: 22px 22px 0px 0px;

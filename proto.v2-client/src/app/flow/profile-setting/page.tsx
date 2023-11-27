@@ -13,9 +13,11 @@ import {
   getUserIDState,
 } from "@/redux/slice/authSlice";
 import {
+  INITIALIZE_FOOTER_BLUEBUTTON,
   SET_FOOTER_BLUEBUTTON,
   SET_HEADER_GOBACK,
 } from "@/redux/slice/layoutSlice";
+import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
 import { profile } from "console";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
@@ -39,6 +41,9 @@ const ProfileSetting = () => {
 
   // useEffect //
   useEffect(() => {
+    dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
+    dispatch(CLOSE_MODAL());
+
     dispatch(
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Save Changes",
