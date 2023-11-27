@@ -29,18 +29,15 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
 
   // useEffect //
   useEffect(() => {
-    console.log("PaymentSelect로 바뀌미 전");
     dispatch(
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Go on",
         handleBlueButtonClick: () => {
           dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
           dispatch(OPEN_MODAL({ modal: "depositCharge" }));
-          console.log("왜 안되는거임????????/");
         },
       })
     );
-    console.log("PaymentSelect로 바뀌미 후");
   }, [activeModal]);
 
   return (
