@@ -171,11 +171,19 @@ module.exports = {
       });
 
       const isPhotoUploadedToday = photoUploadedToday ? true : false;
-      console.log(isPhotoUploadedToday);
+      // console.log(isPhotoUploadedToday);
 
       const totalCryptoDeposit =
         userChallengeInfo.challengeId.cryptoSuccessPool +
         userChallengeInfo.challengeId.cryptoFailPool;
+
+      const userChallengeInfos = await UserChallenge.find({
+        challengeId: userChallengeInfo.challengeId,
+      }).populate('userId');
+
+      const profileUrls = userChallengeInfos
+        .filter((userChallenge) => userChallenge.userId)
+        .map((userChallenge) => userChallenge.userId.profileUrl);
 
       const myStatus = {
         thumbnailUrl: userChallengeInfo.challengeId.thumbnailUrl,
@@ -195,6 +203,7 @@ module.exports = {
         status: userChallengeInfo.status,
         isPhotoUploadedToday,
         isPaybackPaid: userChallengeInfo.isPaybackPaid,
+        profileUrls: profileUrls,
       };
 
       res.status(200).json({
