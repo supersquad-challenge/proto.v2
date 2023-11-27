@@ -121,18 +121,18 @@ const Profile = () => {
       <AssetsContainer>
         <SectionName style={{ marginBottom: "5px" }}>Collection</SectionName>
         <SectionDetail>Choose a badge and proudly display it</SectionDetail>
-        {isLoggedIn ? (
+        {isLoggedIn &&
+        userId &&
+        userInfo?.badge &&
+        userInfo.badge.length > 0 ? (
           <CollectionContainer>
-            {userId &&
-              userInfo?.badge.map((singleBadge: BadgeT, index: number) => {
-                return (
-                  <SingleCollection
-                    name={singleBadge.challengeName}
-                    margin={index !== 0 ? "0 0 0 30px" : undefined}
-                    key={index}
-                  />
-                );
-              })}
+            {userInfo.badge.map((singleBadge: BadgeT, index: number) => (
+              <SingleCollection
+                name={singleBadge.challengeName}
+                margin={index !== 0 ? "0 0 0 30px" : undefined}
+                key={index}
+              />
+            ))}
           </CollectionContainer>
         ) : (
           <div style={{ width: "100%", height: "140px" }}></div>
