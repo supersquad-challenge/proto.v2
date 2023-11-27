@@ -30,7 +30,9 @@ const NicknameSetup = () => {
       setUserId(loginRes?.data?.userInfoId);
     };
     _handlelogin();
+  }, [dispatch]);
 
+  useEffect(() => {
     dispatch(
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Sign up",
@@ -47,7 +49,7 @@ const NicknameSetup = () => {
         },
       })
     );
-  }, [dispatch]);
+  }, [newNickname]);
 
   // Nickname Input functions //
   const updateInput = (event: ChangeEvent<HTMLInputElement>) => {
