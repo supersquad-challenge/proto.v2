@@ -113,8 +113,12 @@ const ExploreID = () => {
 
   // useEffect //
   useEffect(() => {
+    console.log("하이하이");
+    console.log("isLoggedIn", isLoggedIn);
+    console.log("register", register);
     if (isLoggedIn) {
       if (register) {
+        console.log("You are already in");
         dispatch(
           DEACTIVATE_FOOTER_BLUEBUTTON({
             blueButtonTitle: 'You are already in',
@@ -122,6 +126,7 @@ const ExploreID = () => {
           })
         );
       } else {
+        console.log("I am in");
         dispatch(
           SET_FOOTER_BLUEBUTTON({
             blueButtonTitle: 'I am in!',
@@ -133,6 +138,7 @@ const ExploreID = () => {
         );
       }
     } else {
+      console.log("Log in First");
       dispatch(
         DEACTIVATE_FOOTER_BLUEBUTTON({
           blueButtonTitle: 'Log in First',
