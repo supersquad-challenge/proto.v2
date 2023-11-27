@@ -24,16 +24,14 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
   const modal: IModalState = useSelector(getModalState);
 
   // useEffect //
-  useEffect(() => {
-    dispatch(
-      SET_FOOTER_BLUEBUTTON({
-        blueButtonTitle: "Go on",
-        handleBlueButtonClick: () => {
-          dispatch(OPEN_MODAL({ modal: "depositCharge" }));
-        },
-      })
-    );
-  }, [dispatch]);
+  dispatch(
+    SET_FOOTER_BLUEBUTTON({
+      blueButtonTitle: "Go on",
+      handleBlueButtonClick: () => {
+        dispatch(OPEN_MODAL({ modal: "depositCharge" }));
+      },
+    })
+  );
 
   return (
     <BaseModal title="You are paying with" deletePath={undefined} show={true}>
@@ -54,7 +52,7 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
           <PaymentMethod $isclicked={paymentMethod === "crypto"}>
             a crypto wallet
           </PaymentMethod>
-          <Detail>Deposit $USDC to enforce your goals</Detail>
+          <Detail>Deposit MATIC to enforce your goals</Detail>
         </BaseBlock>
       </PaymentBlockWrapper>
 
@@ -75,7 +73,7 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
           <PaymentMethod $isclicked={paymentMethod === "cash"}>
             a cash account
           </PaymentMethod>
-          <Detail>Move on</Detail>
+          <Detail>Deposit $USDC to enforce your goals</Detail>
         </BaseBlock>
       </PaymentBlockWrapper>
     </BaseModal>
