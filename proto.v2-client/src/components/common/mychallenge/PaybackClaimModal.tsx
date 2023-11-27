@@ -27,16 +27,26 @@ const PaybackClaimModal = ({ successRate }: Props) => {
   const router = useRouter();
   const { id } = useParams<{ id: string }>();
   const userChallengeId: string = id as string;
+  let currency;
 
   // API //
-  const { data, error, isLoading } = useQuery({
+  const {
+    data: paybackStatus,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [`payback status-${userChallengeId}`],
     queryFn: async () => {
       const res = await getPaybackStatus({
         userChallengeId: userChallengeId,
       });
-      console.log(res);
-      return res;
+      const paybackStatus = res.paybackInfo;
+      if (paybackStatus.depositMethod === "crypto") {
+        currency = "MATIC";
+      } else if (paybackStatus.depositMethod === "cash") {
+        currency = "$USD";
+      }
+      return paybackStatus;
     },
     staleTime: 5000,
     cacheTime: 60 * 60 * 1000,
@@ -88,7 +98,7 @@ const PaybackClaimModal = ({ successRate }: Props) => {
         <OverviewWrapper>
           <OverviewTitle>Total Payback</OverviewTitle>
           <OverviewDetail $fontSize={24}>
-            {thousandFormat(312)} MATIC
+            {thousandFormat(paybackStatus.totalPayback)} {currency}
           </OverviewDetail>
         </OverviewWrapper>
 
@@ -101,7 +111,9 @@ const PaybackClaimModal = ({ successRate }: Props) => {
             style={{ margin: "3px 7px 0 0" }}
           />
           <PoolName>My Deposit</PoolName>
-          <PoolDetail>{thousandFormat(300)} MATIC</PoolDetail>
+          <PoolDetail>
+            {thousandFormat(paybackStatus.deposit)} {currency}
+          </PoolDetail>
         </PoolWrapper>
 
         <PoolWrapper style={{ marginTop: "8px" }}>
@@ -113,7 +125,9 @@ const PaybackClaimModal = ({ successRate }: Props) => {
             style={{ margin: "3px 7px 0 0" }}
           />
           <PoolName>Profit / Loss</PoolName>
-          <PoolDetail>{thousandFormat(12)} MATIC</PoolDetail>
+          <PoolDetail>
+            {thousandFormat(paybackStatus.profit)} {currency}
+          </PoolDetail>
         </PoolWrapper>
       </TotalPaybackBlock>
     </PageContainer>
