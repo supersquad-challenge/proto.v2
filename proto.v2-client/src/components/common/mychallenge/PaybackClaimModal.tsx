@@ -98,7 +98,7 @@ const PaybackClaimModal = ({ successRate }: Props) => {
         <OverviewWrapper>
           <OverviewTitle>Total Payback</OverviewTitle>
           <OverviewDetail $fontSize={24}>
-            {thousandFormat(paybackStatus.totalPayback)} {currency}
+            {thousandFormat(paybackStatus.totalPayback!)} {currency}
           </OverviewDetail>
         </OverviewWrapper>
 
@@ -112,7 +112,7 @@ const PaybackClaimModal = ({ successRate }: Props) => {
           />
           <PoolName>My Deposit</PoolName>
           <PoolDetail>
-            {thousandFormat(paybackStatus.deposit)} {currency}
+            {thousandFormat(paybackStatus.deposit!)} {currency}
           </PoolDetail>
         </PoolWrapper>
 
@@ -126,7 +126,7 @@ const PaybackClaimModal = ({ successRate }: Props) => {
           />
           <PoolName>Profit / Loss</PoolName>
           <PoolDetail>
-            {thousandFormat(paybackStatus.profit)} {currency}
+            {thousandFormat(paybackStatus.profit!)} {currency}
           </PoolDetail>
         </PoolWrapper>
       </TotalPaybackBlock>
