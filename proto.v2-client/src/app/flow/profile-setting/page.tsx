@@ -45,13 +45,23 @@ const ProfileSetting = () => {
     dispatch(CLOSE_MODAL());
 
     dispatch(
+      SET_HEADER_GOBACK({
+        handleGoBackButtonClick: () => {
+          router.push("/profile");
+        },
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    dispatch(
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Save Changes",
         handleBlueButtonClick: async () => {
           // console.log(newNickname);
           // console.log(userId);
           if (newNickname !== "") {
-            router.push("/profile");
+            router.push("/home");
 
             const res = await setNickname({
               userInfoId: userId!,
@@ -62,15 +72,7 @@ const ProfileSetting = () => {
         },
       })
     );
-
-    dispatch(
-      SET_HEADER_GOBACK({
-        handleGoBackButtonClick: () => {
-          router.push("/profile");
-        },
-      })
-    );
-  }, []);
+  }, [newNickname]);
 
   // Image Input functions //
   let file;
