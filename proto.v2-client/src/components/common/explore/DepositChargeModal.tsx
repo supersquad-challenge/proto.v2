@@ -9,6 +9,7 @@ import {
   CHANGE_MODAL,
   CLOSE_MODAL,
   IModalState,
+  OPEN_MODAL,
   getModalState,
 } from "@/redux/slice/modalSlice";
 import colors from "@/styles/color";
@@ -68,7 +69,7 @@ const DepositChargeModal = ({
             depositMethod: paymentMethod,
             deposit: deposit,
           });
-          dispatch(CHANGE_MODAL({ modal: "nowYouAreIn" }));
+          dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
         },
       })
     );

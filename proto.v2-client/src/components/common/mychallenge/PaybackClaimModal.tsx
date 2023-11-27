@@ -58,7 +58,7 @@ const PaybackClaimModal = ({ successRate }: Props) => {
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Claim",
         handleBlueButtonClick: () => {
-          dispatch(CHANGE_MODAL({ modal: "congrats_otherChallenges" })); //수정 필요 //tx claim 하는 로직 추가해야 함
+          dispatch(OPEN_MODAL({ modal: "congrats_otherChallenges" })); //수정 필요 //tx claim 하는 로직 추가해야 함
         },
       })
     );
