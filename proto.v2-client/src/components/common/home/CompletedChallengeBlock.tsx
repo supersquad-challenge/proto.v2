@@ -5,9 +5,10 @@ import CompletedButton from "./CompletedButton";
 type Props = {
   category: string;
   name: string;
+  onClickHandler: () => void;
 };
 
-const CompletedChallengeBlock = ({ category, name }: Props) => {
+const CompletedChallengeBlock = ({ category, name, onClickHandler }: Props) => {
   return (
     <BlockWrapper>
       <BaseBlock
@@ -26,7 +27,7 @@ const CompletedChallengeBlock = ({ category, name }: Props) => {
           }}
         >
           <Name>{name}</Name>
-          <CompletedButton margin="3px 0 0 0" onClickHandler={() => {}} />
+          <CompletedButton margin="3px 0 0 0" onClickHandler={onClickHandler} />
         </div>
       </BaseBlock>
     </BlockWrapper>
@@ -37,6 +38,7 @@ export default CompletedChallengeBlock;
 
 const BlockWrapper = styled.div`
   width: 100%;
+  cursor: pointer;
 
   ///////////
   margin-top: 15px;

@@ -63,7 +63,7 @@ const MyChallengeBlock = ({
     myChallengeExtendedStatus.title = "Read more";
   }
   return (
-    <BlockWrapper $margin={margin}>
+    <BlockWrapper $margin={margin} onClick={onClickHandler}>
       <BaseBlock
         backgroundColor={colors.white}
         borderRadius={20}
@@ -109,6 +109,7 @@ export default MyChallengeBlock;
 const BlockWrapper = styled.div<{ $margin?: string }>`
   width: 100%;
   margin: ${(props) => props.$margin};
+  cursor: pointer;
 `;
 
 const Wrapper = styled.div`

@@ -212,8 +212,8 @@ const HomeAfterLogin = () => {
                     onClickHandler={() =>
                       router.push(`/mychallenge/${challenge.userChallengeId}`)
                     }
-                    key={index}
                     margin={index !== 0 ? "15px 0 0 0" : "none"}
+                    key={index}
                   />
                 );
               }
@@ -224,6 +224,9 @@ const HomeAfterLogin = () => {
                   <CompletedChallengeBlock
                     category={challenge.category}
                     name={challenge.name}
+                    onClickHandler={() =>
+                      router.push(`/mychallenge/${challenge.userChallengeId}`)
+                    }
                     key={index}
                   />
                 );

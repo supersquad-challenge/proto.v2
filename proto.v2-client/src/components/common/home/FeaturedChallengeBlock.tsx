@@ -40,7 +40,10 @@ const FeaturedChallengeBlock = ({ margin, challengeId }: Props) => {
   });
 
   return (
-    <BlockWrapper $margin={margin}>
+    <BlockWrapper
+      $margin={margin}
+      onClick={() => router.push(`/explore/${challengeId}`)}
+    >
       <BaseBlock
         backgroundColor={colors.highlight}
         borderRadius={20}
@@ -102,6 +105,7 @@ const BlockWrapper = styled.div<{ $margin: string }>`
   width: 100%;
   height: 198px;
   position: relative;
+  cursor: pointer;
 
   margin: ${(props) => props.$margin};
 `;

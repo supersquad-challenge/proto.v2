@@ -172,7 +172,5 @@ const BlueButtonContainer = styled.footer<{ $isBlueButtonActive: boolean }>`
   bottom: 0px;
   z-index: 99;
 
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: ${(props) => (props.$isBlueButtonActive ? "pointer" : undefined)};
 `;
