@@ -29,19 +29,21 @@ import FullPageModal from "@/components/base/Modal/FullPageModal";
 import { nowYouAreInSrc } from "@/lib/components/fullPageModal";
 import { USERID } from "@/lib/api/testdata";
 import { getIsChallengeRegistered } from "@/lib/api/querys/myChallenge/getIsChallengeRegistered";
-import { getUserIDState } from "@/redux/slice/authSlice";
+import { getIsLoggedInState, getUserIDState } from "@/redux/slice/authSlice";
 
 const ExploreID = () => {
   // variables //
   const { id } = useParams<{ id: string }>();
   const challengeId: string = id as string;
   const dispatch = useDispatch();
-  const modal: IModalState = useSelector(getModalState);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("crypto");
   const [deposit, setDeposit] = useState<number>(10);
   const router = useRouter();
+
+  const modal: IModalState = useSelector(getModalState);
   const userId = useSelector(getUserIDState);
   const [register, setRegister] = useState(false);
+  const isLoggedIn = useSelector(getIsLoggedInState);
 
   // API //
   const {
@@ -79,19 +81,29 @@ const ExploreID = () => {
 
   // useEffect //
   useEffect(() => {
-    if (register) {
-      dispatch(
-        DEACTIVATE_FOOTER_BLUEBUTTON({
-          blueButtonTitle: "You are already in",
-        })
-      );
+    if (isLoggedIn) {
+      if (register) {
+        dispatch(
+          DEACTIVATE_FOOTER_BLUEBUTTON({
+            blueButtonTitle: "You are already in",
+            handleBlueButtonClick: () => {},
+          })
+        );
+      } else {
+        dispatch(
+          SET_FOOTER_BLUEBUTTON({
+            blueButtonTitle: "I am in!",
+            handleBlueButtonClick: () => {
+              dispatch(OPEN_MODAL({ modal: "paymentSelect" }));
+            },
+          })
+        );
+      }
     } else {
       dispatch(
-        SET_FOOTER_BLUEBUTTON({
-          blueButtonTitle: "I am in!",
-          handleBlueButtonClick: () => {
-            dispatch(OPEN_MODAL({ modal: "paymentSelect" }));
-          },
+        DEACTIVATE_FOOTER_BLUEBUTTON({
+          blueButtonTitle: "Log in First",
+          handleBlueButtonClick: () => router.push("/flow/login"),
         })
       );
     }
