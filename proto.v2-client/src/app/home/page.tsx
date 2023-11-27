@@ -285,7 +285,7 @@ const ChallengesContainer = styled.section<{ $isScrolled: boolean }>`
   box-sizing: border-box;
   overflow: hidden;
 
-  margin-top: ${(props) => (props.$isScrolled ? '114px' : '214px')};
+  margin-top: ${(props) => (props.$isScrolled ? '116px' : '214px')};
   transition: margin-top 0.3s ease-in-out; // 부드러운 전환 효과
 
   border-radius: 22px 22px 0px 0px;
@@ -307,7 +307,5 @@ const BlurOverlay = styled.div`
   left: 0;
   right: 0;
   height: 50px; // 조정 가능
-  background: rgba(255, 255, 255, 0.5);
-  filter: blur(30px);
   pointer-events: none; // 마우스 이벤트 방지
 `;
