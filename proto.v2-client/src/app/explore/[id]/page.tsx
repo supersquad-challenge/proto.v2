@@ -107,7 +107,7 @@ const ExploreID = () => {
         })
       );
     }
-  }, [id, modal.visibility, register, dispatch]);
+  }, [id, modal.visibility, register]);
 
   useEffect(() => {
     dispatch(
