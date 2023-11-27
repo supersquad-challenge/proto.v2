@@ -2,8 +2,14 @@ import styled from "styled-components";
 import Image from "next/image";
 import colors from "@/styles/color";
 import BaseButton from "@/components/base/Button/BaseButton";
-import { useSelector } from "react-redux";
-import { getIsLoggedInState } from "@/redux/slice/authSlice";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  SET_USER_CONNECT,
+  SET_USER_DISCONNECT,
+  getIsLoggedInState,
+} from "@/redux/slice/authSlice";
+import { useAccount } from "wagmi";
+import { useEffect } from "react";
 
 type Props = {
   walletName: string;
@@ -11,6 +17,15 @@ type Props = {
 
 const Wallet = ({ walletName }: Props) => {
   const isLoggedIn = useSelector(getIsLoggedInState);
+  const { address, isConnected, isDisconnected } = useAccount();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isConnected && address) {
+      dispatch(SET_USER_CONNECT({ address: address }));
+    }
+    if (isDisconnected) [dispatch(SET_USER_DISCONNECT())];
+  }, [isConnected, isDisconnected]);
+
   return (
     <Wrapper>
       <Image
@@ -21,21 +36,12 @@ const Wallet = ({ walletName }: Props) => {
       />
       <Name>{walletName}</Name>
       <ButtonWrapper>
-        <BaseButton
-          color={colors.white}
-          fontSize={12}
-          fontWeight={500}
-          borderRadius={21}
-          backgroundColor={isLoggedIn ? colors.primary : colors.gray}
-          padding="7px 23px 5px 22px"
-          title={"Connect"}
-          onClickHandler={
-            isLoggedIn
-              ? () => {
-                  console.log("여기에 지갑 연결 함수가 들어가야 합니다.");
-                }
-              : () => {}
-          } //지갑 연결 함수
+        <w3m-button
+          label="Connect"
+          size="md"
+          disabled={isLoggedIn ? false : true}
+          loadingLabel="Connecting"
+          balance="hide"
         />
       </ButtonWrapper>
     </Wrapper>
@@ -66,7 +72,7 @@ const Name = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  width: 96px;
-  height: 30px;
+  width: auto;
+  height: auto;
   margin-left: auto;
 `;

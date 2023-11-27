@@ -5,13 +5,76 @@ import Providers from "@/redux/provider";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import StyledComponentsRegistry from "@/styles/registry/registry";
+import { createWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
+import { Chain, WagmiConfig, configureChains, createConfig } from "wagmi";
+import { walletConnectProvider } from "@web3modal/wagmi";
+import { publicProvider } from "wagmi/providers/public";
+import { klaytn, polygon } from "wagmi/chains";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+// import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import dotenv from "dotenv";
+import { useEffect, useRef } from "react";
+import colors from "@/styles/color";
+dotenv.config();
+
+// 1. Get PROJECT_ID
+const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || "";
+
+const alchemyKey = process.env.NEXT_PUBLIC_ALCHEMY_KEY || "";
+
+const klaytnRpcConfig = {
+  rpc: (chain: Chain) => {
+    if (chain === klaytn) {
+      return { http: "https://public-en-cypress.klaytn.net" };
+    }
+    return null; // 또는 다른 체인에 대한 처리
+  },
+};
+
+// 2. Create wagmiConfig
+const { chains, publicClient } = configureChains(
+  [polygon, klaytn],
+  [
+    walletConnectProvider({ projectId }),
+    publicProvider(),
+    alchemyProvider({ apiKey: alchemyKey }),
+    // jsonRpcProvider(klaytnRpcConfig),
+  ]
+);
 
 const metadata = {
-  name: "Supersquad",
+  name: "SuperSquad v2",
   description: "supersqaud challenge",
-  url: "https://supersquad.site",
-  icons: ["/src/app/favicon.ico"],
+  url: "https://v2.supersquad.store",
+  icons: "/src/app/favicon.ico",
 };
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors: [
+    new WalletConnectConnector({
+      chains,
+      options: { projectId, showQrModal: false, metadata },
+    }),
+    new InjectedConnector({ chains, options: { shimDisconnect: true } }),
+  ],
+  publicClient,
+});
+
+// 3. Create modal
+createWeb3Modal({
+  wagmiConfig,
+  projectId,
+  chains,
+  themeMode: "light",
+  themeVariables: {
+    "--w3m-accent": `${colors.primary}`,
+    "--w3m-font-family": "Poppin",
+    "--w3m-font-size-master": "8px",
+  },
+});
 
 export default function RootLayout({
   children,
@@ -25,9 +88,11 @@ export default function RootLayout({
         <QueryClientProvider client={client}>
           <StyledComponentsRegistry>
             <GlobalStyle />
-            <Providers>
-              <Layout>{children}</Layout>
-            </Providers>
+            <WagmiConfig config={wagmiConfig}>
+              <Providers>
+                <Layout>{children}</Layout>
+              </Providers>
+            </WagmiConfig>
           </StyledComponentsRegistry>
         </QueryClientProvider>
       </body>

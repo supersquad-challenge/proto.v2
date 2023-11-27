@@ -81,7 +81,7 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
           <PaymentMethod $isclicked={paymentMethod === "cash"}>
             a cash account
           </PaymentMethod>
-          <Detail>This is not supported in the Proto V2.</Detail>
+          <Detail>Not supported in the Proto V2.</Detail>
         </BaseBlock>
       </PaymentBlockWrapper>
     </BaseModal>

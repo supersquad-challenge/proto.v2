@@ -7,11 +7,11 @@ import thousandFormat from "@/utils/thousandFormat";
 import SingleCollection from "@/components/common/profile/SingleCollection";
 import Wallet from "@/components/common/profile/Wallet";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import {
   SET_USER_LOGOUT,
   getEmailState,
+  getIsConnectedState,
   getIsLoggedInState,
   getNicknameState,
   getProfileState,
@@ -24,6 +24,7 @@ import { login } from "@/lib/api/axios/auth/login";
 import { useQuery } from "react-query";
 import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
 import { BadgeT, UserInfoT } from "@/types/api/User";
+import { useSwitchNetwork } from "wagmi";
 
 const Profile = () => {
   // variables //
@@ -35,6 +36,8 @@ const Profile = () => {
   const isLoggedIn = useSelector(getIsLoggedInState);
   const dispatch = useDispatch();
   const userId = useSelector(getUserIDState);
+  const isConnected = useSelector(getIsConnectedState);
+  const { switchNetwork } = useSwitchNetwork();
 
   // API //
   const {
@@ -60,6 +63,12 @@ const Profile = () => {
     dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
     dispatch(CLOSE_MODAL());
   }, []);
+
+  useEffect(() => {
+    if (isConnected) {
+      switchNetwork?.(137);
+    }
+  }, [isConnected, switchNetwork]);
 
   if (!isClient) {
     return null;
