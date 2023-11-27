@@ -11,6 +11,5 @@ export const getIsChallengeRegistered = async ({
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/myChallenge/getChallenge/${challengeId}/${userId}`
   );
   const data = res.json();
-  console.log(data);
   return data;
 };

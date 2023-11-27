@@ -36,6 +36,7 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
         handleBlueButtonClick: () => {
           dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
           dispatch(OPEN_MODAL({ modal: "depositCharge" }));
+          console.log("왜 안되는거임????????/");
         },
       })
     );
