@@ -2,7 +2,7 @@ import colors from "@/styles/color";
 import styled from "styled-components";
 import Image from "next/image";
 import thousandFormat from "@/utils/thousandFormat";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   SET_FOOTER_BLUEBUTTON,
@@ -27,7 +27,7 @@ const PaybackClaimModal = ({ successRate }: Props) => {
   const router = useRouter();
   const { id } = useParams<{ id: string }>();
   const userChallengeId: string = id as string;
-  let currency;
+  const [currency, setCurrency] = useState("");
 
   // API //
   const {
@@ -42,9 +42,9 @@ const PaybackClaimModal = ({ successRate }: Props) => {
       });
       const paybackStatus = res.paybackInfo;
       if (paybackStatus?.depositMethod === "crypto") {
-        currency = "MATIC";
+        setCurrency("MATIC");
       } else if (paybackStatus?.depositMethod === "cash") {
-        currency = "$USD";
+        setCurrency("$USD");
       }
       return paybackStatus;
     },
@@ -98,7 +98,7 @@ const PaybackClaimModal = ({ successRate }: Props) => {
         <OverviewWrapper>
           <OverviewTitle>Total Payback</OverviewTitle>
           <OverviewDetail $fontSize={24}>
-            {thousandFormat(paybackStatus?.totalPayback!)} {currency}
+            {thousandFormat(paybackStatus?.totalPayback!)} {currency!}
           </OverviewDetail>
         </OverviewWrapper>
 
@@ -112,7 +112,7 @@ const PaybackClaimModal = ({ successRate }: Props) => {
           />
           <PoolName>My Deposit</PoolName>
           <PoolDetail>
-            {thousandFormat(paybackStatus?.deposit!)} {currency}
+            {thousandFormat(paybackStatus?.deposit!)} {currency!}
           </PoolDetail>
         </PoolWrapper>
 
@@ -126,7 +126,7 @@ const PaybackClaimModal = ({ successRate }: Props) => {
           />
           <PoolName>Profit / Loss</PoolName>
           <PoolDetail>
-            {thousandFormat(paybackStatus?.profit!)} {currency}
+            {thousandFormat(paybackStatus?.profit!)} {currency!}
           </PoolDetail>
         </PoolWrapper>
       </TotalPaybackBlock>
