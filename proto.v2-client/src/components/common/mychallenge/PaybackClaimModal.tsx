@@ -14,16 +14,34 @@ import {
   OPEN_MODAL,
 } from "@/redux/slice/modalSlice";
 import { useParams, useRouter } from "next/navigation";
+import { useQuery } from "react-query";
+import getPaybackStatus from "@/lib/api/querys/myChallenge/getPaybackStatus";
 
 type Props = {
   successRate: number;
 };
 
 const PaybackClaimModal = ({ successRate }: Props) => {
+  // variables //
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = useParams<{ id: string }>();
   const userChallengeId: string = id as string;
+
+  // API //
+  const { data, error, isLoading } = useQuery({
+    queryKey: [`payback status-${userChallengeId}`],
+    queryFn: async () => {
+      const res = await getPaybackStatus({
+        userChallengeId: userChallengeId,
+      });
+      console.log(res);
+      return res;
+    },
+    staleTime: 5000,
+    cacheTime: 60 * 60 * 1000,
+  });
+
   // useEffect //
   useEffect(() => {
     dispatch(
