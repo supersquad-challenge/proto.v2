@@ -8,6 +8,7 @@ import {
   CHANGE_MODAL,
   IModalState,
   OPEN_MODAL,
+  getActiveModalState,
   getModalState,
 } from "@/redux/slice/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,17 +22,19 @@ type Props = {
 const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
   // variables //
   const dispatch = useDispatch();
-  const modal: IModalState = useSelector(getModalState);
+  const activeModal = useSelector(getActiveModalState);
 
   // useEffect //
-  dispatch(
-    SET_FOOTER_BLUEBUTTON({
-      blueButtonTitle: "Go on",
-      handleBlueButtonClick: () => {
-        dispatch(OPEN_MODAL({ modal: "depositCharge" }));
-      },
-    })
-  );
+  useEffect(() => {
+    dispatch(
+      SET_FOOTER_BLUEBUTTON({
+        blueButtonTitle: "Go on",
+        handleBlueButtonClick: () => {
+          dispatch(OPEN_MODAL({ modal: "depositCharge" }));
+        },
+      })
+    );
+  }, [activeModal]);
 
   return (
     <BaseModal title="You are paying with" deletePath={undefined} show={true}>
