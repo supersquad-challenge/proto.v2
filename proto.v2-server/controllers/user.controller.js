@@ -5,11 +5,21 @@ module.exports = {
     try {
       const { userId, nickname } = req.body;
 
-      const updateUser = await User.findByIdAndUpdate(
-        userId,
-        { $set: { nickname: nickname } },
-        { new: true }
-      );
+      let updateUser;
+
+      if (req.file === undefined) {
+        updateUser = await User.findByIdAndUpdate(
+          userId,
+          { $set: { nickname: nickname } },
+          { new: true }
+        );
+      } else {
+        updateUser = await User.findByIdAndUpdate(
+          userId,
+          { $set: { nickname: nickname, profileUrl: req.file.location } },
+          { new: true }
+        );
+      }
 
       if (!updateUser) {
         return res.status(404).json({
@@ -22,6 +32,7 @@ module.exports = {
         userInfo: {
           userId: updateUser._id,
           nickname: updateUser.nickname,
+          profileUrl: updateUser.profileUrl,
         },
       });
     } catch (error) {
