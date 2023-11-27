@@ -19,29 +19,31 @@ import {
   IModalState,
   OPEN_MODAL,
   getModalState,
-} from '@/redux/slice/modalSlice';
-import styled from 'styled-components';
-import colors from '@/styles/color';
-import PaymentSelectModal from '@/components/common/explore/PaymentSelectModal';
-import DepositChargeModal from '@/components/common/explore/DepositChargeModal';
-import { PaymentMethod } from '@/types/Modal';
-import FullPageModal from '@/components/base/Modal/FullPageModal';
-import { nowYouAreInSrc } from '@/lib/components/fullPageModal';
-import { USERID } from '@/lib/api/testdata';
-import { getIsChallengeRegistered } from '@/lib/api/querys/myChallenge/getIsChallengeRegistered';
-import { getUserIDState } from '@/redux/slice/authSlice';
+} from "@/redux/slice/modalSlice";
+import styled from "styled-components";
+import colors from "@/styles/color";
+import PaymentSelectModal from "@/components/common/explore/PaymentSelectModal";
+import DepositChargeModal from "@/components/common/explore/DepositChargeModal";
+import { PaymentMethod } from "@/types/Modal";
+import FullPageModal from "@/components/base/Modal/FullPageModal";
+import { nowYouAreInSrc } from "@/lib/components/fullPageModal";
+import { USERID } from "@/lib/api/testdata";
+import { getIsChallengeRegistered } from "@/lib/api/querys/myChallenge/getIsChallengeRegistered";
+import { getIsLoggedInState, getUserIDState } from "@/redux/slice/authSlice";
 
 const ExploreID = () => {
   // variables //
   const { id } = useParams<{ id: string }>();
   const challengeId: string = id as string;
   const dispatch = useDispatch();
-  const modal: IModalState = useSelector(getModalState);
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('crypto');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("crypto");
   const [deposit, setDeposit] = useState<number>(10);
   const router = useRouter();
+
+  const modal: IModalState = useSelector(getModalState);
   const userId = useSelector(getUserIDState);
   const [register, setRegister] = useState(false);
+  const isLoggedIn = useSelector(getIsLoggedInState);
 
   // useEffect //
   useEffect(() => {
@@ -101,19 +103,29 @@ const ExploreID = () => {
 
   // useEffect //
   useEffect(() => {
-    if (register) {
-      dispatch(
-        DEACTIVATE_FOOTER_BLUEBUTTON({
-          blueButtonTitle: 'You are already in',
-        })
-      );
+    if (isLoggedIn) {
+      if (register) {
+        dispatch(
+          DEACTIVATE_FOOTER_BLUEBUTTON({
+            blueButtonTitle: "You are already in",
+            handleBlueButtonClick: () => {},
+          })
+        );
+      } else {
+        dispatch(
+          SET_FOOTER_BLUEBUTTON({
+            blueButtonTitle: "I am in!",
+            handleBlueButtonClick: () => {
+              dispatch(OPEN_MODAL({ modal: "paymentSelect" }));
+            },
+          })
+        );
+      }
     } else {
       dispatch(
-        SET_FOOTER_BLUEBUTTON({
-          blueButtonTitle: 'I am in!',
-          handleBlueButtonClick: () => {
-            dispatch(OPEN_MODAL({ modal: 'paymentSelect' }));
-          },
+        DEACTIVATE_FOOTER_BLUEBUTTON({
+          blueButtonTitle: "Log in First",
+          handleBlueButtonClick: () => router.push("/flow/login"),
         })
       );
     }
