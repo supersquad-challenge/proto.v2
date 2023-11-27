@@ -5,7 +5,7 @@ import { getAllChallenges } from "@/lib/api/querys/challenge/getAllChallenges";
 import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
 import colors from "@/styles/color";
-import { AllChallenges } from "@/types/api/Challenge";
+import { AllChallengesT } from "@/types/api/Challenge";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -128,7 +128,7 @@ const Explore = () => {
         </CategoriesWrapper>
       </CategoriesContainer>
       <ChallengesContainer $padding={challengesContainerPaddingTop}>
-        {data?.map((challenge: AllChallenges, index: number) => {
+        {data?.map((challenge: AllChallengesT, index: number) => {
           return (
             <ChallengeBlock
               thumbnailUrl={challenge.thumbnailUrl}

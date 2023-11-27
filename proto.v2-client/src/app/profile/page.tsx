@@ -10,14 +10,20 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  SET_USER_LOGOUT,
   getEmailState,
   getIsLoggedInState,
   getNicknameState,
   getProfileState,
+  getUserIDState,
 } from "@/redux/slice/authSlice";
 import { useEffect, useState } from "react";
 import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
+import { login } from "@/lib/api/axios/auth/login";
+import { useQuery } from "react-query";
+import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
+import { BadgeT, UserInfoT } from "@/types/api/User";
 
 const Profile = () => {
   // variables //
@@ -28,8 +34,29 @@ const Profile = () => {
   const [isClient, setIsClient] = useState(false);
   const isLoggedIn = useSelector(getIsLoggedInState);
   const dispatch = useDispatch();
+  const userId = useSelector(getUserIDState);
 
-  // Use Effect //
+  // API //
+  const {
+    data: userInfo,
+    isLoading,
+    error,
+  } = useQuery<UserInfoT>({
+    queryKey: [`profile-${userId}`],
+    queryFn: async () => {
+      if (userId) {
+        const res = await getUserInfo({ userId });
+        console.log(res);
+        const userInfo = res.userInfo;
+        console.log(userInfo);
+        return userInfo; // 이 부분에서 API 응답을 올바르게 반환하고 있는지 확인
+      } else return;
+    },
+    staleTime: 5000,
+    cacheTime: 60 * 60 * 1000,
+  });
+
+  // useEffect //
   useEffect(() => {
     setIsClient(true);
     dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
@@ -98,11 +125,15 @@ const Profile = () => {
         <SectionDetail>Choose a badge and proudly display it</SectionDetail>
         {isLoggedIn ? (
           <CollectionContainer>
-            <SingleCollection name="Lose 4lbs" />
-            <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
-            <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
-            <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
-            <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
+            {userInfo?.badge.map((singleBadge: BadgeT, index: number) => {
+              return (
+                <SingleCollection
+                  name={singleBadge.challengeName}
+                  margin={index !== 0 ? "0 0 0 30px" : undefined}
+                  key={index}
+                />
+              );
+            })}
           </CollectionContainer>
         ) : (
           <div style={{ width: "100%", height: "140px" }}></div>

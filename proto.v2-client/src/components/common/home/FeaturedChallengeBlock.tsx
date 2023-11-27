@@ -4,7 +4,7 @@ import BaseBlock from "@/components/base/Block/BaseBlock";
 import colors from "@/styles/color";
 import Image from "next/image";
 import { useQuery } from "react-query";
-import { SingleChallengeByChallengeId } from "@/types/api/Challenge";
+import { SingleChallengeByChallengeIdT } from "@/types/api/Challenge";
 import { getSingleChallenge } from "@/lib/api/querys/challenge/getSingleChallenge";
 import {
   addDaysToDate,
@@ -28,7 +28,7 @@ const FeaturedChallengeBlock = ({ margin, challengeId }: Props) => {
     data: challenge,
     error,
     isLoading,
-  } = useQuery<SingleChallengeByChallengeId>({
+  } = useQuery<SingleChallengeByChallengeIdT>({
     queryKey: [`singleChallenge-${challengeId}`],
     queryFn: async () => {
       const res = await getSingleChallenge({ challengeId: challengeId });

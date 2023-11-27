@@ -4,7 +4,7 @@ import DetailedChallengePage from "@/components/common/DetailedChallengePage";
 import { useQuery } from "react-query";
 import { getSingleChallenge } from "@/lib/api/querys/challenge/getSingleChallenge";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { SingleChallengeByChallengeId } from "@/types/api/Challenge";
+import { SingleChallengeByChallengeIdT } from "@/types/api/Challenge";
 import { DURATION } from "@/lib/protoV2Constants";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -66,7 +66,7 @@ const ExploreID = () => {
     data: challenge,
     error,
     isLoading,
-  } = useQuery<SingleChallengeByChallengeId>({
+  } = useQuery<SingleChallengeByChallengeIdT>({
     queryKey: [`singleChallenge-${challengeId}`],
     queryFn: async () => {
       const res = await getSingleChallenge({ challengeId: challengeId });
