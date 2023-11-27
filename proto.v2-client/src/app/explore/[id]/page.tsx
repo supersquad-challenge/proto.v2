@@ -9,8 +9,10 @@ import { DURATION } from "@/lib/protoV2Constants";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
+  DEACTIVATE_FOOTER_BLUEBUTTON,
   SET_FOOTER_BLUEBUTTON,
   SET_HEADER_GOBACK,
+  getIsBlueButtonActiveState,
 } from "@/redux/slice/layoutSlice";
 import {
   CLOSE_MODAL,
@@ -79,9 +81,8 @@ const ExploreID = () => {
   useEffect(() => {
     if (register) {
       dispatch(
-        SET_FOOTER_BLUEBUTTON({
+        DEACTIVATE_FOOTER_BLUEBUTTON({
           blueButtonTitle: "You are already in",
-          handleBlueButtonClick: () => {},
         })
       );
     } else {

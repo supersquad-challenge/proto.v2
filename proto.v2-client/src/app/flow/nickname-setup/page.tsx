@@ -35,8 +35,6 @@ const NicknameSetup = () => {
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Sign up",
         handleBlueButtonClick: async () => {
-          // console.log(newNickname);
-          // console.log(userId);
           if (newNickname !== "") {
             router.push("/home");
 
@@ -49,7 +47,7 @@ const NicknameSetup = () => {
         },
       })
     );
-  }, [dispatch, newNickname]);
+  }, [dispatch]);
 
   // Nickname Input functions //
   const updateInput = (event: ChangeEvent<HTMLInputElement>) => {

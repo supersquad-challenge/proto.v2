@@ -8,7 +8,7 @@ import SingleCollection from "@/components/common/profile/SingleCollection";
 import Wallet from "@/components/common/profile/Wallet";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   getEmailState,
   getIsLoggedInState,
@@ -16,17 +16,24 @@ import {
   getProfileState,
 } from "@/redux/slice/authSlice";
 import { useEffect, useState } from "react";
+import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
+import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
 
 const Profile = () => {
+  // variables //
   const router = useRouter();
   const profile = useSelector(getProfileState);
   const nickname = useSelector(getNicknameState);
   const email = useSelector(getEmailState);
   const [isClient, setIsClient] = useState(false);
   const isLoggedIn = useSelector(getIsLoggedInState);
+  const dispatch = useDispatch();
 
+  // Use Effect //
   useEffect(() => {
     setIsClient(true);
+    dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
+    dispatch(CLOSE_MODAL());
   }, []);
 
   if (!isClient) {

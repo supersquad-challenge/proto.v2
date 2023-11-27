@@ -3,19 +3,19 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 interface ILayoutState {
+  handleGoBackButtonClick: () => void;
   blueButtonTitle: BlueButtonTitle | undefined;
   blueButtonVisibility: boolean;
   handleBlueButtonClick: () => void;
-  goBackReturnUrl: string;
-  handleGoBackButtonClick: () => void;
+  isBlueButtonActive: boolean;
 }
 
 const initialState: ILayoutState = {
+  handleGoBackButtonClick: () => {},
   blueButtonTitle: undefined,
   blueButtonVisibility: true,
   handleBlueButtonClick: () => {},
-  goBackReturnUrl: "",
-  handleGoBackButtonClick: () => {},
+  isBlueButtonActive: true,
 };
 
 const layoutSlice = createSlice({
@@ -24,7 +24,6 @@ const layoutSlice = createSlice({
   reducers: {
     SET_HEADER_GOBACK: (state, action) => {
       const { handleGoBackButtonClick } = action.payload;
-      // state.goBackReturnUrl = goBackReturnUrl;
       state.handleGoBackButtonClick = handleGoBackButtonClick;
     },
     SET_FOOTER_BLUEBUTTON: (state, action) => {
@@ -32,19 +31,29 @@ const layoutSlice = createSlice({
       state.blueButtonTitle = blueButtonTitle;
       state.blueButtonVisibility = true;
       state.handleBlueButtonClick = handleBlueButtonClick;
+      state.isBlueButtonActive = true;
     },
     REMOVE_FOOTER_BLUEBUTTON: (state) => {
       state.blueButtonTitle = undefined;
       state.blueButtonVisibility = false;
       state.handleBlueButtonClick = () => {};
+      state.isBlueButtonActive = true;
     },
     INITIALIZE_FOOTER_BLUEBUTTON: (state) => {
       state.blueButtonTitle = undefined;
       state.blueButtonVisibility = true;
       state.handleBlueButtonClick = () => {};
+      state.isBlueButtonActive = true;
     },
     SHOW_FOOTER_BLUEBUTTON: (state) => {
       state.blueButtonVisibility = true;
+      state.isBlueButtonActive = true;
+    },
+    DEACTIVATE_FOOTER_BLUEBUTTON: (state, action) => {
+      const { blueButtonTitle } = action.payload;
+      state.blueButtonTitle = blueButtonTitle;
+      state.blueButtonVisibility = true;
+      state.isBlueButtonActive = true;
     },
   },
 });
@@ -55,10 +64,9 @@ export const {
   INITIALIZE_FOOTER_BLUEBUTTON,
   SHOW_FOOTER_BLUEBUTTON,
   REMOVE_FOOTER_BLUEBUTTON,
+  DEACTIVATE_FOOTER_BLUEBUTTON,
 } = layoutSlice.actions;
 
-// export const getGoBackReturnUrlState = (state: RootState) =>
-//   state.layout.goBackReturnUrl;
 export const getHandleGoBackButtonClickState = (state: RootState) =>
   state.layout.handleGoBackButtonClick;
 
@@ -68,5 +76,7 @@ export const getBlueButtonVisibilityState = (state: RootState) =>
   state.layout.blueButtonVisibility;
 export const getHandleBlueButtonClickState = (state: RootState) =>
   state.layout.handleBlueButtonClick;
+export const getIsBlueButtonActiveState = (state: RootState) =>
+  state.layout.isBlueButtonActive;
 
 export default layoutSlice.reducer;

@@ -72,10 +72,15 @@ const FeaturedChallengeBlock = ({ margin, challengeId }: Props) => {
             width: "100%",
             height: "100%",
             position: "relative",
+            // backgroundColor: `${colors.white}`,
           }}
         >
           <Image
-            src="/asset/meditation.jpeg" //여기 챌린지 썸네일 사진이 들어가면 됨.
+            src={
+              challenge?.thumbnailUrl
+                ? challenge?.thumbnailUrl
+                : "/asset/blur.png"
+            } //여기 챌린지 썸네일 사진이 들어가면 됨.
             alt="challenge thumbnail"
             fill
             style={{

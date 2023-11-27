@@ -2,11 +2,14 @@
 import Category from "@/components/common/explore/Category";
 import ChallengeBlock from "@/components/common/explore/ChallengeBlock";
 import { getAllChallenges } from "@/lib/api/querys/challenge/getAllChallenges";
+import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
+import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
 import colors from "@/styles/color";
 import { AllChallenges } from "@/types/api/Challenge";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 const Explore = () => {
@@ -15,12 +18,18 @@ const Explore = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [category, setCategory] = useState("");
+  const dispatch = useDispatch();
 
   // useEffect //
   useEffect(() => {
     const categoryQuery = searchParams.get("category");
     setCategory(categoryQuery!);
   }, [pathname, searchParams]);
+
+  useEffect(() => {
+    dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
+    dispatch(CLOSE_MODAL());
+  }, []);
 
   // handle functions //
   const handleCategoryClick = (title: string) => {

@@ -1,14 +1,15 @@
 import FullPageModal from "@/components/base/Modal/FullPageModal";
 import postPhoto from "@/lib/api/axios/verification/postPhoto";
 import { snapYourScaleSrc } from "@/lib/components/fullPageModal";
+import { SET_HEADER_GOBACK } from "@/redux/slice/layoutSlice";
 import {
   CHANGE_MODAL,
   CLOSE_MODAL,
   IModalState,
   getModalState,
 } from "@/redux/slice/modalSlice";
-import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 type Props = {
@@ -22,6 +23,18 @@ const SnapYourScaleModal = ({ userChallengeId }: Props) => {
   const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  // useEffect //
+  useEffect(() => {
+    dispatch(
+      SET_HEADER_GOBACK({
+        handleGoBackButtonClick: () => {
+          dispatch(CLOSE_MODAL());
+          console.log("안뇽");
+        },
+      })
+    );
+  }, []);
 
   // handle functions //
   const handleBlueButtonClick = () => {

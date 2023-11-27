@@ -18,7 +18,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import {
+  SET_USER_DISCONNECT,
   SET_USER_LOGIN,
+  SET_USER_LOGOUT,
   getAuthState,
   getIsLoggedInState,
   getUserIDState,
@@ -30,17 +32,29 @@ import { AllChallengesByUserId } from "@/types/api/Challenge";
 import NoOngoingChallengesBlock from "@/components/common/home/NoOngoingChallengesBlock";
 import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
 import { FEATURED_CHALLENGE_IDS } from "@/lib/protoV2Constants";
+import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
+import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
 
 const Home = () => {
   const [auth, setAuth] = useState<boolean>(false);
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getIsLoggedInState); // 수정 필요: 여기도 불필요한 로직 수정해야할 듯
 
+  // Use Effect //
+  useEffect(() => {
+    dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
+    dispatch(CLOSE_MODAL());
+  }, []);
+
   useEffect(() => {
     // if (isLoggedIn) return;
     const _handlelogin = async () => {
       const loginRes = await login();
-      if (loginRes?.status !== 200) return;
+      if (loginRes?.status !== 200) {
+        dispatch(SET_USER_LOGOUT());
+        console.log(isLoggedIn);
+        return;
+      }
 
       setAuth(true);
 
@@ -83,7 +97,7 @@ const HomeBeforeLogin = () => {
           <WelcomeMessage isLogin={false} isScrolled={false} />
           <LoginBlock />
           <ExtendedChallengeHeader
-            challengeHeader="Featured Challenge"
+            challengeHeader="Featured Challenges"
             margin="40px 0 0 0"
           />
           {FEATURED_CHALLENGE_IDS.map((challengeId, index) => {
@@ -224,7 +238,6 @@ const HomeAfterLogin = () => {
               Featured Challenge
             </ChallengeHeader>
             {FEATURED_CHALLENGE_IDS.map((challengeId, index) => {
-              console.log(challengeId);
               return (
                 <FeaturedChallengeBlock
                   challengeId={challengeId}

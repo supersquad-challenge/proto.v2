@@ -73,6 +73,7 @@ const MyChallengeID = () => {
         },
       })
     );
+    dispatch(CLOSE_MODAL());
   }, []);
 
   useEffect(() => {
