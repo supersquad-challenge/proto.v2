@@ -53,7 +53,8 @@ const layoutSlice = createSlice({
       const { blueButtonTitle } = action.payload;
       state.blueButtonTitle = blueButtonTitle;
       state.blueButtonVisibility = true;
-      state.isBlueButtonActive = true;
+      state.isBlueButtonActive = false;
+      state.handleBlueButtonClick = () => {};
     },
   },
 });

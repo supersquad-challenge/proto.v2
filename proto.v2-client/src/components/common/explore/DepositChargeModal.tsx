@@ -68,9 +68,6 @@ const DepositChargeModal = ({
             depositMethod: paymentMethod,
             deposit: deposit,
           });
-
-          console.log(challengeRes);
-          console.log(depositRes);
           dispatch(CHANGE_MODAL({ modal: "nowYouAreIn" }));
         },
       })

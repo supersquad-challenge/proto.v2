@@ -52,7 +52,6 @@ const Home = () => {
       const loginRes = await login();
       if (loginRes?.status !== 200) {
         dispatch(SET_USER_LOGOUT());
-        console.log(isLoggedIn);
         return;
       }
 
