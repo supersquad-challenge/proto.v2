@@ -123,15 +123,16 @@ const Profile = () => {
         <SectionDetail>Choose a badge and proudly display it</SectionDetail>
         {isLoggedIn ? (
           <CollectionContainer>
-            {userInfo?.badge.map((singleBadge: BadgeT, index: number) => {
-              return (
-                <SingleCollection
-                  name={singleBadge.challengeName}
-                  margin={index !== 0 ? "0 0 0 30px" : undefined}
-                  key={index}
-                />
-              );
-            })}
+            {userInfo &&
+              userInfo?.badge.map((singleBadge: BadgeT, index: number) => {
+                return (
+                  <SingleCollection
+                    name={singleBadge.challengeName}
+                    margin={index !== 0 ? "0 0 0 30px" : undefined}
+                    key={index}
+                  />
+                );
+              })}
           </CollectionContainer>
         ) : (
           <div style={{ width: "100%", height: "140px" }}></div>
