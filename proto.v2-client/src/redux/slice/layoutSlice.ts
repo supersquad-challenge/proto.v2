@@ -49,7 +49,7 @@ const layoutSlice = createSlice({
       state.blueButtonVisibility = true;
       state.isBlueButtonActive = true;
     },
-    DEACTIVATE_FOOTER_BLUEBUTTON_COMPLETELY: (state, action) => {
+    DEACTIVATE_FOOTER_BLUEBUTTON: (state, action) => {
       const { blueButtonTitle, handleBlueButtonClick } = action.payload;
       state.blueButtonTitle = blueButtonTitle;
       state.blueButtonVisibility = true;
@@ -65,7 +65,7 @@ export const {
   INITIALIZE_FOOTER_BLUEBUTTON,
   SHOW_FOOTER_BLUEBUTTON,
   REMOVE_FOOTER_BLUEBUTTON,
-  DEACTIVATE_FOOTER_BLUEBUTTON_COMPLETELY: DEACTIVATE_FOOTER_BLUEBUTTON,
+  DEACTIVATE_FOOTER_BLUEBUTTON: DEACTIVATE_FOOTER_BLUEBUTTON,
 } = layoutSlice.actions;
 
 export const getHandleGoBackButtonClickState = (state: RootState) =>
