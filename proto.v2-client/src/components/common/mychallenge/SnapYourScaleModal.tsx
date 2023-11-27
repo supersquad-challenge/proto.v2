@@ -30,7 +30,6 @@ const SnapYourScaleModal = ({ userChallengeId }: Props) => {
       SET_HEADER_GOBACK({
         handleGoBackButtonClick: () => {
           dispatch(CLOSE_MODAL());
-          console.log("안뇽");
         },
       })
     );
@@ -77,7 +76,7 @@ const SnapYourScaleModal = ({ userChallengeId }: Props) => {
         accept="image/*"
         name="file"
         type="file"
-        capture="environment"
+        capture="user"
         onChange={onUpload}
         style={{ display: "none" }}
       />
