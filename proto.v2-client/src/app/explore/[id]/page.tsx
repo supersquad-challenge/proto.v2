@@ -113,6 +113,7 @@ const ExploreID = () => {
           })
         );
       } else {
+        console.log("이건 이제 그만 나와라");
         dispatch(
           SET_FOOTER_BLUEBUTTON({
             blueButtonTitle: 'I am in!',
@@ -131,7 +132,7 @@ const ExploreID = () => {
         })
       );
     }
-  }, [id, modal.visibility, register]);
+  }, []);
 
   useEffect(() => {
     dispatch(
