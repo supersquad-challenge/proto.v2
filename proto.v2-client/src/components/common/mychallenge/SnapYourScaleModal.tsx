@@ -76,7 +76,7 @@ const SnapYourScaleModal = ({ userChallengeId }: Props) => {
         accept="image/*"
         name="file"
         type="file"
-        capture="user"
+        capture="environment"
         onChange={onUpload}
         style={{ display: "none" }}
       />

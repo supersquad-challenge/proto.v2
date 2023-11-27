@@ -46,7 +46,6 @@ const MyChallenge = () => {
         queryString,
       });
       const challenges = res.userChallengeInfos;
-      console.log(challenges);
       return challenges;
     },
     {
