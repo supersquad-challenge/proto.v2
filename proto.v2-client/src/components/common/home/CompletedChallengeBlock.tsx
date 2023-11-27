@@ -10,7 +10,7 @@ type Props = {
 
 const CompletedChallengeBlock = ({ category, name, onClickHandler }: Props) => {
   return (
-    <BlockWrapper>
+    <BlockWrapper onClick={onClickHandler}>
       <BaseBlock
         backgroundColor={colors.lightGray}
         borderRadius={20}
