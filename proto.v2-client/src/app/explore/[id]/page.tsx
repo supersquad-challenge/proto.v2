@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
   DEACTIVATE_FOOTER_BLUEBUTTON,
+  INITIALIZE_FOOTER_BLUEBUTTON,
   SET_FOOTER_BLUEBUTTON,
   SET_HEADER_GOBACK,
   getIsBlueButtonActiveState,
@@ -94,6 +95,7 @@ const ExploreID = () => {
           SET_FOOTER_BLUEBUTTON({
             blueButtonTitle: "I am in!",
             handleBlueButtonClick: () => {
+              dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
               dispatch(OPEN_MODAL({ modal: "paymentSelect" }));
             },
           })

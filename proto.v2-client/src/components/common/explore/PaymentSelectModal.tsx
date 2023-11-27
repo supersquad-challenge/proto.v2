@@ -3,7 +3,10 @@ import BaseModal from "../../base/Modal/BaseModal";
 import BaseBlock from "../../base/Block/BaseBlock";
 import colors from "@/styles/color";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
+import {
+  INITIALIZE_FOOTER_BLUEBUTTON,
+  SET_FOOTER_BLUEBUTTON,
+} from "@/redux/slice/layoutSlice";
 import {
   CHANGE_MODAL,
   IModalState,
@@ -26,14 +29,17 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
 
   // useEffect //
   useEffect(() => {
+    console.log("PaymentSelect로 바뀌미 전");
     dispatch(
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Go on",
         handleBlueButtonClick: () => {
+          dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
           dispatch(OPEN_MODAL({ modal: "depositCharge" }));
         },
       })
     );
+    console.log("PaymentSelect로 바뀌미 후");
   }, [activeModal]);
 
   return (
