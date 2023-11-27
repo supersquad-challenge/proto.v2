@@ -13,7 +13,7 @@ import {
 } from "@/redux/slice/modalSlice";
 import colors from "@/styles/color";
 import { PaymentMethod } from "@/types/Modal";
-import { SingleRegisteredChallenge } from "@/types/api/Challenge";
+import { SingleRegisteredChallengeT } from "@/types/api/Challenge";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";

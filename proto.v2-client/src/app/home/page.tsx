@@ -28,7 +28,7 @@ import {
 
 import { login } from '@/lib/api/axios/auth/login';
 import { useSelector } from 'react-redux';
-import { AllChallengesByUserId } from '@/types/api/Challenge';
+import { AllChallengesByUserIdT } from '@/types/api/Challenge';
 import NoOngoingChallengesBlock from '@/components/common/home/NoOngoingChallengesBlock';
 import { getUserInfo } from '@/lib/api/querys/user/getUserInfo';
 import { FEATURED_CHALLENGE_IDS } from '@/lib/protoV2Constants';
@@ -135,10 +135,10 @@ const HomeAfterLogin = () => {
         queryString: 'status=ongoing',
       });
       const ongoingChallenges = res.userChallengeInfos;
-      let photoUploadedChallenges: AllChallengesByUserId[] = [];
-      let photoNotUploadedChallenges: AllChallengesByUserId[] = [];
+      let photoUploadedChallenges: AllChallengesByUserIdT[] = [];
+      let photoNotUploadedChallenges: AllChallengesByUserIdT[] = [];
       if (ongoingChallenges) {
-        ongoingChallenges.forEach((challenge: AllChallengesByUserId) => {
+        ongoingChallenges.forEach((challenge: AllChallengesByUserIdT) => {
           if (challenge.isPhotoUploadedToday) {
             photoUploadedChallenges.push(challenge);
           } else {
@@ -195,7 +195,7 @@ const HomeAfterLogin = () => {
             {photoNotUploadedChallenges?.length === 0 &&
               photoUploadedChallenges?.length === 0 && <NoOngoingChallengesBlock />}
             {photoNotUploadedChallenges?.map(
-              (challenge: AllChallengesByUserId, index: number) => {
+              (challenge: AllChallengesByUserIdT, index: number) => {
                 return (
                   <MyChallengeBlock
                     successRate={challenge.successRate}
@@ -216,7 +216,7 @@ const HomeAfterLogin = () => {
               }
             )}
             {photoUploadedChallenges?.map(
-              (challenge: AllChallengesByUserId, index: number) => {
+              (challenge: AllChallengesByUserIdT, index: number) => {
                 return (
                   <CompletedChallengeBlock
                     category={challenge.category}

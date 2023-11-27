@@ -7,7 +7,7 @@ import Image from "next/image";
 import SingleChallengeInfo from "@/components/common/explore/SingleChallengeInfo";
 import { useQuery } from "react-query";
 import { useParams, useRouter } from "next/navigation";
-import { SingleChallengeByUserChallengeId } from "@/types/api/Challenge";
+import { SingleChallengeByUserChallengeIdT } from "@/types/api/Challenge";
 import { getSingleChallengeByUserChallengeId } from "@/lib/api/querys/myChallenge/getSingleChallengeByUserChallengeId";
 import thousandFormat from "@/utils/thousandFormat";
 import { convertIsoDateToReadable } from "@/utils/dateFormatUtils";
@@ -46,7 +46,7 @@ const MyChallengeID = () => {
     data: challenge,
     isLoading,
     error,
-  } = useQuery<SingleChallengeByUserChallengeId>({
+  } = useQuery<SingleChallengeByUserChallengeIdT>({
     queryKey: [`myStatus-${userChallengeId}`],
     queryFn: async () => {
       const res = await getSingleChallengeByUserChallengeId({

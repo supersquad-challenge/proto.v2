@@ -1,4 +1,4 @@
-import { SingleRegisteredChallenge } from "@/types/api/Challenge";
+import { SingleRegisteredChallengeT } from "@/types/api/Challenge";
 import axios, { AxiosResponse } from "axios";
 type Props = {
   userId: string;
@@ -10,7 +10,7 @@ const setChallenge = async ({
   userId,
   challengeId,
   timezone,
-}: Props): Promise<AxiosResponse<SingleRegisteredChallenge> | undefined> => {
+}: Props): Promise<AxiosResponse<SingleRegisteredChallengeT> | undefined> => {
   try {
     if (userId && challengeId && timezone) {
       const res = await axios.post(

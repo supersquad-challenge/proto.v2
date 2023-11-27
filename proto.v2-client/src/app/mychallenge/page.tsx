@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { USERID } from "@/lib/api/testdata";
-import { AllChallengesByUserId } from "@/types/api/Challenge";
+import { AllChallengesByUserIdT } from "@/types/api/Challenge";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserIDState } from "@/redux/slice/authSlice";
 import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
@@ -83,7 +83,7 @@ const MyChallenge = () => {
           Total{" "}
           <TotalBold>{data?.length === undefined ? 0 : data?.length}</TotalBold>
         </TotalWrapper>
-        {data?.map((challenge: AllChallengesByUserId, index: number) => {
+        {data?.map((challenge: AllChallengesByUserIdT, index: number) => {
           return (
             <MyChallengeBlock
               successRate={challenge.successRate}

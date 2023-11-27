@@ -3,12 +3,48 @@ import SmallArrowButton from "../../base/Button/SmallArrowButton";
 import BaseBlock from "@/components/base/Block/BaseBlock";
 import colors from "@/styles/color";
 import Image from "next/image";
+<<<<<<< HEAD
+=======
+import { useQuery } from "react-query";
+import { SingleChallengeByChallengeIdT } from "@/types/api/Challenge";
+import { getSingleChallenge } from "@/lib/api/querys/challenge/getSingleChallenge";
+import {
+  addDaysToDate,
+  convertIsoDateToReadable,
+} from "@/utils/dateFormatUtils";
+import { DURATION_DAYS } from "@/lib/protoV2Constants";
+import { useRouter } from "next/navigation";
+>>>>>>> 54e4c27 (Add: Profile Badge)
 
 type Props = {
   margin: string;
 };
 
+<<<<<<< HEAD
 const FeaturedChallengeBlock = ({ margin }: Props) => {
+=======
+const FeaturedChallengeBlock = ({ margin, challengeId }: Props) => {
+  // variables //
+  const today = new Date();
+  const router = useRouter();
+
+  // API //
+  const {
+    data: challenge,
+    error,
+    isLoading,
+  } = useQuery<SingleChallengeByChallengeIdT>({
+    queryKey: [`singleChallenge-${challengeId}`],
+    queryFn: async () => {
+      const res = await getSingleChallenge({ challengeId: challengeId });
+      const challenge = res.challengeInfo;
+      return challenge;
+    },
+    staleTime: 5000,
+    cacheTime: 60 * 60 * 1000,
+  });
+
+>>>>>>> 54e4c27 (Add: Profile Badge)
   return (
     <BlockWrapper $margin={margin}>
       <BaseBlock
