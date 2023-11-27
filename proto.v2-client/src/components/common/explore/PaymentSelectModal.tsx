@@ -74,13 +74,14 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
               : "2px solid #dddddd"
           }
           onClickHandler={() => {
-            setPaymentMethod("cash");
+            // setPaymentMethod("cash");
+            setPaymentMethod("crypto");
           }}
         >
           <PaymentMethod $isclicked={paymentMethod === "cash"}>
             a cash account
           </PaymentMethod>
-          <Detail>Deposit $USDC to enforce your goals</Detail>
+          <Detail>This is not supported in the Proto V2.</Detail>
         </BaseBlock>
       </PaymentBlockWrapper>
     </BaseModal>
