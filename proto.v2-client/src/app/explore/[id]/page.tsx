@@ -59,6 +59,11 @@ const ExploreID = () => {
         challengeId: challengeId,
         userId: userId!,
       });
+      if (res.userChallengeInfo.userChallengeId !== undefined) {
+        setRegister(true);
+      } else {
+        setRegister(false);
+      }
       return res.userChallengeInfo.userChallengeId != undefined;
     },
     staleTime: 5000,
@@ -80,6 +85,10 @@ const ExploreID = () => {
     cacheTime: 60 * 60 * 1000,
   });
 
+  useEffect(() => {
+    setRegister(isRegistered!);
+  }, [isRegistered]);
+
   // useEffect //
   useEffect(() => {
     if (isLoggedIn) {
@@ -91,7 +100,6 @@ const ExploreID = () => {
           })
         );
       } else {
-        console.log("이건 이제 그만 나와라");
         dispatch(
           SET_FOOTER_BLUEBUTTON({
             blueButtonTitle: "I am in!",
@@ -110,7 +118,7 @@ const ExploreID = () => {
         })
       );
     }
-  }, []);
+  }, [isLoggedIn, register, dispatch, router]);
 
   useEffect(() => {
     dispatch(
@@ -121,10 +129,6 @@ const ExploreID = () => {
       })
     );
   }, []);
-
-  useEffect(() => {
-    setRegister(isRegistered!);
-  }, [isRegistered]);
 
   return modal.activeModal === "nowYouAreIn" && modal.visibility === true ? (
     <FullPageModal
