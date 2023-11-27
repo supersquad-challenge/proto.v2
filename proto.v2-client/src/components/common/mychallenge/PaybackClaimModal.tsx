@@ -41,9 +41,9 @@ const PaybackClaimModal = ({ successRate }: Props) => {
         userChallengeId: userChallengeId,
       });
       const paybackStatus = res.paybackInfo;
-      if (paybackStatus.depositMethod === "crypto") {
+      if (paybackStatus?.depositMethod === "crypto") {
         currency = "MATIC";
-      } else if (paybackStatus.depositMethod === "cash") {
+      } else if (paybackStatus?.depositMethod === "cash") {
         currency = "$USD";
       }
       return paybackStatus;
