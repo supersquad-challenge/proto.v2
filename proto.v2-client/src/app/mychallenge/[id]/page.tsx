@@ -80,6 +80,7 @@ const MyChallengeID = () => {
   useEffect(() => {
     if (!modal.visibility) {
       router.refresh();
+      console.log("나 리프레쉬한다."); //여기서부터
     }
   }, [modal.visibility]);
 
