@@ -17,14 +17,6 @@ type Props = {
 
 const Wallet = ({ walletName }: Props) => {
   const isLoggedIn = useSelector(getIsLoggedInState);
-  const { address, isConnected, isDisconnected } = useAccount();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (isConnected && address) {
-      dispatch(SET_USER_CONNECT({ address: address }));
-    }
-    if (isDisconnected) [dispatch(SET_USER_DISCONNECT())];
-  }, [isConnected, isDisconnected]);
 
   return (
     <Wrapper>
