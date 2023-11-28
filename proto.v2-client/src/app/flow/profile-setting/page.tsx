@@ -59,18 +59,18 @@ const ProfileSetting = () => {
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: 'Save Changes',
         handleBlueButtonClick: async () => {
-          // if (newNickname !== "") {
-          //   router.push("/home");
+          if (newNickname !== "") {
+            router.push("/home");
 
-          //   const res = await setNickname({
-          //     userId: userId!,
-          //     nickname: newNickname,
-          //     file: file,
-          //   });
-          //   console.log(res);
-          // }
-          console.log(newNickname);
-          console.log(file);
+            const res = await setNickname({
+              userId: userId!,
+              nickname: newNickname,
+              file: file,
+            });
+            console.log(res);
+          }
+          // console.log(newNickname);
+          // console.log(file);
         },
       })
     );
