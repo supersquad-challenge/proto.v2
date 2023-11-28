@@ -13,7 +13,6 @@ import {
   INITIALIZE_FOOTER_BLUEBUTTON,
   SET_FOOTER_BLUEBUTTON,
   SET_HEADER_GOBACK,
-  getIsBlueButtonActiveState,
 } from "@/redux/slice/layoutSlice";
 import {
   CLOSE_MODAL,
@@ -28,9 +27,9 @@ import DepositChargeModal from "@/components/common/explore/DepositChargeModal";
 import { PaymentMethod } from "@/types/Modal";
 import FullPageModal from "@/components/base/Modal/FullPageModal";
 import { nowYouAreInSrc } from "@/lib/components/fullPageModal";
-import { USERID } from "@/lib/api/testdata";
 import { getIsChallengeRegistered } from "@/lib/api/querys/myChallenge/getIsChallengeRegistered";
 import { getIsLoggedInState, getUserIDState } from "@/redux/slice/authSlice";
+import Loading from "@/components/animation/Loading/Spinner/Loading";
 
 const ExploreID = () => {
   // variables //
@@ -52,7 +51,6 @@ const ExploreID = () => {
     error: isRegisteredError,
     isLoading: isRegisteredLoading,
   } = useQuery({
-    // queryKey: [`isRegistered-${challengeId} - ${USERID}`],
     queryKey: [`isRegistered-${challengeId} - ${userId}`],
     queryFn: async () => {
       const res = await getIsChallengeRegistered({
@@ -183,6 +181,7 @@ const ExploreID = () => {
           detail={challenge?.description!}
         />
       </DetailedChallengePage>
+      {(isLoading || isRegisteredLoading) && <Loading />}
     </Container>
   );
 };
