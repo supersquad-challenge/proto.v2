@@ -8,7 +8,7 @@ type Props = {
 };
 
 const ParticipantsBanner = ({ participants, profileUrls }: Props) => {
-  const defaultProfileSrc = "/asset/profile-circle.svg";
+  const defaultProfileSrc = "/asset/profile-circle.svg"; //기본 프로필 이미지
   let profileImgArr;
   if (profileUrls.length === 0) {
     profileImgArr = Array(2).fill(defaultProfileSrc);
@@ -24,7 +24,7 @@ const ParticipantsBanner = ({ participants, profileUrls }: Props) => {
       <CirclesWrapper>
         <ProfileContainer>
           <Image
-            src={profileImgArr![0] ? profileImgArr![0] : defaultProfileSrc} // 참여자 프로필
+            src={profileImgArr![0] ? profileImgArr![0] : defaultProfileSrc} // 참여자 프로필 1
             width={32}
             height={32}
             alt="participants"
@@ -32,7 +32,7 @@ const ParticipantsBanner = ({ participants, profileUrls }: Props) => {
         </ProfileContainer>
         <ProfileContainer style={{ marginLeft: "-10px" }}>
           <Image
-            src={profileImgArr![1] ? profileImgArr![1] : defaultProfileSrc} //참여자 프로필
+            src={profileImgArr![1] ? profileImgArr![1] : defaultProfileSrc} //참여자 프로필 2
             width={32}
             height={32}
             alt="participants"
