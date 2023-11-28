@@ -78,7 +78,12 @@ const MyChallengeID = () => {
   }, []);
 
   useEffect(() => {
-    router.refresh();
+    if (!modal.visibility) {
+      router.refresh();
+    }
+  }, [modal.visibility]);
+
+  useEffect(() => {
     const today = new Date();
     const nextDayOfEndDay = new Date(challenge?.challengeEndAt!);
     nextDayOfEndDay.setDate(nextDayOfEndDay.getDate() + 1);
