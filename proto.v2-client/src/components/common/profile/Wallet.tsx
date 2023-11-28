@@ -13,29 +13,18 @@ import { useEffect } from 'react';
 
 type Props = {
   walletName: string;
+  walletImgSrc: string;
+  children?: React.ReactNode;
 };
 
-const Wallet = ({ walletName }: Props) => {
+const Wallet = ({ walletName, walletImgSrc, children }: Props) => {
   const isLoggedIn = useSelector(getIsLoggedInState);
 
   return (
     <Wrapper>
-      <Image
-        src="/asset/wallet_connect.svg"
-        alt="wallet connect"
-        width={30}
-        height={30}
-      />
+      <Image src={walletImgSrc} alt={walletName} width={30} height={30} />
       <Name>{walletName}</Name>
-      <ButtonWrapper>
-        <w3m-button
-          label="Connect"
-          size="md"
-          disabled={isLoggedIn ? false : true}
-          loadingLabel="Connecting"
-          balance="hide"
-        />
-      </ButtonWrapper>
+      {children}
     </Wrapper>
   );
 };
@@ -63,8 +52,15 @@ const Name = styled.div`
   margin-left: 15px;
 `;
 
-const ButtonWrapper = styled.div`
+export const DefaultWalletButtonWrapper = styled.div`
   width: auto;
   height: auto;
+  margin-left: auto;
+  box-sizing: border-box;
+`;
+
+export const WalletConnectButtonWrapper = styled.div`
+  width: 85px;
+  height: 36.6px;
   margin-left: auto;
 `;
