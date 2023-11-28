@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/components/animation/Loading/Spinner/Loading";
 import Category from "@/components/common/explore/Category";
 import ChallengeBlock from "@/components/common/explore/ChallengeBlock";
 import { getAllChallenges } from "@/lib/api/querys/challenge/getAllChallenges";
@@ -41,7 +42,7 @@ const Explore = () => {
     return;
   };
 
-  // api //
+  // API //
   const { data, error, isLoading } = useQuery(
     ["allChallenges", searchParams.get("category")],
     async () => {
@@ -142,6 +143,7 @@ const Explore = () => {
           );
         })}
       </ChallengesContainer>
+      {isLoading && <Loading />}
     </Container>
   );
 };
