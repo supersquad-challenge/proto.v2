@@ -13,6 +13,7 @@ type Props = {
   name: string;
   participants: number;
   children?: React.ReactNode;
+  profileUrls: string[] | [];
 };
 
 const DetailedChallengePage = ({
@@ -21,6 +22,7 @@ const DetailedChallengePage = ({
   name,
   participants,
   children,
+  profileUrls,
 }: Props) => {
   return (
     <>
@@ -50,7 +52,10 @@ const DetailedChallengePage = ({
       </ThumbnailContainer>
       <InfoContainer>
         <Name>{name}</Name>
-        <ParticipantsBanner participants={participants} />
+        <ParticipantsBanner
+          participants={participants}
+          profileUrls={profileUrls}
+        />
         {children}
       </InfoContainer>
     </>

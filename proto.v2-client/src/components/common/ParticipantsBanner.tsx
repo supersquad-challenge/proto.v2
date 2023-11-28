@@ -4,9 +4,22 @@ import colors from "@/styles/color";
 
 type Props = {
   participants: number;
+  profileUrls: string[] | [];
 };
 
-const ParticipantsBanner = ({ participants }: Props) => {
+const ParticipantsBanner = ({ participants, profileUrls }: Props) => {
+  const defaultProfileSrc = "/asset/profile-circle.svg";
+  let profileImgArr;
+  if (profileUrls.length === 0) {
+    profileImgArr = Array(2).fill(defaultProfileSrc);
+  } else if (profileUrls.length === 1) {
+    profileImgArr = Array(2).fill(null);
+    profileImgArr[0] = profileUrls[0];
+    profileImgArr[1] = defaultProfileSrc;
+  } else if (profileUrls.length >= 2) {
+    profileImgArr = profileUrls.slice(-2).reverse();
+  }
+  console.log(profileImgArr);
   return (
     <Container>
       <CirclesWrapper>

@@ -29,6 +29,7 @@ export type SingleChallengeByChallengeIdT = {
   howTo: string;
   description: string;
   category: string;
+  profileUrls: string[];
 };
 
 export type SingleChallengeByUserChallengeIdT = {
