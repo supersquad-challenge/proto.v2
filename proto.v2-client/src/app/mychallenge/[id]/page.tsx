@@ -31,6 +31,7 @@ import {
 } from "@/lib/components/fullPageModal";
 import FullPageModal from "@/components/base/Modal/FullPageModal";
 import PaybackClaimModal from "@/components/common/mychallenge/PaybackClaimModal";
+import Loading from "@/components/animation/Loading/Spinner/Loading";
 
 const MyChallengeID = () => {
   // variables //
@@ -136,7 +137,8 @@ const MyChallengeID = () => {
               dispatch(CLOSE_MODAL());
             }}
             goBackButtonClickHandler={() => {
-              router.push(`/mychallenge/${userChallengeId}`);
+              // router.push(`/mychallenge/${userChallengeId}`);
+              router.refresh();
               dispatch(CLOSE_MODAL());
             }}
           />
@@ -149,7 +151,8 @@ const MyChallengeID = () => {
           {...congrats_statusSrc}
           onClickHandler={() => dispatch(CLOSE_MODAL())}
           goBackButtonClickHandler={() => {
-            router.push(`/mychallenge/${userChallengeId}`);
+            // router.push(`/mychallenge/${userChallengeId}`);
+            router.refresh();
             dispatch(CLOSE_MODAL());
           }}
         />
@@ -237,6 +240,7 @@ const MyChallengeID = () => {
               detail={challenge?.description!}
             />
           </DetailedChallengePage>
+          {isLoading && <Loading />}
         </Container>
       )}
     </>
