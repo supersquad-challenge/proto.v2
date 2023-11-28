@@ -51,11 +51,13 @@ const metadata = {
   icons: "/src/app/favicon.ico",
 };
 
+const Chains = [polygon, klaytn];
+
 const wagmiConfig = createConfig({
   autoConnect: true,
   connectors: [
     new WalletConnectConnector({
-      chains,
+      chains: Chains,
       options: { projectId, showQrModal: false, metadata },
     }),
     new InjectedConnector({ chains, options: { shimDisconnect: true } }),
@@ -74,6 +76,10 @@ createWeb3Modal({
     "--w3m-font-family": "Poppin",
     "--w3m-font-size-master": "8px",
   },
+  featuredWalletIds: [
+    "c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96",
+    "ef333840daf915aafdc4a004525502d6d49d77bd9c65e0642dbaefb3c2893bef",
+  ],
 });
 
 export default function RootLayout({
