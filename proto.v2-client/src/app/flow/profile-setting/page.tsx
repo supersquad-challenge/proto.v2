@@ -37,7 +37,8 @@ const ProfileSetting = () => {
     originalNickname ? originalNickname : ''
   );
   const router = useRouter();
-  const [newProfileSrc, setNewProfileSrc] = useState('');
+  // const [newProfileSrc, setNewProfileSrc] = useState("");
+  const [file, setFile] = useState<File>();
 
   // useEffect //
   useEffect(() => {
@@ -62,18 +63,18 @@ const ProfileSetting = () => {
           //   router.push("/home");
 
           //   const res = await setNickname({
-          //     userInfoId: userId!,
+          //     userId: userId!,
           //     nickname: newNickname,
-          //     file: newProfileSrc,
+          //     file: file,
           //   });
           //   console.log(res);
           // }
           console.log(newNickname);
-          console.log(newProfileSrc);
+          console.log(file);
         },
       })
     );
-  }, [newNickname, newProfileSrc]);
+  }, [newNickname, file]);
 
   // Nickname Input functions //
   const updateInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +93,7 @@ const ProfileSetting = () => {
     // 프로필 이미지 변경하는 로직 추가
     if (userId) {
       const res = await setNickname({
-        userInfoId: userId,
+        userId: userId,
         nickname: newNickname,
       });
     }
@@ -104,7 +105,7 @@ const ProfileSetting = () => {
         <FlowSectionName>Profile Setting</FlowSectionName>
         <ImageInputWrapper>
           {/* <ImageInputCircle profileSrc="/asset/meditation.jpeg" /> */}
-          <ImageInputCircle profileSrc={profile!} setNewProfileSrc={setNewProfileSrc} />
+          <ImageInputCircle profileSrc={profile!} file={file} setFile={setFile} />
         </ImageInputWrapper>
         <NicknameMessage>Nickname</NicknameMessage>
         <NicknameInput
