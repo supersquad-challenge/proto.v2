@@ -11,21 +11,16 @@ import ChallengeHeader from "@/components/common/home/ChallengeHeader";
 import { useQuery } from "react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getAllChallengesByUserId } from "@/lib/api/querys/myChallenge/getAllChallengesByUserId";
-import { USERID } from "@/lib/api/testdata";
 import MyChallengeBlock from "@/components/common/MyChallengeBlock";
 import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-
 import {
-  SET_USER_DISCONNECT,
   SET_USER_LOGIN,
   SET_USER_LOGOUT,
-  getAuthState,
   getIsLoggedInState,
   getUserIDState,
 } from "@/redux/slice/authSlice";
-
 import { login } from "@/lib/api/axios/auth/login";
 import { useSelector } from "react-redux";
 import { AllChallengesByUserIdT } from "@/types/api/Challenge";
@@ -36,9 +31,9 @@ import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
 
 const Home = () => {
+  // variables //
   const [auth, setAuth] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(getIsLoggedInState); // 수정 필요: 여기도 불필요한 로직 수정해야할 듯
 
   // Use Effect //
   useEffect(() => {
@@ -47,7 +42,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    // if (isLoggedIn) return;
     const _handlelogin = async () => {
       const loginRes = await login();
       if (loginRes?.status !== 200) {

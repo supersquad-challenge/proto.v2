@@ -25,16 +25,16 @@ const ParticipantsBanner = ({ participants, profileUrls }: Props) => {
         <ProfileContainer>
           <Image
             src={profileImgArr![0] ? profileImgArr![0] : defaultProfileSrc} // 참여자 프로필 1
-            width={32}
-            height={32}
+            width={31}
+            height={31}
             alt="participants"
           />
         </ProfileContainer>
         <ProfileContainer style={{ marginLeft: "-10px" }}>
           <Image
             src={profileImgArr![1] ? profileImgArr![1] : defaultProfileSrc} //참여자 프로필 2
-            width={32}
-            height={32}
+            width={31}
+            height={31}
             alt="participants"
           />
         </ProfileContainer>
