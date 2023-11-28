@@ -6,12 +6,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { USERID } from "@/lib/api/testdata";
 import { AllChallengesByUserIdT } from "@/types/api/Challenge";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserIDState } from "@/redux/slice/authSlice";
 import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
+import Loading from "@/components/animation/Loading/Spinner/Loading";
 
 const MyChallenge = () => {
   // variables //
@@ -104,6 +104,7 @@ const MyChallenge = () => {
           );
         })}
       </ChallengesContainer>
+      {isLoading && <Loading />}
     </Container>
   );
 };
