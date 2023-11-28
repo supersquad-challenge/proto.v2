@@ -12,10 +12,6 @@ export const setNickname = async ({ userId, nickname, file }: Props) => {
   formData.append("nickname", nickname);
   if (file instanceof File) {
     formData.append("file", file);
-  } else {
-    return {
-      status: 0,
-    };
   }
   try {
     const res = await axios.post(
