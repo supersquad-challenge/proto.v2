@@ -43,7 +43,7 @@ const NicknameSetup = () => {
             const res = await setNickname({
               userId: userId!,
               nickname: newNickname,
-              file: undefined,
+              // file: undefined,
             });
             console.log(res);
           }
