@@ -37,7 +37,7 @@ const ProfileSetting = () => {
     originalNickname ? originalNickname : ""
   );
   const router = useRouter();
-  const [file, setFile] = useState<File>();
+  const [newProfileSrc, setNewProfileSrc] = useState("");
 
   // useEffect //
   useEffect(() => {
@@ -64,15 +64,16 @@ const ProfileSetting = () => {
           //   const res = await setNickname({
           //     userInfoId: userId!,
           //     nickname: newNickname,
+          //     file: newProfileSrc,
           //   });
           //   console.log(res);
           // }
           console.log(newNickname);
-          console.log(file);
+          console.log(newProfileSrc);
         },
       })
     );
-  }, [newNickname, file]);
+  }, [newNickname, newProfileSrc]);
 
   // Nickname Input functions //
   const updateInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -105,8 +106,7 @@ const ProfileSetting = () => {
           {/* <ImageInputCircle profileSrc="/asset/meditation.jpeg" /> */}
           <ImageInputCircle
             profileSrc={profile!}
-            file={file}
-            setFile={setFile}
+            setNewProfileSrc={setNewProfileSrc}
           />
         </ImageInputWrapper>
         <NicknameMessage>Nickname</NicknameMessage>
