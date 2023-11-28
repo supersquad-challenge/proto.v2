@@ -44,7 +44,6 @@ const NicknameSetup = () => {
               userId: userId!,
               nickname: newNickname,
             });
-            console.log(res);
           }
         },
       })
@@ -58,8 +57,6 @@ const NicknameSetup = () => {
 
   const submitInput = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      // 닉네임 제출 로직 (예: 서버로 전송)
-      console.log("Submitted Nickname:", newNickname);
     }
   };
 

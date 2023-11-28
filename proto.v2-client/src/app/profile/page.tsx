@@ -80,7 +80,6 @@ const Profile = () => {
         switchNetwork?.(137);
       }
       dispatch(SET_USER_CONNECT({ address: address }));
-      console.log('connected');
     }
     if (isDisconnected) [dispatch(SET_USER_DISCONNECT())];
   }, [isconnected, isDisconnected, router]);

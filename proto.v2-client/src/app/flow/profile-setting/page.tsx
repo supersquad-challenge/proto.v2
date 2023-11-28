@@ -67,10 +67,7 @@ const ProfileSetting = () => {
               nickname: newNickname,
               file: file,
             });
-            console.log(res);
           }
-          // console.log(newNickname);
-          // console.log(file);
         },
       })
     );
@@ -82,6 +79,7 @@ const ProfileSetting = () => {
   };
 
   const submitInput = (event: KeyboardEvent<HTMLInputElement>) => {
+<<<<<<< HEAD
     if (event.key === 'Enter') {
       // 닉네임 제출 로직 (예: 서버로 전송)
       console.log('Submitted Nickname:', newNickname);
@@ -96,6 +94,9 @@ const ProfileSetting = () => {
         userId: userId,
         nickname: newNickname,
       });
+=======
+    if (event.key === "Enter") {
+>>>>>>> 474177c (Fix: erorrs)
     }
   };
 
