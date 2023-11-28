@@ -149,7 +149,10 @@ const MyChallengeID = () => {
       {modal.activeModal === "congrats_status" && modal.visibility === true && (
         <FullPageModal
           {...congrats_statusSrc}
-          onClickHandler={() => dispatch(CLOSE_MODAL())}
+          onClickHandler={() => {
+            dispatch(CLOSE_MODAL());
+            router.refresh();
+          }}
           goBackButtonClickHandler={() => {
             // router.push(`/mychallenge/${userChallengeId}`);
             router.refresh();

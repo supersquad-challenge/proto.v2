@@ -74,7 +74,6 @@ const SnapYourScaleModal = ({ userChallengeId }: Props) => {
       {...snapYourScaleSrc}
       onClickHandler={handleBlueButtonClick}
       goBackButtonClickHandler={() => {
-        router.refresh();
         dispatch(CLOSE_MODAL());
       }}
     >
