@@ -40,6 +40,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 
   margin-top: 15px;
+  position: relative;
 `;
 
 const Name = styled.div`
@@ -57,10 +58,16 @@ export const DefaultWalletButtonWrapper = styled.div`
   height: auto;
   margin-left: auto;
   box-sizing: border-box;
+  position: absolute;
+  right: 0px;
 `;
 
 export const WalletConnectButtonWrapper = styled.div`
   width: 85px;
   height: 36.6px;
   margin-left: auto;
+  box-sizing: border-box;
+
+  position: absolute;
+  right: 0px;
 `;

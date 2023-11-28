@@ -35,8 +35,8 @@ const klaytnRpcConfig = {
 
 // 2. Create wagmiConfig
 const { chains, publicClient } = configureChains(
-  // [polygon, klaytn],
-  [klaytn],
+  [polygon, klaytn],
+  // [klaytn],
   [
     walletConnectProvider({ projectId }),
     publicProvider(),
@@ -52,8 +52,8 @@ const metadata = {
   icons: "/src/app/favicon.ico",
 };
 
-// const Chains = [polygon, klaytn];
-const Chains = [klaytn];
+const Chains = [polygon, klaytn];
+// const Chains = [klaytn];
 
 const wagmiConfig = createConfig({
   autoConnect: true,
