@@ -41,7 +41,7 @@ const NicknameSetup = () => {
             router.push("/home");
 
             const res = await setNickname({
-              userInfoId: userId!,
+              userId: userId!,
               nickname: newNickname,
             });
             console.log(res);

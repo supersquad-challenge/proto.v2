@@ -4,12 +4,11 @@ import styled from "styled-components";
 
 type Props = {
   profileSrc: string;
-  setNewProfileSrc: Dispatch<SetStateAction<string>>;
-  // file: File | undefined;
-  // setFile: Dispatch<SetStateAction<File | undefined>>;
+  file?: File;
+  setFile: Dispatch<SetStateAction<File | undefined>>;
 };
 
-const ImageInputCircle = ({ profileSrc, setNewProfileSrc }: Props) => {
+const ImageInputCircle = ({ profileSrc, file, setFile }: Props) => {
   const [backgroundImage, setBackgroundImage] = useState<string>(profileSrc);
   const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(null);
 
@@ -17,10 +16,9 @@ const ImageInputCircle = ({ profileSrc, setNewProfileSrc }: Props) => {
     if (event.target.files && event.target.files[0]) {
       const imageFile = event.target.files[0];
       const imageUrl = URL.createObjectURL(imageFile);
-      setBackgroundImage(imageUrl);
-      setNewProfileSrc(imageUrl);
 
-      const file = event.target.files?.[0];
+      file = event.target.files?.[0];
+      setFile(file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
