@@ -28,6 +28,8 @@ export type SingleChallengeByChallengeIdT = {
   frequency: string;
   howTo: string;
   description: string;
+  category: string;
+  profileUrls: string[];
 };
 
 export type SingleChallengeByUserChallengeIdT = {
