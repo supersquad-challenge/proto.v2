@@ -44,6 +44,7 @@ const NicknameSetup = () => {
               userId: userId!,
               nickname: newNickname,
             });
+            console.log(res);
           }
         },
       })
