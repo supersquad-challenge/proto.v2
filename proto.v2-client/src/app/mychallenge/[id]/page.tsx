@@ -164,7 +164,7 @@ const MyChallengeID = () => {
             frequency={challenge?.frequency!}
             name={challenge?.name!}
             participants={30}
-            profileUrls={challenge?.profileUrls!}
+            profileUrls={challenge?.profileUrls ? challenge?.profileUrls : []}
           >
             <Wrapper>
               <Title>My Status</Title>
