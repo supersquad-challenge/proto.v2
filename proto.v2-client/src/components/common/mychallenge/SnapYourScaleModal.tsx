@@ -1,3 +1,4 @@
+import Loading from "@/components/animation/Loading/Spinner/Loading";
 import FullPageModal from "@/components/base/Modal/FullPageModal";
 import postPhoto from "@/lib/api/axios/verification/postPhoto";
 import { snapYourScaleSrc } from "@/lib/components/fullPageModal";
@@ -24,6 +25,7 @@ const SnapYourScaleModal = ({ userChallengeId }: Props) => {
   const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   // useEffect //
   useEffect(() => {
@@ -47,22 +49,26 @@ const SnapYourScaleModal = ({ userChallengeId }: Props) => {
     const file = e.target.files?.[0];
 
     if (file) {
+      setIsLoading(true); // 업로드 시작 시 isLoading을 true로 설정
+
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         setImageSrc(reader.result);
       };
-      const res = await postPhoto(userChallengeId, file);
-      if (res.status === 200) {
-        dispatch(OPEN_MODAL({ modal: "congrats_status" }));
-      }
-      if (res === undefined || res === null || res.status === 0) {
-        // router.push("/error");
-        // 에러 처리
-        return;
+
+      try {
+        const res = await postPhoto(userChallengeId, file);
+        if (res && res.status === 200) {
+          dispatch(OPEN_MODAL({ modal: "congrats_status" }));
+        }
+      } catch (error) {
+      } finally {
+        setIsLoading(false); // 업로드 완료 또는 에러 발생 시 isLoading을 false로 설정
       }
     }
   };
+
   return (
     <FullPageModal
       {...snapYourScaleSrc}
@@ -81,6 +87,7 @@ const SnapYourScaleModal = ({ userChallengeId }: Props) => {
         onChange={onUpload}
         style={{ display: "none" }}
       />
+      {isLoading && <Loading />}
     </FullPageModal>
   );
 };
