@@ -5,8 +5,11 @@ import Image from "next/image";
 import { POINT } from "@/lib/protoV2Constants";
 import thousandFormat from "@/utils/thousandFormat";
 import SingleCollection from "@/components/common/profile/SingleCollection";
-import Wallet from "@/components/common/profile/Wallet";
-import { useRouter } from "next/navigation";
+import Wallet, {
+  DefaultWalletButtonWrapper,
+  WalletConnectButtonWrapper,
+} from "@/components/common/profile/Wallet";
+import { usePathname, useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import {
   SET_USER_CONNECT,
@@ -27,6 +30,8 @@ import { useQuery } from "react-query";
 import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
 import { BadgeT, UserInfoT } from "@/types/api/User";
 import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
+import BaseButton from "@/components/base/Button/BaseButton";
+import Link from "next/link";
 
 const Profile = () => {
   // variables //
@@ -42,6 +47,7 @@ const Profile = () => {
   const { switchNetwork } = useSwitchNetwork();
   const { chain: currentChain } = useNetwork();
   const { address, isConnected: isconnected, isDisconnected } = useAccount();
+  const pathname = usePathname();
 
   // API //
   const {
@@ -157,7 +163,37 @@ const Profile = () => {
         )}
 
         <SectionName style={{ marginTop: "30px" }}>Wallet</SectionName>
-        <Wallet walletName="WalletConnect" />
+        <Wallet
+          walletName="WalletConnect"
+          walletImgSrc="/asset/wallet_connect.svg"
+        >
+          <WalletConnectButtonWrapper>
+            <w3m-button
+              label="Connect"
+              size="md"
+              disabled={isLoggedIn ? false : true}
+              loadingLabel="Connecting"
+              balance="hide"
+            />
+          </WalletConnectButtonWrapper>
+        </Wallet>
+        <Wallet walletName="Kaikas" walletImgSrc="/asset/kaikas.jpeg">
+          <DefaultWalletButtonWrapper>
+            <Link href={`https://app.kaikas.io/u/v2.supersquad.store`}>
+              <BaseButton
+                color={colors.white}
+                fontSize={12.4}
+                fontWeight={500}
+                borderRadius={21}
+                backgroundColor={colors.primary}
+                padding="9px 16px"
+                title={"Connect"}
+                onClickHandler={() => {}}
+              />
+            </Link>
+          </DefaultWalletButtonWrapper>
+        </Wallet>
+
         <a href="mailto:official@supersquad.xyz">
           <ContactTeam>Contact Team</ContactTeam>
         </a>

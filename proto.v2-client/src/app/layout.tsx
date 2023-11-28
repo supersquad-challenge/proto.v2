@@ -79,6 +79,7 @@ createWeb3Modal({
   featuredWalletIds: [
     "c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96",
     "ef333840daf915aafdc4a004525502d6d49d77bd9c65e0642dbaefb3c2893bef",
+    "3c2c985c0adff6f46a0d0e466b3924ed8a059043882cd1944ad7f2adf697ed54",
   ],
 });
 
