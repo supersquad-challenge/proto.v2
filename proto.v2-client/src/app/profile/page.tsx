@@ -163,7 +163,7 @@ const Profile = () => {
               label="Connect"
               size="md"
               disabled={isLoggedIn ? false : true}
-              loadingLabel="Connecting"
+              loadingLabel=""
               balance="hide"
             />
           </WalletConnectButtonWrapper>
