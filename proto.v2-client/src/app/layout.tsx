@@ -52,7 +52,8 @@ const metadata = {
   icons: "/src/app/favicon.ico",
 };
 
-const Chains = [polygon, klaytn];
+// const Chains = [polygon, klaytn];
+const Chains = [klaytn];
 
 const wagmiConfig = createConfig({
   autoConnect: true,
