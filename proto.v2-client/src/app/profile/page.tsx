@@ -9,6 +9,8 @@ import Wallet from "@/components/common/profile/Wallet";
 import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  SET_USER_CONNECT,
+  SET_USER_DISCONNECT,
   SET_USER_LOGOUT,
   getEmailState,
   getIsConnectedState,
@@ -24,7 +26,7 @@ import { login } from "@/lib/api/axios/auth/login";
 import { useQuery } from "react-query";
 import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
 import { BadgeT, UserInfoT } from "@/types/api/User";
-import { useSwitchNetwork } from "wagmi";
+import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 
 const Profile = () => {
   // variables //
@@ -38,6 +40,8 @@ const Profile = () => {
   const userId = useSelector(getUserIDState);
   const isConnected = useSelector(getIsConnectedState);
   const { switchNetwork } = useSwitchNetwork();
+  const { chain: currentChain } = useNetwork();
+  const { address, isConnected: isconnected, isDisconnected } = useAccount();
 
   // API //
   const {
@@ -65,10 +69,15 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    if (isConnected) {
-      switchNetwork?.(137);
+    if (isconnected && address) {
+      if (currentChain!.id !== 137) {
+        switchNetwork?.(137);
+      }
+      dispatch(SET_USER_CONNECT({ address: address }));
+      console.log("connected");
     }
-  }, [isConnected, switchNetwork]);
+    if (isDisconnected) [dispatch(SET_USER_DISCONNECT())];
+  }, [isconnected, isDisconnected, router]);
 
   if (!isClient) {
     return null;
