@@ -49,6 +49,7 @@ export type SingleChallengeByUserChallengeIdT = {
   status: string;
   isPhotoUploadedToday: boolean;
   isPaybackPaid: boolean;
+  profileUrls: string[];
 };
 
 export type SingleRegisteredChallengeT = {
