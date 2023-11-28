@@ -16,6 +16,7 @@ const ImageInputCircle = ({ profileSrc, file, setFile }: Props) => {
     if (event.target.files && event.target.files[0]) {
       const imageFile = event.target.files[0];
       const imageUrl = URL.createObjectURL(imageFile);
+      setBackgroundImage(imageUrl);
 
       file = event.target.files?.[0];
       setFile(file);
