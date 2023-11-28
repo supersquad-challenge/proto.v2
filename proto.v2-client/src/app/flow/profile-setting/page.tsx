@@ -37,6 +37,7 @@ const ProfileSetting = () => {
     originalNickname ? originalNickname : ""
   );
   const router = useRouter();
+  const [file, setFile] = useState<File>();
 
   // useEffect //
   useEffect(() => {
@@ -57,24 +58,21 @@ const ProfileSetting = () => {
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Save Changes",
         handleBlueButtonClick: async () => {
-          // console.log(newNickname);
-          // console.log(userId);
-          if (newNickname !== "") {
-            router.push("/home");
+          // if (newNickname !== "") {
+          //   router.push("/home");
 
-            const res = await setNickname({
-              userInfoId: userId!,
-              nickname: newNickname,
-            });
-            console.log(res);
-          }
+          //   const res = await setNickname({
+          //     userInfoId: userId!,
+          //     nickname: newNickname,
+          //   });
+          //   console.log(res);
+          // }
+          console.log(newNickname);
+          console.log(file);
         },
       })
     );
-  }, [newNickname]);
-
-  // Image Input functions //
-  let file;
+  }, [newNickname, file]);
 
   // Nickname Input functions //
   const updateInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -105,7 +103,11 @@ const ProfileSetting = () => {
         <FlowSectionName>Profile Setting</FlowSectionName>
         <ImageInputWrapper>
           {/* <ImageInputCircle profileSrc="/asset/meditation.jpeg" /> */}
-          <ImageInputCircle profileSrc={profile!} file={file} />
+          <ImageInputCircle
+            profileSrc={profile!}
+            file={file}
+            setFile={setFile}
+          />
         </ImageInputWrapper>
         <NicknameMessage>Nickname</NicknameMessage>
         <NicknameInput

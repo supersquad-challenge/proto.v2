@@ -1,13 +1,14 @@
 import colors from "@/styles/color";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 
 type Props = {
   profileSrc: string;
   file: File | undefined;
+  setFile: Dispatch<SetStateAction<File | undefined>>;
 };
 
-const ImageInputCircle = ({ profileSrc, file }: Props) => {
+const ImageInputCircle = ({ profileSrc, file, setFile }: Props) => {
   const [backgroundImage, setBackgroundImage] = useState<string>(profileSrc);
   const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(null);
 
@@ -18,12 +19,12 @@ const ImageInputCircle = ({ profileSrc, file }: Props) => {
       setBackgroundImage(imageUrl);
 
       file = event.target.files?.[0];
+      setFile(file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         setImageSrc(reader.result);
       };
-      //여기에 이미지 바꾸는 로직 추가해야함. (api 미생성) //수정 필요
     }
   };
 
