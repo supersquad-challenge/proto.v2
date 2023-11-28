@@ -94,6 +94,7 @@ const ThumbnailWrapper = styled.div`
   height: 100px;
   border-radius: 10px 10px 0px 0px;
   position: relative;
+  background-color: ${colors.lightGray};
 `;
 
 const InfoWrapper = styled.div`
