@@ -9,7 +9,8 @@ const poolFactoryContractAbi =
 
 require('dotenv').config();
 
-const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_URL);
+// const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_URL);
+const provider = new ethers.providers.JsonRpcProvider(process.env.KLAYTN_URL);
 
 const ServerPrivateKey = process.env.SERVER_PRIVATE_KEY;
 const ServerWallet = new ethers.Wallet(ServerPrivateKey, provider);
