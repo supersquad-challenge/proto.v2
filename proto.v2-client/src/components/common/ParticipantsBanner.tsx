@@ -19,13 +19,12 @@ const ParticipantsBanner = ({ participants, profileUrls }: Props) => {
   } else if (profileUrls.length >= 2) {
     profileImgArr = profileUrls.slice(-2).reverse();
   }
-  console.log(profileImgArr);
   return (
     <Container>
       <CirclesWrapper>
         <ProfileContainer>
           <Image
-            src="/asset/profile-circle.svg" // 참여자 프로필
+            src={profileImgArr![0] ? profileImgArr![0] : defaultProfileSrc} // 참여자 프로필
             width={32}
             height={32}
             alt="participants"
@@ -33,7 +32,7 @@ const ParticipantsBanner = ({ participants, profileUrls }: Props) => {
         </ProfileContainer>
         <ProfileContainer style={{ marginLeft: "-10px" }}>
           <Image
-            src="/asset/profile-circle.svg" //참여자 프로필
+            src={profileImgArr![1] ? profileImgArr![1] : defaultProfileSrc} //참여자 프로필
             width={32}
             height={32}
             alt="participants"
