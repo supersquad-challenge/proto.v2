@@ -280,7 +280,7 @@ const BackgroundImage = styled(Image)`
   right: 0px;
 
   /* -webkit-transform: translate3d(0, 0, 0); // 하드웨어 가속을 활용 */
-  z-index: 0; /* z-index를 설정 */
+  z-index: 1 !important; /* z-index를 설정 */
 `;
 
 const ChallengesContainer = styled.section<{ $isScrolled: boolean }>`
@@ -294,9 +294,12 @@ const ChallengesContainer = styled.section<{ $isScrolled: boolean }>`
 
   border-radius: 22px 22px 0px 0px;
   background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(5px);
+  position: relative;
 
-  -webkit-backdrop-filter: blur(5px); // iOS에서 blur 효과를 위함
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px); // iOS에서 blur 효과를 위함s
+
+  z-index: 2 !important;
 `;
 
 const ChallengesWrapper = styled.div`
