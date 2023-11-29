@@ -279,8 +279,8 @@ const BackgroundImage = styled(Image)`
   top: 110px;
   right: 0px;
 
-  -webkit-transform: translate3d(0, 0, 0); // 하드웨어 가속을 활용
-  z-index: 1; /* z-index를 설정 */
+  /* -webkit-transform: translate3d(0, 0, 0); // 하드웨어 가속을 활용 */
+  z-index: 0; /* z-index를 설정 */
 `;
 
 const ChallengesContainer = styled.section<{ $isScrolled: boolean }>`
