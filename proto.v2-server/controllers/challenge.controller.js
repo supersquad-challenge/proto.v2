@@ -9,7 +9,8 @@ const poolFactoryContractAbi =
 
 require('dotenv').config();
 
-const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_URL);
+// const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_URL);
+const provider = new ethers.providers.JsonRpcProvider(process.env.KLAYTN_URL);
 
 const ServerPrivateKey = process.env.SERVER_PRIVATE_KEY;
 const ServerWallet = new ethers.Wallet(ServerPrivateKey, provider);
@@ -64,6 +65,7 @@ module.exports = {
   getChallengeById: async (req, res) => {
     try {
       const { challengeId } = req.params;
+
       const challengeInfo = await Challenge.findById(challengeId);
 
       if (!challengeInfo) {
@@ -71,6 +73,14 @@ module.exports = {
           error: 'Challenge not found',
         });
       }
+
+      const userChallengeInfo = await UserChallenge.find({
+        challengeId: challengeId,
+      }).populate('userId');
+
+      const profileUrls = userChallengeInfo
+        .filter((userChallenge) => userChallenge.userId)
+        .map((userChallenge) => userChallenge.userId.profileUrl);
 
       res.status(200).json({
         message: 'Challenge found',
@@ -83,6 +93,7 @@ module.exports = {
           howTo: challengeInfo.howTo,
           description: challengeInfo.description,
           category: challengeInfo.category,
+          profileUrls: profileUrls,
         },
       });
     } catch (error) {

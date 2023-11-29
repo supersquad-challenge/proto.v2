@@ -5,11 +5,21 @@ module.exports = {
     try {
       const { userId, nickname } = req.body;
 
-      const updateUser = await User.findByIdAndUpdate(
-        userId,
-        { $set: { nickname: nickname } },
-        { new: true }
-      );
+      let updateUser;
+
+      if (req.file === undefined) {
+        updateUser = await User.findByIdAndUpdate(
+          userId,
+          { $set: { nickname: nickname } },
+          { new: true }
+        );
+      } else {
+        updateUser = await User.findByIdAndUpdate(
+          userId,
+          { $set: { nickname: nickname, profileUrl: req.file.location } },
+          { new: true }
+        );
+      }
 
       if (!updateUser) {
         return res.status(404).json({
@@ -22,6 +32,7 @@ module.exports = {
         userInfo: {
           userId: updateUser._id,
           nickname: updateUser.nickname,
+          profileUrl: updateUser.profileUrl,
         },
       });
     } catch (error) {
@@ -122,6 +133,29 @@ module.exports = {
         message: 'User registered',
         userId: userData._id,
         createdAt: userData.createdAt,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        error: 'Internal Server Error',
+      });
+    }
+  },
+  deleteUser: async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+      const deleteUser = await User.findByIdAndDelete(userId);
+
+      if (!deleteUser) {
+        return res.status(404).json({
+          error: 'User not found',
+        });
+      }
+
+      res.status(200).json({
+        message: 'User deleted',
+        userInfo: deleteUser,
       });
     } catch (error) {
       console.log(error);

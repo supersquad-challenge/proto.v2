@@ -18,9 +18,11 @@ router.get('/google/callback', (req, res, next) => {
     const userInfo = await User.findOne({ googleId: req.user.googleId });
 
     if (userInfo.nickname) {
-      res.redirect('http://localhost:3000');
+      // res.redirect('http://localhost:3000');
+      res.redirect('https://v2.supersquad.store');
     } else {
-      res.redirect('http://localhost:3000/flow/nickname-setup');
+      // res.redirect('http://localhost:3000/flow/nickname-setup');
+      res.redirect('https://v2.supersquad.store/flow/nickname-setup');
     }
   });
 });

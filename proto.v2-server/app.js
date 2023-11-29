@@ -52,7 +52,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://proto-v2-client.vercel.app/'],
+    origin: ['http://localhost:3000', 'https://v2.supersquad.store'],
     credentials: true,
   })
 );
