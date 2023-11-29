@@ -52,7 +52,11 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://v2.supersquad.store'],
+    origin: [
+      'http://localhost:3000',
+      'https://v2.supersquad.store',
+      'https://klaytn.supersquad.store',
+    ],
     credentials: true,
   })
 );
