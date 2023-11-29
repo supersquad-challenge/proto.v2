@@ -67,7 +67,13 @@ const FullPageModal = ({
     <PageContainer>
       <Container $height={containerHeight}>
         <Wrapper>
-          <Image src={imgSrc} width={120} height={120} alt="Modal Image" />
+          <Image
+            src={imgSrc}
+            width={120}
+            height={120}
+            alt="Modal Image"
+            priority={true}
+          />
           <Title>{title}</Title>
           <Detail>{detail}</Detail>
           <LongBlueButton
