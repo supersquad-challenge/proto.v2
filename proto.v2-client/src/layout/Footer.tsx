@@ -3,6 +3,7 @@ import {
   getBlueButtonTitleState,
   getBlueButtonVisibilityState,
   getHandleBlueButtonClickState,
+  getIsBlueButtonActiveState,
 } from "@/redux/slice/layoutSlice";
 import {
   IModalState,
@@ -21,13 +22,6 @@ const Footer = () => {
   const pathname = usePathname();
   const activeModal: Modal | undefined = useSelector(getActiveModalState);
   const blueButtonVisibility = useSelector(getBlueButtonVisibilityState);
-  const [isClient, setIsClient] = useState(false);
-
-  // useEffect //
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   const showNaviBar = () => {
     if (
       pathname === "/home" ||
@@ -42,22 +36,20 @@ const Footer = () => {
 
   const showBlueButton = () => {
     if (
-      activeModal == "congrats_otherChallenges" ||
-      activeModal == "congrats_status" ||
-      activeModal == "nowYouAreIn" ||
-      activeModal == "snapYourScale" ||
-      pathname == "/flow/login" ||
-      blueButtonVisibility == false
+      activeModal === "congrats_otherChallenges" ||
+      activeModal === "congrats_status" ||
+      activeModal === "nowYouAreIn" ||
+      activeModal === "snapYourScale" ||
+      pathname === "/flow/login" ||
+      blueButtonVisibility === false
     ) {
       return false;
     }
     return true;
   };
 
-  if (!isClient) {
-    return null;
-  }
   return showNaviBar() ? <NavigationBar /> : showBlueButton() && <BlueButton />;
+  // return <BlueButton />;
 };
 
 export default Footer;
@@ -70,7 +62,7 @@ const NavigationBar = () => {
       <NaviBarImage
         onClick={() => router.push("/home")}
         src={
-          pathname == "/home"
+          pathname === "/home"
             ? "/asset/footer/ic_home_on.svg"
             : "/asset/footer/ic_home_off.svg"
         }
@@ -78,7 +70,7 @@ const NavigationBar = () => {
       <NaviBarImage
         onClick={() => router.push("/explore")}
         src={
-          pathname == "/explore"
+          pathname === "/explore"
             ? "/asset/footer/ic_explore_on.svg"
             : "/asset/footer/ic_explore_off.svg"
         }
@@ -86,7 +78,7 @@ const NavigationBar = () => {
       <NaviBarImage
         onClick={() => router.push("/mychallenge")}
         src={
-          pathname == "/mychallenge"
+          pathname === "/mychallenge"
             ? "/asset/footer/ic_mychallenge_on.svg"
             : "/asset/footer/ic_mychallenge_off.svg"
         }
@@ -94,7 +86,7 @@ const NavigationBar = () => {
       <NaviBarImage
         onClick={() => router.push("/profile")}
         src={
-          pathname == "/profile"
+          pathname === "/profile"
             ? "/asset/footer/ic_profile_on.svg"
             : "/asset/footer/ic_profile_off.svg"
         }
@@ -106,8 +98,12 @@ const NavigationBar = () => {
 const BlueButton = () => {
   const blueButtonTitle = useSelector(getBlueButtonTitleState);
   const handleBlueButtonClick = useSelector(getHandleBlueButtonClickState);
+  const isBlueButtonActive = useSelector(getIsBlueButtonActiveState);
   return (
-    <BlueButtonContainer onClick={() => handleBlueButtonClick()}>
+    <BlueButtonContainer
+      onClick={() => handleBlueButtonClick()}
+      $isBlueButtonActive={isBlueButtonActive}
+    >
       {blueButtonTitle}
     </BlueButtonContainer>
   );
@@ -152,7 +148,7 @@ const NaviBarImage = styled.img`
   }
 `;
 
-const BlueButtonContainer = styled.footer`
+const BlueButtonContainer = styled.footer<{ $isBlueButtonActive: boolean }>`
   width: 100%;
   height: 70px;
 
@@ -169,13 +165,12 @@ const BlueButtonContainer = styled.footer`
   font-size: 18px;
   font-weight: 600;
 
-  background-color: ${colors.primary};
+  background-color: ${(props) =>
+    props.$isBlueButtonActive ? colors.primary : colors.gray};
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.3);
 
   bottom: 0px;
   z-index: 99;
 
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: ${(props) => (props.$isBlueButtonActive ? "pointer" : undefined)};
 `;

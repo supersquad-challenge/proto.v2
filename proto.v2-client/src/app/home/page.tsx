@@ -11,45 +11,43 @@ import ChallengeHeader from "@/components/common/home/ChallengeHeader";
 import { useQuery } from "react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getAllChallengesByUserId } from "@/lib/api/querys/myChallenge/getAllChallengesByUserId";
-import { USERID } from "@/lib/api/testdata";
 import MyChallengeBlock from "@/components/common/MyChallengeBlock";
 import CompletedChallengeBlock from "@/components/common/home/CompletedChallengeBlock";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-
 import {
   SET_USER_LOGIN,
-  getAuthState,
+  SET_USER_LOGOUT,
   getIsLoggedInState,
   getUserIDState,
 } from "@/redux/slice/authSlice";
-
 import { login } from "@/lib/api/axios/auth/login";
 import { useSelector } from "react-redux";
-import { AllChallengesByUserId } from "@/types/api/Challenge";
+import { AllChallengesByUserIdT } from "@/types/api/Challenge";
 import NoOngoingChallengesBlock from "@/components/common/home/NoOngoingChallengesBlock";
 import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
+import { FEATURED_CHALLENGE_IDS } from "@/lib/protoV2Constants";
+import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
+import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
 
 const Home = () => {
+  // variables //
   const [auth, setAuth] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(getIsLoggedInState);
 
-  // useEffect(() => {
-  //   const _handlelogin = async () => {
-  //     const loginRes = await login();
-  //     if (loginRes?.status !== 200) return;
-  //     else [];
-  //   };
-
-  //   _handlelogin();
-  // }, []);
+  // Use Effect //
+  useEffect(() => {
+    dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
+    dispatch(CLOSE_MODAL());
+  }, []);
 
   useEffect(() => {
-    // if (isLoggedIn) return;
     const _handlelogin = async () => {
       const loginRes = await login();
-      if (loginRes?.status !== 200) return;
+      if (loginRes?.status !== 200) {
+        dispatch(SET_USER_LOGOUT());
+        return;
+      }
 
       setAuth(true);
 
@@ -92,10 +90,18 @@ const HomeBeforeLogin = () => {
           <WelcomeMessage isLogin={false} isScrolled={false} />
           <LoginBlock />
           <ExtendedChallengeHeader
-            challengeHeader="Featured Challenge"
+            challengeHeader="Featured Challenges"
             margin="40px 0 0 0"
           />
-          <FeaturedChallengeBlock margin="22px 0 0 0" />
+          {FEATURED_CHALLENGE_IDS.map((challengeId, index) => {
+            return (
+              <FeaturedChallengeBlock
+                challengeId={challengeId}
+                margin="20px 0 0 0"
+                key={index}
+              />
+            );
+          })}
         </TopContainer>
       </Container>
     </>
@@ -121,10 +127,10 @@ const HomeAfterLogin = () => {
         queryString: "status=ongoing",
       });
       const ongoingChallenges = res.userChallengeInfos;
-      let photoUploadedChallenges: AllChallengesByUserId[] = [];
-      let photoNotUploadedChallenges: AllChallengesByUserId[] = [];
+      let photoUploadedChallenges: AllChallengesByUserIdT[] = [];
+      let photoNotUploadedChallenges: AllChallengesByUserIdT[] = [];
       if (ongoingChallenges) {
-        ongoingChallenges.forEach((challenge: AllChallengesByUserId) => {
+        ongoingChallenges.forEach((challenge: AllChallengesByUserIdT) => {
           if (challenge.isPhotoUploadedToday) {
             photoUploadedChallenges.push(challenge);
           } else {
@@ -186,7 +192,7 @@ const HomeAfterLogin = () => {
                 <NoOngoingChallengesBlock />
               )}
             {photoNotUploadedChallenges?.map(
-              (challenge: AllChallengesByUserId, index: number) => {
+              (challenge: AllChallengesByUserIdT, index: number) => {
                 return (
                   <MyChallengeBlock
                     successRate={challenge.successRate}
@@ -200,18 +206,21 @@ const HomeAfterLogin = () => {
                     onClickHandler={() =>
                       router.push(`/mychallenge/${challenge.userChallengeId}`)
                     }
-                    key={index}
                     margin={index !== 0 ? "15px 0 0 0" : "none"}
+                    key={index}
                   />
                 );
               }
             )}
             {photoUploadedChallenges?.map(
-              (challenge: AllChallengesByUserId, index: number) => {
+              (challenge: AllChallengesByUserIdT, index: number) => {
                 return (
                   <CompletedChallengeBlock
                     category={challenge.category}
                     name={challenge.name}
+                    onClickHandler={() =>
+                      router.push(`/mychallenge/${challenge.userChallengeId}`)
+                    }
                     key={index}
                   />
                 );
@@ -224,8 +233,17 @@ const HomeAfterLogin = () => {
             >
               Featured Challenge
             </ChallengeHeader>
-            <FeaturedChallengeBlock margin="20px 0 0 0" />
-            <FeaturedChallengeBlock margin="20px 0 0 0" />
+            {FEATURED_CHALLENGE_IDS.map((challengeId, index) => {
+              return (
+                <FeaturedChallengeBlock
+                  challengeId={challengeId}
+                  margin="20px 0 0 0"
+                  key={index}
+                />
+              );
+            })}
+
+            {/* <FeaturedChallengeBlock margin="20px 0 0 0" /> */}
           </ChallengesWrapper>
         </ChallengesContainer>
       </Container>
@@ -267,7 +285,7 @@ const ChallengesContainer = styled.section<{ $isScrolled: boolean }>`
   box-sizing: border-box;
   overflow: hidden;
 
-  margin-top: ${(props) => (props.$isScrolled ? "114px" : "214px")};
+  margin-top: ${(props) => (props.$isScrolled ? "116px" : "214px")};
   transition: margin-top 0.3s ease-in-out; // 부드러운 전환 효과
 
   border-radius: 22px 22px 0px 0px;

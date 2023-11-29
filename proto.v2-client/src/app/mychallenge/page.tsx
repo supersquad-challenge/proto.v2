@@ -6,10 +6,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { USERID } from "@/lib/api/testdata";
-import { AllChallengesByUserId } from "@/types/api/Challenge";
-import { useSelector } from "react-redux";
+import { AllChallengesByUserIdT } from "@/types/api/Challenge";
+import { useDispatch, useSelector } from "react-redux";
 import { getUserIDState } from "@/redux/slice/authSlice";
+import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
+import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
+import Loading from "@/components/animation/Loading/Spinner/Loading";
 
 const MyChallenge = () => {
   // variables //
@@ -18,10 +20,13 @@ const MyChallenge = () => {
   const searchParams = useSearchParams();
   const [status, setStatus] = useState("ongoing");
   const userId = useSelector(getUserIDState);
+  const dispatch = useDispatch();
 
   // Use Effect //
   useEffect(() => {
     router.push("/mychallenge?status=ongoing");
+    dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
+    dispatch(CLOSE_MODAL());
   }, []);
 
   useEffect(() => {
@@ -41,7 +46,6 @@ const MyChallenge = () => {
         queryString,
       });
       const challenges = res.userChallengeInfos;
-      console.log(challenges);
       return challenges;
     },
     {
@@ -56,7 +60,7 @@ const MyChallenge = () => {
         <SectionName>My Challenge</SectionName>
         <StatusesWrapper>
           <Status
-            $isclicked={status == "ongoing"}
+            $isclicked={status === "ongoing"}
             onClick={() => {
               router.push("/mychallenge?status=ongoing");
             }}
@@ -64,7 +68,7 @@ const MyChallenge = () => {
             Ongoing
           </Status>
           <Status
-            $isclicked={status == "complete"}
+            $isclicked={status === "complete"}
             style={{ marginLeft: "20px" }}
             onClick={() => {
               router.push("/mychallenge?status=complete");
@@ -77,9 +81,9 @@ const MyChallenge = () => {
       <ChallengesContainer>
         <TotalWrapper>
           Total{" "}
-          <TotalBold>{data?.length == undefined ? 0 : data?.length}</TotalBold>
+          <TotalBold>{data?.length === undefined ? 0 : data?.length}</TotalBold>
         </TotalWrapper>
-        {data?.map((challenge: AllChallengesByUserId, index: number) => {
+        {data?.map((challenge: AllChallengesByUserIdT, index: number) => {
           return (
             <MyChallengeBlock
               successRate={challenge.successRate}
@@ -100,6 +104,7 @@ const MyChallenge = () => {
           );
         })}
       </ChallengesContainer>
+      {isLoading && <Loading />}
     </Container>
   );
 };

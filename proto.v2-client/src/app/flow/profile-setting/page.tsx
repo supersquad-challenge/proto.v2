@@ -13,9 +13,11 @@ import {
   getUserIDState,
 } from "@/redux/slice/authSlice";
 import {
+  INITIALIZE_FOOTER_BLUEBUTTON,
   SET_FOOTER_BLUEBUTTON,
   SET_HEADER_GOBACK,
 } from "@/redux/slice/layoutSlice";
+import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
 import { profile } from "console";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
@@ -35,28 +37,13 @@ const ProfileSetting = () => {
     originalNickname ? originalNickname : ""
   );
   const router = useRouter();
-  // console.log(profile);
+  // const [newProfileSrc, setNewProfileSrc] = useState("");
+  const [file, setFile] = useState<File>();
 
   // useEffect //
   useEffect(() => {
-    dispatch(
-      SET_FOOTER_BLUEBUTTON({
-        blueButtonTitle: "Save Changes",
-        handleBlueButtonClick: async () => {
-          // console.log(newNickname);
-          // console.log(userId);
-          if (newNickname !== "") {
-            router.push("/profile");
-
-            const res = await setNickname({
-              userInfoId: userId!,
-              nickname: newNickname,
-            });
-            console.log(res);
-          }
-        },
-      })
-    );
+    dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
+    dispatch(CLOSE_MODAL());
 
     dispatch(
       SET_HEADER_GOBACK({
@@ -67,8 +54,24 @@ const ProfileSetting = () => {
     );
   }, []);
 
-  // Image Input functions //
-  let file;
+  useEffect(() => {
+    dispatch(
+      SET_FOOTER_BLUEBUTTON({
+        blueButtonTitle: "Save Changes",
+        handleBlueButtonClick: async () => {
+          if (newNickname !== "") {
+            router.push("/home");
+
+            const res = await setNickname({
+              userId: userId!,
+              nickname: newNickname,
+              file: file,
+            });
+          }
+        },
+      })
+    );
+  }, [newNickname, file]);
 
   // Nickname Input functions //
   const updateInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -77,19 +80,6 @@ const ProfileSetting = () => {
 
   const submitInput = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      // 닉네임 제출 로직 (예: 서버로 전송)
-      console.log("Submitted Nickname:", newNickname);
-      handleBlueButtonClick();
-    }
-  };
-
-  const handleBlueButtonClick = async () => {
-    // 프로필 이미지 변경하는 로직 추가
-    if (userId) {
-      const res = await setNickname({
-        userInfoId: userId,
-        nickname: newNickname,
-      });
     }
   };
 
@@ -99,7 +89,11 @@ const ProfileSetting = () => {
         <FlowSectionName>Profile Setting</FlowSectionName>
         <ImageInputWrapper>
           {/* <ImageInputCircle profileSrc="/asset/meditation.jpeg" /> */}
-          <ImageInputCircle profileSrc={profile!} file={file} />
+          <ImageInputCircle
+            profileSrc={profile!}
+            file={file}
+            setFile={setFile}
+          />
         </ImageInputWrapper>
         <NicknameMessage>Nickname</NicknameMessage>
         <NicknameInput

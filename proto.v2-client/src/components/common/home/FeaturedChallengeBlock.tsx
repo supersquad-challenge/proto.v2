@@ -3,14 +3,47 @@ import SmallArrowButton from "../../base/Button/SmallArrowButton";
 import BaseBlock from "@/components/base/Block/BaseBlock";
 import colors from "@/styles/color";
 import Image from "next/image";
+import { useQuery } from "react-query";
+import { SingleChallengeByChallengeIdT } from "@/types/api/Challenge";
+import { getSingleChallenge } from "@/lib/api/querys/challenge/getSingleChallenge";
+import {
+  addDaysToDate,
+  convertIsoDateToReadable,
+} from "@/utils/dateFormatUtils";
+import { DURATION_DAYS } from "@/lib/protoV2Constants";
+import { useRouter } from "next/navigation";
 
 type Props = {
   margin: string;
+  challengeId: string;
 };
 
-const FeaturedChallengeBlock = ({ margin }: Props) => {
+const FeaturedChallengeBlock = ({ margin, challengeId }: Props) => {
+  // variables //
+  const today = new Date();
+  const router = useRouter();
+
+  // API //
+  const {
+    data: challenge,
+    error,
+    isLoading,
+  } = useQuery<SingleChallengeByChallengeIdT>({
+    queryKey: [`singleChallenge-${challengeId}`],
+    queryFn: async () => {
+      const res = await getSingleChallenge({ challengeId: challengeId });
+      const challenge = res.challengeInfo;
+      return challenge;
+    },
+    staleTime: 5000,
+    cacheTime: 60 * 60 * 1000,
+  });
+
   return (
-    <BlockWrapper $margin={margin}>
+    <BlockWrapper
+      $margin={margin}
+      onClick={() => router.push(`/explore/${challengeId}`)}
+    >
       <BaseBlock
         backgroundColor={colors.highlight}
         borderRadius={20}
@@ -18,14 +51,21 @@ const FeaturedChallengeBlock = ({ margin }: Props) => {
         onClickHandler={() => {}}
       >
         <Wrapper>
-          <Catergory>Digital Detox</Catergory>
-          <Name>15 minutes of meditation</Name>
-          <Period>Sep 11st - Oct 11st</Period>
+          <Catergory>{challenge?.category!}</Catergory>
+          <Name>{challenge?.name}</Name>
+          <Period>
+            {convertIsoDateToReadable(today.toString())} -{" "}
+            {convertIsoDateToReadable(
+              addDaysToDate(today, DURATION_DAYS).toString()
+            )}
+          </Period>
           <SmallArrowButton
             title="Read more"
             margin="24px 0 0 0"
             backgroundColor={colors.primary}
-            onClickHandler={() => []}
+            onClickHandler={() => {
+              router.push(`/explore/${challengeId}`);
+            }}
           />
         </Wrapper>
       </BaseBlock>
@@ -35,10 +75,15 @@ const FeaturedChallengeBlock = ({ margin }: Props) => {
             width: "100%",
             height: "100%",
             position: "relative",
+            // backgroundColor: `${colors.white}`,
           }}
         >
           <Image
-            src="/asset/meditation.jpeg" //여기 챌린지 썸네일 사진이 들어가면 됨.
+            src={
+              challenge?.thumbnailUrl
+                ? challenge?.thumbnailUrl
+                : "/asset/blur.png"
+            } //여기 챌린지 썸네일 사진이 들어가면 됨.
             alt="challenge thumbnail"
             fill
             style={{
@@ -60,6 +105,7 @@ const BlockWrapper = styled.div<{ $margin: string }>`
   width: 100%;
   height: 198px;
   position: relative;
+  cursor: pointer;
 
   margin: ${(props) => props.$margin};
 `;

@@ -1,12 +1,16 @@
 "use client";
+import Loading from "@/components/animation/Loading/Spinner/Loading";
 import Category from "@/components/common/explore/Category";
 import ChallengeBlock from "@/components/common/explore/ChallengeBlock";
 import { getAllChallenges } from "@/lib/api/querys/challenge/getAllChallenges";
+import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
+import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
 import colors from "@/styles/color";
-import { AllChallenges } from "@/types/api/Challenge";
+import { AllChallengesT } from "@/types/api/Challenge";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 const Explore = () => {
@@ -15,6 +19,7 @@ const Explore = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [category, setCategory] = useState("");
+  const dispatch = useDispatch();
 
   // useEffect //
   useEffect(() => {
@@ -22,9 +27,14 @@ const Explore = () => {
     setCategory(categoryQuery!);
   }, [pathname, searchParams]);
 
+  useEffect(() => {
+    dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
+    dispatch(CLOSE_MODAL());
+  }, []);
+
   // handle functions //
   const handleCategoryClick = (title: string) => {
-    if (category == title) {
+    if (category === title) {
       router.push("/explore");
     } else {
       router.push(`/explore?category=${title}`);
@@ -32,7 +42,7 @@ const Explore = () => {
     return;
   };
 
-  // api //
+  // API //
   const { data, error, isLoading } = useQuery(
     ["allChallenges", searchParams.get("category")],
     async () => {
@@ -87,7 +97,7 @@ const Explore = () => {
           <Category
             title="Diet"
             imgSrc="/asset/categories/diet.svg"
-            isClicked={category == "Diet"}
+            isClicked={category === "Diet"}
             onClickHandler={() => {
               handleCategoryClick("Diet");
             }}
@@ -95,7 +105,7 @@ const Explore = () => {
           <Category
             title="Fitness"
             imgSrc="/asset/categories/fitness.svg"
-            isClicked={category == "Fitness"}
+            isClicked={category === "Fitness"}
             onClickHandler={() => {
               handleCategoryClick("Fitness");
             }}
@@ -103,7 +113,7 @@ const Explore = () => {
           <Category
             title="Mental Health"
             imgSrc="/asset/categories/mental_health.svg"
-            isClicked={category == "Mental_health"}
+            isClicked={category === "Mental_health"}
             onClickHandler={() => {
               handleCategoryClick("Mental_health");
             }}
@@ -111,7 +121,7 @@ const Explore = () => {
           <Category
             title="Habit"
             imgSrc="/asset/categories/habit.svg"
-            isClicked={category == "Habit"}
+            isClicked={category === "Habit"}
             onClickHandler={() => {
               handleCategoryClick("Habit");
             }}
@@ -119,7 +129,7 @@ const Explore = () => {
         </CategoriesWrapper>
       </CategoriesContainer>
       <ChallengesContainer $padding={challengesContainerPaddingTop}>
-        {data?.map((challenge: AllChallenges, index: number) => {
+        {data?.map((challenge: AllChallengesT, index: number) => {
           return (
             <ChallengeBlock
               thumbnailUrl={challenge.thumbnailUrl}
@@ -133,6 +143,7 @@ const Explore = () => {
           );
         })}
       </ChallengesContainer>
+      {isLoading && <Loading />}
     </Container>
   );
 };

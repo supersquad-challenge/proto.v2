@@ -3,10 +3,15 @@ import BaseModal from "../../base/Modal/BaseModal";
 import BaseBlock from "../../base/Block/BaseBlock";
 import colors from "@/styles/color";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
+import {
+  INITIALIZE_FOOTER_BLUEBUTTON,
+  SET_FOOTER_BLUEBUTTON,
+} from "@/redux/slice/layoutSlice";
 import {
   CHANGE_MODAL,
   IModalState,
+  OPEN_MODAL,
+  getActiveModalState,
   getModalState,
 } from "@/redux/slice/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +25,7 @@ type Props = {
 const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
   // variables //
   const dispatch = useDispatch();
-  const modal: IModalState = useSelector(getModalState);
+  const activeModal = useSelector(getActiveModalState);
 
   // useEffect //
   useEffect(() => {
@@ -28,11 +33,12 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Go on",
         handleBlueButtonClick: () => {
-          dispatch(CHANGE_MODAL({ modal: "depositCharge" }));
+          dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
+          dispatch(OPEN_MODAL({ modal: "depositCharge" }));
         },
       })
     );
-  }, []);
+  }, [activeModal]);
 
   return (
     <BaseModal title="You are paying with" deletePath={undefined} show={true}>
@@ -42,7 +48,7 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
           borderRadius={20}
           padding="26px 25px"
           border={
-            paymentMethod == "crypto"
+            paymentMethod === "crypto"
               ? `2px solid ${colors.primary}`
               : "2px solid #dddddd"
           }
@@ -53,7 +59,7 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
           <PaymentMethod $isclicked={paymentMethod === "crypto"}>
             a crypto wallet
           </PaymentMethod>
-          <Detail>Deposit $USDC to enforce your goals</Detail>
+          <Detail>Deposit MATIC to enforce your goals</Detail>
         </BaseBlock>
       </PaymentBlockWrapper>
 
@@ -63,18 +69,19 @@ const PaymentSelectModal = ({ paymentMethod, setPaymentMethod }: Props) => {
           borderRadius={20}
           padding="26px 25px"
           border={
-            paymentMethod == "cash"
+            paymentMethod === "cash"
               ? `2px solid ${colors.primary}`
               : "2px solid #dddddd"
           }
           onClickHandler={() => {
-            setPaymentMethod("cash");
+            // setPaymentMethod("cash");
+            setPaymentMethod("crypto");
           }}
         >
           <PaymentMethod $isclicked={paymentMethod === "cash"}>
             a cash account
           </PaymentMethod>
-          <Detail>Move on</Detail>
+          <Detail>Not supported in the Proto V2.</Detail>
         </BaseBlock>
       </PaymentBlockWrapper>
     </BaseModal>

@@ -49,21 +49,21 @@ const MyChallengeBlock = ({
     title: "",
     isCircularProgressBarPrimary: false,
     isButtonPrimary: true,
-  }; //수정 필요: get payback 로직 추가 //payback 확인 필요
-  if (status == "ongoing" && isChallengeEnded) {
+  };
+  if (status === "ongoing" && isChallengeEnded) {
     myChallengeExtendedStatus.title = "Get Payback";
     myChallengeExtendedStatus.isCircularProgressBarPrimary = true;
-  } else if (status == "ongoing" && !isPhotoUploadedToday) {
+  } else if (status === "ongoing" && !isPhotoUploadedToday) {
     myChallengeExtendedStatus.title = "Verify Mission";
     myChallengeExtendedStatus.isCircularProgressBarPrimary = true;
-  } else if (status == "ongoing" && isPhotoUploadedToday) {
+  } else if (status === "ongoing" && isPhotoUploadedToday) {
     myChallengeExtendedStatus.title = "Mission Completed";
     myChallengeExtendedStatus.isButtonPrimary = false;
-  } else if (status == "complete") {
+  } else if (status === "complete") {
     myChallengeExtendedStatus.title = "Read more";
   }
   return (
-    <BlockWrapper $margin={margin}>
+    <BlockWrapper $margin={margin} onClick={onClickHandler}>
       <BaseBlock
         backgroundColor={colors.white}
         borderRadius={20}
@@ -109,6 +109,7 @@ export default MyChallengeBlock;
 const BlockWrapper = styled.div<{ $margin?: string }>`
   width: 100%;
   margin: ${(props) => props.$margin};
+  cursor: pointer;
 `;
 
 const Wrapper = styled.div`

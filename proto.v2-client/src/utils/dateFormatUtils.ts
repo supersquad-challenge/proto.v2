@@ -49,7 +49,7 @@ export function daysBetweenDates(rawDate1: string, rawDate2: string) {
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   const durationWeeks = Math.floor(diffDays / 7) + 1;
   let weekOrWeeks = "";
-  if (durationWeeks == 1) {
+  if (durationWeeks === 1) {
     weekOrWeeks = "week";
   } else if (durationWeeks > 1) {
     weekOrWeeks = "weeks";

@@ -16,32 +16,42 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const activeModal: Modal | undefined = useSelector(getActiveModalState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const isBackgroundPrimary = () => {
-    if (pathname == "/home") {
+    if (pathname === "/home") {
       return true;
     }
     return false;
   };
 
   const isBodyContainerTop = () => {
-    if (pathname == "/profile") {
+    if (pathname === "/profile") {
       return false;
     }
     return true;
   };
   const isBodyContainerBottom = () => {
     if (
-      activeModal == "congrats_otherChallenges" ||
-      activeModal == "congrats_status" ||
-      activeModal == "nowYouAreIn" ||
-      activeModal == "snapYourScale" ||
-      pathname == "/home" ||
-      activeModal == "paybackClaim"
+      activeModal === "congrats_otherChallenges" ||
+      activeModal === "congrats_status" ||
+      activeModal === "nowYouAreIn" ||
+      activeModal === "snapYourScale" ||
+      pathname === "/home" ||
+      activeModal === "paybackClaim"
     ) {
       return false;
     }
     return true;
   };
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <>
@@ -70,6 +80,8 @@ const BodyContainer = styled.div<{
   padding-bottom: ${(props) => `${props.$bot}px`}; //Footer 자리
 
   background-color: ${(props) => props.$backgroundColor};
+
+  overflow: auto;
 `;
 
 export default Layout;

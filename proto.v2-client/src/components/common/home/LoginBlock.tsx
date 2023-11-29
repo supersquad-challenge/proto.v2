@@ -8,30 +8,9 @@ import { SET_USER_LOGIN } from "@/redux/slice/authSlice";
 
 const LoginBlock = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const handleLogin = () => {
-    const _isLoggedIn = localStorage.getItem("supersquad_loggedIn");
-    if (_isLoggedIn === "true") {
-      const _handlelogin = async () => {
-        const user = await login();
-        if (user?.status !== 200) return;
-        dispatch(
-          SET_USER_LOGIN({
-            _isLoggedIn: true,
-            userID: user?.data?.userInfoId,
-            email: user?.data?.email,
-            nickname: user?.data?.nickname,
-            profile: user?.data?.picture,
-          })
-        );
-        localStorage.setItem("supersquad_loggedIn", "true");
-        localStorage.setItem("supersquad_userID", user?.data?.userInfoId);
-      };
-      _handlelogin();
-    } else {
-      router.push("/flow/login");
-    }
+    router.push("/flow/login");
   };
 
   return (

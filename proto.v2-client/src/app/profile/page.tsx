@@ -5,27 +5,84 @@ import Image from "next/image";
 import { POINT } from "@/lib/protoV2Constants";
 import thousandFormat from "@/utils/thousandFormat";
 import SingleCollection from "@/components/common/profile/SingleCollection";
-import Wallet from "@/components/common/profile/Wallet";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { useSelector } from "react-redux";
+import Wallet, {
+  DefaultWalletButtonWrapper,
+  WalletConnectButtonWrapper,
+} from "@/components/common/profile/Wallet";
+import { usePathname, useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
 import {
+  SET_USER_CONNECT,
+  SET_USER_DISCONNECT,
+  SET_USER_LOGOUT,
   getEmailState,
+  getIsConnectedState,
+  getIsLoggedInState,
   getNicknameState,
   getProfileState,
+  getUserIDState,
 } from "@/redux/slice/authSlice";
 import { useEffect, useState } from "react";
+import { INITIALIZE_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
+import { CLOSE_MODAL } from "@/redux/slice/modalSlice";
+import { login } from "@/lib/api/axios/auth/login";
+import { useQuery } from "react-query";
+import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
+import { BadgeT, UserInfoT } from "@/types/api/User";
+import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
+import BaseButton from "@/components/base/Button/BaseButton";
+import Link from "next/link";
 
 const Profile = () => {
+  // variables //
   const router = useRouter();
   const profile = useSelector(getProfileState);
   const nickname = useSelector(getNicknameState);
   const email = useSelector(getEmailState);
   const [isClient, setIsClient] = useState(false);
+  const isLoggedIn = useSelector(getIsLoggedInState);
+  const dispatch = useDispatch();
+  const userId = useSelector(getUserIDState);
+  const isConnected = useSelector(getIsConnectedState);
+  const { switchNetwork } = useSwitchNetwork();
+  const { chain: currentChain } = useNetwork();
+  const { address, isConnected: isconnected, isDisconnected } = useAccount();
+  const pathname = usePathname();
 
+  // API //
+  const {
+    data: userInfo,
+    isLoading,
+    error,
+  } = useQuery<UserInfoT>({
+    queryKey: [`profile-${userId}`],
+    queryFn: async () => {
+      if (userId) {
+        const res = await getUserInfo({ userId });
+        const userInfo = res.userInfo;
+        return userInfo;
+      } else return;
+    },
+    staleTime: 5000,
+    cacheTime: 60 * 60 * 1000,
+  });
+
+  // useEffect //
   useEffect(() => {
     setIsClient(true);
+    dispatch(INITIALIZE_FOOTER_BLUEBUTTON());
+    dispatch(CLOSE_MODAL());
   }, []);
+
+  useEffect(() => {
+    if (isconnected && address) {
+      if (currentChain!.id !== 137) {
+        switchNetwork?.(137);
+      }
+      dispatch(SET_USER_CONNECT({ address: address }));
+    }
+    if (isDisconnected) [dispatch(SET_USER_DISCONNECT())];
+  }, [isconnected, isDisconnected, router]);
 
   if (!isClient) {
     return null;
@@ -36,7 +93,7 @@ const Profile = () => {
       <AccountOverviewContainer>
         <ProfileImageWrapper>
           <Image
-            src={profile ? profile : "/asset/profile-circle.svg"} //여기 프로필 사진이 들어가면 됨.
+            src={profile ? profile : "/asset/profile-circle.svg"} // 프로필 사진
             alt="Profile Image"
             fill
             style={{
@@ -44,56 +101,98 @@ const Profile = () => {
             }}
           />
         </ProfileImageWrapper>
-        <AccountOverviewWrapper>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Nickname>{nickname}</Nickname>
-            <Image
-              src="/asset/pencil.svg"
-              width={16}
-              height={16}
-              alt="edit profile"
-              style={{ marginLeft: "9px", cursor: "pointer" }}
-              onClick={() => router.push("/flow/profile-setting")}
-            />
-          </div>
-          <Email>{email}</Email>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              boxSizing: "border-box",
-              marginTop: "17px",
-            }}
-          >
-            <Points>{thousandFormat(POINT)}</Points>
+        {isLoggedIn && (
+          <AccountOverviewWrapper>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Nickname>{nickname}</Nickname>
+              <Image
+                src="/asset/pencil.svg"
+                width={16}
+                height={16}
+                alt="edit profile"
+                style={{ marginLeft: "9px", cursor: "pointer" }}
+                onClick={() => router.push("/flow/profile-setting")}
+              />
+            </div>
+            <Email>{email}</Email>
             <div
               style={{
-                color: "rgba(255, 255, 255, 0.60)",
-                fontSize: "16px",
-                fontWeight: 400,
-                lineHeight: "112.5%",
-                letterSpacing: "-0.32px",
-                padding: "8px 0px 4px 5px",
+                display: "flex",
+                alignItems: "center",
                 boxSizing: "border-box",
+                marginTop: "17px",
               }}
             >
-              points
+              <Points>{thousandFormat(POINT)}</Points>
+              <div
+                style={{
+                  color: "rgba(255, 255, 255, 0.60)",
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  lineHeight: "112.5%",
+                  letterSpacing: "-0.32px",
+                  padding: "8px 0px 4px 5px",
+                  boxSizing: "border-box",
+                }}
+              >
+                points
+              </div>
             </div>
-          </div>
-        </AccountOverviewWrapper>
+          </AccountOverviewWrapper>
+        )}
       </AccountOverviewContainer>
       <AssetsContainer>
         <SectionName style={{ marginBottom: "5px" }}>Collection</SectionName>
         <SectionDetail>Choose a badge and proudly display it</SectionDetail>
-        <CollectionContainer>
-          <SingleCollection name="Lose 4lbs" />
-          <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
-          <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
-          <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
-          <SingleCollection name="Lose 4lbs" margin="0 0 0 30px" />
-        </CollectionContainer>
+        {isLoggedIn &&
+        userId &&
+        userInfo?.badge &&
+        userInfo.badge.length > 0 ? (
+          <CollectionContainer>
+            {userInfo.badge.map((singleBadge: BadgeT, index: number) => (
+              <SingleCollection
+                name={singleBadge.challengeName}
+                margin={index !== 0 ? "0 0 0 30px" : undefined}
+                key={index}
+              />
+            ))}
+          </CollectionContainer>
+        ) : (
+          <div style={{ width: "100%", height: "140px" }}></div>
+        )}
+
         <SectionName style={{ marginTop: "30px" }}>Wallet</SectionName>
-        <Wallet walletName="WalletConnect" />
+        <Wallet
+          walletName="WalletConnect"
+          walletImgSrc="/asset/wallet_connect.svg"
+        >
+          <WalletConnectButtonWrapper>
+            <w3m-button
+              label="Connect"
+              size="md"
+              disabled={isLoggedIn ? false : true}
+              loadingLabel=""
+              balance="hide"
+            />
+          </WalletConnectButtonWrapper>
+        </Wallet>
+        <Wallet walletName="Kaikas" walletImgSrc="/asset/kaikas.jpeg">
+          <DefaultWalletButtonWrapper>
+            <Link href={`https://app.kaikas.io/u/v2.supersquad.store`}>
+              <BaseButton
+                color={colors.white}
+                fontSize={12.4}
+                fontWeight={500}
+                borderRadius={21}
+                backgroundColor={colors.primary}
+                padding="9px 16px"
+                title={"Connect"}
+                onClickHandler={() => {}}
+              />
+            </Link>
+          </DefaultWalletButtonWrapper>
+        </Wallet>
+
         <a href="mailto:official@supersquad.xyz">
           <ContactTeam>Contact Team</ContactTeam>
         </a>

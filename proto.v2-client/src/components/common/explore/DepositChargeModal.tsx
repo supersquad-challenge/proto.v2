@@ -9,11 +9,12 @@ import {
   CHANGE_MODAL,
   CLOSE_MODAL,
   IModalState,
+  OPEN_MODAL,
   getModalState,
 } from "@/redux/slice/modalSlice";
 import colors from "@/styles/color";
 import { PaymentMethod } from "@/types/Modal";
-import { SingleRegisteredChallenge } from "@/types/api/Challenge";
+import { SingleRegisteredChallengeT } from "@/types/api/Challenge";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -34,9 +35,9 @@ const DepositChargeModal = ({
   // variables
   const dispatch = useDispatch();
   let currency;
-  if (paymentMethod == "crypto") {
+  if (paymentMethod === "crypto") {
     currency = "MATIC";
-  } else if (paymentMethod == "cash") {
+  } else if (paymentMethod === "cash") {
     currency = "$USD";
   }
   const userId = useSelector(getUserIDState);
@@ -68,10 +69,7 @@ const DepositChargeModal = ({
             depositMethod: paymentMethod,
             deposit: deposit,
           });
-
-          console.log(challengeRes);
-          console.log(depositRes);
-          dispatch(CHANGE_MODAL({ modal: "nowYouAreIn" }));
+          dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
         },
       })
     );

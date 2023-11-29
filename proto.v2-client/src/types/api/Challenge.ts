@@ -1,4 +1,4 @@
-export type AllChallenges = {
+export type AllChallengesT = {
   challengeId: string;
   category: string;
   name: string;
@@ -6,7 +6,7 @@ export type AllChallenges = {
   participants: number;
 };
 
-export type AllChallengesByUserId = {
+export type AllChallengesByUserIdT = {
   userChallengeId: string;
   challengeId: string;
   status: string;
@@ -20,7 +20,7 @@ export type AllChallengesByUserId = {
   isPaybackPaid: boolean;
 };
 
-export type SingleChallengeByChallengeId = {
+export type SingleChallengeByChallengeIdT = {
   challengeId: string;
   name: string;
   thumbnailUrl: string;
@@ -28,9 +28,11 @@ export type SingleChallengeByChallengeId = {
   frequency: string;
   howTo: string;
   description: string;
+  category: string;
+  profileUrls: string[];
 };
 
-export type SingleChallengeByUserChallengeId = {
+export type SingleChallengeByUserChallengeIdT = {
   thumbnailUrl: string;
   name: string;
   participants: number;
@@ -47,9 +49,10 @@ export type SingleChallengeByUserChallengeId = {
   status: string;
   isPhotoUploadedToday: boolean;
   isPaybackPaid: boolean;
+  profileUrls: string[];
 };
 
-export type SingleRegisteredChallenge = {
+export type SingleRegisteredChallengeT = {
   message: string;
   userChallengeId: string;
 };

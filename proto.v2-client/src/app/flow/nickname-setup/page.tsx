@@ -30,26 +30,27 @@ const NicknameSetup = () => {
       setUserId(loginRes?.data?.userInfoId);
     };
     _handlelogin();
+  }, [dispatch]);
 
+  useEffect(() => {
     dispatch(
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Sign up",
         handleBlueButtonClick: async () => {
-          // console.log(newNickname);
-          // console.log(userId);
           if (newNickname !== "") {
             router.push("/home");
 
             const res = await setNickname({
-              userInfoId: userId!,
+              userId: userId!,
               nickname: newNickname,
+              // file: undefined,
             });
             console.log(res);
           }
         },
       })
     );
-  }, [dispatch, newNickname]);
+  }, [newNickname]);
 
   // Nickname Input functions //
   const updateInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -58,8 +59,6 @@ const NicknameSetup = () => {
 
   const submitInput = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      // 닉네임 제출 로직 (예: 서버로 전송)
-      console.log("Submitted Nickname:", newNickname);
     }
   };
 

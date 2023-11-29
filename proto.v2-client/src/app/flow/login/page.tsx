@@ -5,14 +5,28 @@ import colors from "@/styles/color";
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { SET_HEADER_GOBACK } from "@/redux/slice/layoutSlice";
+import { useRouter } from "next/navigation";
 
 const LogIn = () => {
   const GOOGLE_LOGIN_URL = process.env.NEXT_PUBLIC_GOOGLE_LOGIN_URL || "";
+  const dispatch = useDispatch();
+  const router = useRouter();
+  useEffect(() => {
+    dispatch(
+      SET_HEADER_GOBACK({
+        handleGoBackButtonClick: () => {
+          router.push("/home");
+        },
+      })
+    );
+  });
 
   return (
     <Container>
       <FlowSectionName>Login</FlowSectionName>
-      {/* <Link href={"http://localhost:8080/auth/google"}> */}
       <Link href={GOOGLE_LOGIN_URL}>
         <ButtonWrapper>
           <div

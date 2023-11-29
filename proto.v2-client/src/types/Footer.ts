@@ -1,5 +1,6 @@
 export type BlueButtonTitle =
   | "I am in!"
+  | "You are already in"
   | "Go on"
   | "Charge Deposit"
   | "Verify Mission"

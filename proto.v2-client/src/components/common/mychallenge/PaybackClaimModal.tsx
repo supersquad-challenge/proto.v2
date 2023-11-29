@@ -2,7 +2,7 @@ import colors from "@/styles/color";
 import styled from "styled-components";
 import Image from "next/image";
 import thousandFormat from "@/utils/thousandFormat";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   SET_FOOTER_BLUEBUTTON,
@@ -14,23 +14,51 @@ import {
   OPEN_MODAL,
 } from "@/redux/slice/modalSlice";
 import { useParams, useRouter } from "next/navigation";
+import { useQuery } from "react-query";
+import getPaybackStatus from "@/lib/api/querys/myChallenge/getPaybackStatus";
 
 type Props = {
   successRate: number;
 };
 
 const PaybackClaimModal = ({ successRate }: Props) => {
+  // variables //
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = useParams<{ id: string }>();
   const userChallengeId: string = id as string;
+  const [currency, setCurrency] = useState("");
+
+  // API //
+  const {
+    data: paybackStatus,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: [`payback status-${userChallengeId}`],
+    queryFn: async () => {
+      const res = await getPaybackStatus({
+        userChallengeId: userChallengeId,
+      });
+      const paybackStatus = res.paybackInfo;
+      if (paybackStatus?.depositMethod === "crypto") {
+        setCurrency("MATIC");
+      } else if (paybackStatus?.depositMethod === "cash") {
+        setCurrency("$USD");
+      }
+      return paybackStatus;
+    },
+    staleTime: 5000,
+    cacheTime: 60 * 60 * 1000,
+  });
+
   // useEffect //
   useEffect(() => {
     dispatch(
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Claim",
         handleBlueButtonClick: () => {
-          dispatch(CHANGE_MODAL({ modal: "congrats_otherChallenges" })); //수정 필요 //tx claim 하는 로직 추가해야 함
+          dispatch(OPEN_MODAL({ modal: "congrats_otherChallenges" })); //수정 필요 //tx claim 하는 로직 추가해야 함
         },
       })
     );
@@ -70,7 +98,7 @@ const PaybackClaimModal = ({ successRate }: Props) => {
         <OverviewWrapper>
           <OverviewTitle>Total Payback</OverviewTitle>
           <OverviewDetail $fontSize={24}>
-            {thousandFormat(312)} MATIC
+            {thousandFormat(paybackStatus?.totalPayback!)} {currency!}
           </OverviewDetail>
         </OverviewWrapper>
 
@@ -83,7 +111,9 @@ const PaybackClaimModal = ({ successRate }: Props) => {
             style={{ margin: "3px 7px 0 0" }}
           />
           <PoolName>My Deposit</PoolName>
-          <PoolDetail>{thousandFormat(300)} MATIC</PoolDetail>
+          <PoolDetail>
+            {thousandFormat(paybackStatus?.deposit!)} {currency!}
+          </PoolDetail>
         </PoolWrapper>
 
         <PoolWrapper style={{ marginTop: "8px" }}>
@@ -95,7 +125,9 @@ const PaybackClaimModal = ({ successRate }: Props) => {
             style={{ margin: "3px 7px 0 0" }}
           />
           <PoolName>Profit / Loss</PoolName>
-          <PoolDetail>{thousandFormat(12)} MATIC</PoolDetail>
+          <PoolDetail>
+            {thousandFormat(paybackStatus?.profit!)} {currency!}
+          </PoolDetail>
         </PoolWrapper>
       </TotalPaybackBlock>
     </PageContainer>

@@ -7,10 +7,6 @@ const postPhoto = async (userChallengeId: string, file: File) => {
 
   if (file instanceof File) {
     formData.append("file", file);
-  } else {
-    return {
-      status: 0,
-    };
   }
   try {
     const res = await axios.post(
@@ -25,9 +21,6 @@ const postPhoto = async (userChallengeId: string, file: File) => {
     return res;
   } catch (e) {
     console.log(e);
-    return {
-      status: 0,
-    };
   }
 };
 

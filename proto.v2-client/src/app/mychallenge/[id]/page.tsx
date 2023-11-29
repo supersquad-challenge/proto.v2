@@ -7,7 +7,7 @@ import Image from "next/image";
 import SingleChallengeInfo from "@/components/common/explore/SingleChallengeInfo";
 import { useQuery } from "react-query";
 import { useParams, useRouter } from "next/navigation";
-import { SingleChallengeByUserChallengeId } from "@/types/api/Challenge";
+import { SingleChallengeByUserChallengeIdT } from "@/types/api/Challenge";
 import { getSingleChallengeByUserChallengeId } from "@/lib/api/querys/myChallenge/getSingleChallengeByUserChallengeId";
 import thousandFormat from "@/utils/thousandFormat";
 import { convertIsoDateToReadable } from "@/utils/dateFormatUtils";
@@ -31,6 +31,7 @@ import {
 } from "@/lib/components/fullPageModal";
 import FullPageModal from "@/components/base/Modal/FullPageModal";
 import PaybackClaimModal from "@/components/common/mychallenge/PaybackClaimModal";
+import Loading from "@/components/animation/Loading/Spinner/Loading";
 
 const MyChallengeID = () => {
   // variables //
@@ -46,19 +47,18 @@ const MyChallengeID = () => {
     data: challenge,
     isLoading,
     error,
-  } = useQuery<SingleChallengeByUserChallengeId>({
+  } = useQuery<SingleChallengeByUserChallengeIdT>({
     queryKey: [`myStatus-${userChallengeId}`],
     queryFn: async () => {
       const res = await getSingleChallengeByUserChallengeId({
         userChallengeId: userChallengeId,
       });
       const challenge = res.myStatus;
-      if (challenge.depositMethod == "crypto") {
+      if (challenge.depositMethod === "crypto") {
         currency = "MATIC";
-      } else if (challenge.depositMethod == "cash") {
+      } else if (challenge.depositMethod === "cash") {
         currency = "$USD";
       }
-      console.log("나는 승은이야");
       return challenge;
     },
     staleTime: 5000,
@@ -74,7 +74,15 @@ const MyChallengeID = () => {
         },
       })
     );
+    dispatch(CLOSE_MODAL());
   }, []);
+
+  useEffect(() => {
+    if (!modal.visibility) {
+      router.refresh();
+      console.log("나 리프레쉬한다."); //여기서부터
+    }
+  }, [modal.visibility]);
 
   useEffect(() => {
     const today = new Date();
@@ -84,7 +92,7 @@ const MyChallengeID = () => {
     if (today >= nextDayOfEndDay) {
       isChallengeEnded = true;
     }
-    if (challenge?.status == "ongoing" && isChallengeEnded) {
+    if (challenge?.status === "ongoing" && isChallengeEnded) {
       dispatch(
         SET_FOOTER_BLUEBUTTON({
           blueButtonTitle: "Get Payback",
@@ -94,7 +102,7 @@ const MyChallengeID = () => {
         })
       );
     } else if (
-      challenge?.status == "ongoing" &&
+      challenge?.status === "ongoing" &&
       challenge.isPhotoUploadedToday
     ) {
       //사진 등록
@@ -107,7 +115,7 @@ const MyChallengeID = () => {
         })
       );
     } else if (
-      challenge?.status == "ongoing" &&
+      challenge?.status === "ongoing" &&
       !challenge.isPhotoUploadedToday
     ) {
       // 사진 미등록
@@ -119,17 +127,16 @@ const MyChallengeID = () => {
           },
         })
       );
-    } else if (challenge?.status == "complete") {
+    } else if (challenge?.status === "complete") {
       //챌린지 완료
       dispatch(REMOVE_FOOTER_BLUEBUTTON());
     }
-    console.log("안녕");
   }, [isLoading]);
 
   return (
     <>
-      {modal.activeModal == "congrats_otherChallenges" &&
-        modal.visibility == true && (
+      {modal.activeModal === "congrats_otherChallenges" &&
+        modal.visibility === true && (
           <FullPageModal
             {...congrats_otherChallengesSrc}
             onClickHandler={() => {
@@ -137,34 +144,42 @@ const MyChallengeID = () => {
               dispatch(CLOSE_MODAL());
             }}
             goBackButtonClickHandler={() => {
-              router.push(`/mychallenge/${userChallengeId}`);
+              // router.push(`/mychallenge/${userChallengeId}`);
+              router.refresh();
               dispatch(CLOSE_MODAL());
             }}
           />
         )}
-      {modal.activeModal == "paybackClaim" && modal.visibility == true && (
+      {modal.activeModal === "paybackClaim" && modal.visibility === true && (
         <PaybackClaimModal successRate={challenge?.successRate!} />
       )}
-      {modal.activeModal == "congrats_status" && modal.visibility == true && (
+      {modal.activeModal === "congrats_status" && modal.visibility === true && (
         <FullPageModal
           {...congrats_statusSrc}
-          onClickHandler={() => dispatch(CLOSE_MODAL())}
+          onClickHandler={() => {
+            dispatch(CLOSE_MODAL());
+            setTimeout(() => {
+              router.refresh();
+            }, 2000);
+          }}
           goBackButtonClickHandler={() => {
-            router.push(`/mychallenge/${userChallengeId}`);
+            // router.push(`/mychallenge/${userChallengeId}`);
+            router.refresh();
             dispatch(CLOSE_MODAL());
           }}
         />
       )}
-      {modal.activeModal == "snapYourScale" && modal.visibility == true && (
+      {modal.activeModal === "snapYourScale" && modal.visibility === true && (
         <SnapYourScaleModal userChallengeId={userChallengeId} />
       )}
-      {modal.activeModal == undefined && (
+      {modal.activeModal === undefined && (
         <Container>
           <DetailedChallengePage
             thumbnailUrl={challenge?.thumbnailUrl!}
             frequency={challenge?.frequency!}
             name={challenge?.name!}
             participants={30}
+            profileUrls={challenge?.profileUrls ? challenge?.profileUrls : []}
           >
             <Wrapper>
               <Title>My Status</Title>
@@ -237,6 +252,7 @@ const MyChallengeID = () => {
               detail={challenge?.description!}
             />
           </DetailedChallengePage>
+          {isLoading && <Loading />}
         </Container>
       )}
     </>

@@ -2,33 +2,29 @@ import styled from "styled-components";
 import Image from "next/image";
 import colors from "@/styles/color";
 import BaseButton from "@/components/base/Button/BaseButton";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  SET_USER_CONNECT,
+  SET_USER_DISCONNECT,
+  getIsLoggedInState,
+} from "@/redux/slice/authSlice";
+import { useAccount } from "wagmi";
+import { useEffect } from "react";
 
 type Props = {
   walletName: string;
+  walletImgSrc: string;
+  children?: React.ReactNode;
 };
 
-const Wallet = ({ walletName }: Props) => {
+const Wallet = ({ walletName, walletImgSrc, children }: Props) => {
+  const isLoggedIn = useSelector(getIsLoggedInState);
+
   return (
     <Wrapper>
-      <Image
-        src="/asset/wallet_connect.svg"
-        alt="wallet connect"
-        width={30}
-        height={30}
-      />
+      <Image src={walletImgSrc} alt={walletName} width={30} height={30} />
       <Name>{walletName}</Name>
-      <ButtonWrapper>
-        <BaseButton
-          color={colors.white}
-          fontSize={12}
-          fontWeight={500}
-          borderRadius={21}
-          backgroundColor={colors.primary}
-          padding="7px 23px 5px 22px"
-          title={"Connect"}
-          onClickHandler={() => {}} //지갑 연결 함수
-        />
-      </ButtonWrapper>
+      {children}
     </Wrapper>
   );
 };
@@ -44,6 +40,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 
   margin-top: 15px;
+  position: relative;
 `;
 
 const Name = styled.div`
@@ -56,8 +53,21 @@ const Name = styled.div`
   margin-left: 15px;
 `;
 
-const ButtonWrapper = styled.div`
-  width: 96px;
-  height: 30px;
+export const DefaultWalletButtonWrapper = styled.div`
+  width: auto;
+  height: auto;
   margin-left: auto;
+  box-sizing: border-box;
+  position: absolute;
+  right: 0px;
+`;
+
+export const WalletConnectButtonWrapper = styled.div`
+  width: 85px;
+  height: 36.6px;
+  margin-left: auto;
+  box-sizing: border-box;
+
+  position: absolute;
+  right: 0px;
 `;
