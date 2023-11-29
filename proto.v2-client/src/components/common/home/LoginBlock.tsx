@@ -40,7 +40,7 @@ const BlockWrapper = styled.div`
   align-items: center;
   margin-top: 40px;
   border-radius: 20px;
-  z-index: 2; /* 더 높은 z-index를 설정 */
+  z-index: 2 !important; /* 더 높은 z-index를 설정 */
   position: relative;
 `;
 
