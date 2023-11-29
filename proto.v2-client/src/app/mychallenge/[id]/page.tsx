@@ -158,7 +158,9 @@ const MyChallengeID = () => {
           {...congrats_statusSrc}
           onClickHandler={() => {
             dispatch(CLOSE_MODAL());
-            router.refresh();
+            setTimeout(() => {
+              router.refresh();
+            }, 2000);
           }}
           goBackButtonClickHandler={() => {
             // router.push(`/mychallenge/${userChallengeId}`);
