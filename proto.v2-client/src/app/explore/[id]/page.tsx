@@ -160,7 +160,7 @@ const ExploreID = () => {
           <DepositChargeModal
             paymentMethod={paymentMethod}
             challengeId={challengeId}
-            deposit={deposit}
+            deposit={0}
             poolAddress={challenge.successPoolAddress}
             setDeposit={setDeposit}
           />

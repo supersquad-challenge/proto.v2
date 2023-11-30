@@ -60,9 +60,7 @@ const DepositChargeModal = ({
     useSendTransaction({
       account: account.address,
       to: poolAddress,
-      value: debouncedAmount
-        ? parseEther(debouncedAmount.toString())
-        : undefined,
+      value: ethers.parseEther(deposit.toString()),
     });
 
   let currency;
@@ -92,20 +90,23 @@ const DepositChargeModal = ({
     );
   }, []);
 
-  const handleSetChallenge = async () => {
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const challengeRes = await setChallenge({
-      // userId: USERID,
-      userId: userId!,
-      challengeId: challengeId,
-      timezone: timezone,
-    });
-    const depositRes = await setDepositInfo({
-      userChallengeId: challengeRes?.data.userChallengeId!,
-      depositMethod: paymentMethod,
-      deposit: deposit,
-    });
-    dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
+  const handleSetChallenge = () => {
+    const _handleSetChallenge = async () => {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const challengeRes = await setChallenge({
+        // userId: USERID,
+        userId: userId!,
+        challengeId: challengeId,
+        timezone: timezone,
+      });
+      const depositRes = await setDepositInfo({
+        userChallengeId: challengeRes?.data.userChallengeId!,
+        depositMethod: paymentMethod,
+        deposit: deposit,
+      });
+      dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
+    };
+    _handleSetChallenge();
   };
 
   return (
@@ -161,11 +162,11 @@ const DepositChargeModal = ({
         / 1 Week in average
       </AverageDeposit>
       <FormContainer
-        onSubmit={async (e) => {
-          e.preventDefault();
+        onSubmit={(e) => {
           sendTransaction?.();
+          e.preventDefault();
           if (isSuccess && data !== undefined && data.hash !== undefined) {
-            await handleSetChallenge();
+            handleSetChallenge();
           }
         }}
       >
