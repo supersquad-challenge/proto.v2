@@ -95,20 +95,20 @@ const DepositChargeModal = ({
           console.log(isLoading);
           console.log(isSuccess);
 
-          return;
-
-          const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          const challengeRes = await setChallenge({
-            // userId: USERID,
-            userId: userId!,
-            challengeId: challengeId,
-            timezone: timezone,
-          });
-          const depositRes = await setDepositInfo({
-            userChallengeId: challengeRes?.data.userChallengeId!,
-            depositMethod: paymentMethod,
-            deposit: deposit,
-          });
+          if (isSuccess) {
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const challengeRes = await setChallenge({
+              // userId: USERID,
+              userId: userId!,
+              challengeId: challengeId,
+              timezone: timezone,
+            });
+            const depositRes = await setDepositInfo({
+              userChallengeId: challengeRes?.data.userChallengeId!,
+              depositMethod: paymentMethod,
+              deposit: deposit,
+            });
+          }
           dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
         },
       })
@@ -167,20 +167,6 @@ const DepositChargeModal = ({
         </OrangeUnderline>{" "}
         / 1 Week in average
       </AverageDeposit>
-      {/* <FormContainer
-        onSubmit={(e) => {
-          console.log(sendTransaction);
-          sendTransaction?.();
-        }}
-      >
-        <SubmitButton
-          $bgColor={colors.primary}
-          $color={colors.white}
-          type="submit"
-        >
-          Charge Depositt
-        </SubmitButton>
-      </FormContainer> */}
     </BaseModal>
   );
 };
@@ -304,34 +290,4 @@ const OrangeUnderline = styled.span`
   color: #eb4826;
   font-weight: 500;
   text-decoration-line: underline;
-`;
-
-const FormContainer = styled.form`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 281px;
-  height: 50px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  transform: translateY(100%);
-  border-radius: 25px;
-  overflow: hidden;
-`;
-
-type SubmitButtonProps = {
-  $color: string;
-  $bgColor: string;
-};
-
-const SubmitButton = styled.button<SubmitButtonProps>`
-  width: 100%;
-  height: 100%;
-  color: ${({ $color }) => $color};
-  background-color: ${({ $bgColor }) => $bgColor};
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 25px;
-  padding: 0;
 `;
