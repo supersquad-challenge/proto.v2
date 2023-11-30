@@ -150,6 +150,7 @@ const DepositChargeModal = ({
         <SliderNumbersWrapper>
           <SliderNumber>10</SliderNumber>
           <SliderNumber>300</SliderNumber>
+          {`success: ${isSuccess}`}
         </SliderNumbersWrapper>
       </SliderContainer>
       <DepositContainer>
