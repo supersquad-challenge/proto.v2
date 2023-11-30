@@ -94,6 +94,8 @@ module.exports = {
           description: challengeInfo.description,
           category: challengeInfo.category,
           profileUrls: profileUrls,
+          successPoolAddress: challengeInfo.successPoolAddress,
+          fialPoolAddress: challengeInfo.failPoolAddress,
         },
       });
     } catch (error) {
