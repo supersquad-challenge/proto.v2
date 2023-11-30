@@ -94,27 +94,35 @@ const DepositChargeModal = ({
           console.log(isIdle);
           console.log(isLoading);
           console.log(isSuccess);
-
-          if (isSuccess) {
-            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            const challengeRes = await setChallenge({
-              // userId: USERID,
-              userId: userId!,
-              challengeId: challengeId,
-              timezone: timezone,
-            });
-            const depositRes = await setDepositInfo({
-              userChallengeId: challengeRes?.data.userChallengeId!,
-              depositMethod: paymentMethod,
-              deposit: deposit,
-            });
-
-            dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
-          }
         },
       })
     );
   }, []);
+
+  useEffect(() => {
+    const handleSetChallenge = () => {
+      const _handleSetChallenge = async () => {
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const challengeRes = await setChallenge({
+          // userId: USERID,
+          userId: userId!,
+          challengeId: challengeId,
+          timezone: timezone,
+        });
+        const depositRes = await setDepositInfo({
+          userChallengeId: challengeRes?.data.userChallengeId!,
+          depositMethod: paymentMethod,
+          deposit: deposit,
+        });
+
+        dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
+      };
+      _handleSetChallenge();
+    };
+    if (isSuccess) {
+      handleSetChallenge();
+    }
+  }, [isSuccess]);
 
   return (
     <BaseModal title="Win your goddal" deletePath={undefined} show={true}>
