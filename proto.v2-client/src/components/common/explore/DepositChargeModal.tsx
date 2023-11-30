@@ -54,7 +54,7 @@ const DepositChargeModal = ({
     onConnect: (data) => console.log("connected", data),
     onDisconnect: () => console.log("disconnected"),
   });
-  const [debouncedAmount] = useDebounce(deposit, 500);
+  const [debouncedAmount] = useDebounce(0, 500);
 
   const { data, isLoading, isSuccess, isIdle, sendTransaction } =
     useSendTransaction({
@@ -87,29 +87,33 @@ const DepositChargeModal = ({
     dispatch(
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Charge Deposit",
-        handleBlueButtonClick: async () => {},
+        handleBlueButtonClick: async () => {
+          sendTransaction?.();
+
+          console.log(data);
+          console.log(isIdle);
+          console.log(isLoading);
+          console.log(isSuccess);
+
+          return;
+
+          const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          const challengeRes = await setChallenge({
+            // userId: USERID,
+            userId: userId!,
+            challengeId: challengeId,
+            timezone: timezone,
+          });
+          const depositRes = await setDepositInfo({
+            userChallengeId: challengeRes?.data.userChallengeId!,
+            depositMethod: paymentMethod,
+            deposit: deposit,
+          });
+          dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
+        },
       })
     );
   }, []);
-
-  const handleSetChallenge = () => {
-    const _handleSetChallenge = async () => {
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const challengeRes = await setChallenge({
-        // userId: USERID,
-        userId: userId!,
-        challengeId: challengeId,
-        timezone: timezone,
-      });
-      const depositRes = await setDepositInfo({
-        userChallengeId: challengeRes?.data.userChallengeId!,
-        depositMethod: paymentMethod,
-        deposit: deposit,
-      });
-      dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
-    };
-    _handleSetChallenge();
-  };
 
   return (
     <BaseModal title="Win your goddal" deletePath={undefined} show={true}>
@@ -165,20 +169,16 @@ const DepositChargeModal = ({
       </AverageDeposit>
       <FormContainer
         onSubmit={(e) => {
-          e.preventDefault();
+          console.log(sendTransaction);
           sendTransaction?.();
-
-          if (isSuccess && data !== undefined && data.hash !== undefined) {
-            handleSetChallenge();
-          }
         }}
       >
         <SubmitButton
-          $color={colors.white}
           $bgColor={colors.primary}
+          $color={colors.white}
           type="submit"
         >
-          Charge Deposit
+          Charge Depositt
         </SubmitButton>
       </FormContainer>
     </BaseModal>
