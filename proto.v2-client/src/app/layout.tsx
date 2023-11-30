@@ -48,7 +48,6 @@ const metadata = {
 };
 
 const wagmiConfig = createConfig({
-  autoConnect: true,
   connectors: [
     new WalletConnectConnector({
       chains: chains,
@@ -58,6 +57,9 @@ const wagmiConfig = createConfig({
   publicClient,
   webSocketPublicClient,
 });
+
+console.log(projectId);
+console.log(alchemyKey);
 
 // 3. Create modal
 createWeb3Modal({
