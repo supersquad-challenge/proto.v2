@@ -57,11 +57,17 @@ const DepositChargeModal = ({
     value: debouncedAmount ? parseEther(debouncedAmount.toString()) : undefined,
   });
 
-  const { data, isIdle, sendTransaction } = useSendTransaction(config);
+  // const { data, isIdle, sendTransaction } = useSendTransaction(config);
 
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash,
-  });
+  const { data, isLoading, isIdle, isSuccess, sendTransaction } =
+    useSendTransaction({
+      to: poolAddress,
+      value: ethers.parseUnits("0", 18),
+    });
+
+  // const { isLoading, isSuccess } = useWaitForTransaction({
+  //   hash: data?.hash,
+  // });
 
   let currency;
   if (paymentMethod === "crypto") {

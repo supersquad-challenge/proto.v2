@@ -18,6 +18,7 @@ import dotenv from "dotenv";
 import { useEffect, useRef } from "react";
 import colors from "@/styles/color";
 import { infuraProvider } from "wagmi/providers/infura";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 dotenv.config();
 
 // 1. Get PROJECT_ID
@@ -40,7 +41,7 @@ const klaytnRpcConfig = {
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [polygon, polygonMumbai],
   [
-    alchemyProvider({ apiKey: alchemyKey }),
+    alchemyProvider({ apiKey: alchemyKey! }),
     infuraProvider({ apiKey: infureKey! }),
     publicProvider(),
   ]
@@ -54,7 +55,9 @@ const metadata = {
 };
 
 const wagmiConfig = createConfig({
+  autoConnect: true,
   connectors: [
+    new MetaMaskConnector({ chains }),
     new WalletConnectConnector({
       chains: chains,
       options: { projectId: projectId },
@@ -63,9 +66,6 @@ const wagmiConfig = createConfig({
   publicClient,
   webSocketPublicClient,
 });
-
-console.log(projectId);
-console.log(alchemyKey);
 
 // 3. Create modal
 createWeb3Modal({
