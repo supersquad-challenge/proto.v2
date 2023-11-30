@@ -158,15 +158,6 @@ const DepositChargeModal = ({
       <DepositContainer>
         <Deposit>{deposit}</Deposit>
         <Currency>{currency as string}</Currency>
-        <form
-          onSubmit={(e) => {
-            console.log(data);
-            console.log(sendTransaction);
-            sendTransaction?.();
-          }}
-        >
-          <button type="submit">Click</button>
-        </form>
       </DepositContainer>
       <AverageDeposit>
         Members deposit{" "}
@@ -180,6 +171,22 @@ const DepositChargeModal = ({
         </OrangeUnderline>{" "}
         / 1 Week in average
       </AverageDeposit>
+      <FormContainer
+        onSubmit={(e) => {
+          e.preventDefault();
+          console.log(data);
+          console.log(sendTransaction);
+          sendTransaction?.();
+        }}
+      >
+        <SubmitButton
+          $color={colors.white}
+          $bgColor={colors.primary}
+          type="submit"
+        >
+          Charge Deposit
+        </SubmitButton>
+      </FormContainer>
     </BaseModal>
   );
 };
@@ -303,4 +310,34 @@ const OrangeUnderline = styled.span`
   color: #eb4826;
   font-weight: 500;
   text-decoration-line: underline;
+`;
+
+const FormContainer = styled.form`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 281px;
+  height: 50px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translateY(100%);
+  border-radius: 25px;
+  overflow: hidden;
+`;
+
+type SubmitButtonProps = {
+  $color: string;
+  $bgColor: string;
+};
+
+const SubmitButton = styled.button<SubmitButtonProps>`
+  width: 100%;
+  height: 100%;
+  color: ${({ $color }) => $color};
+  background-color: ${({ $bgColor }) => $bgColor};
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 25px;
+  padding: 0;
 `;

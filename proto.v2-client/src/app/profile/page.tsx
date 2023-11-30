@@ -164,12 +164,17 @@ const Profile = () => {
         >
           <WalletConnectButtonWrapper>
             {connectors.map((connector) => (
-              <button
+              <BaseButton
                 key={connector.id}
-                onClick={() => connect({ connector: connector })}
-              >
-                {connector.name}
-              </button>
+                color={colors.white}
+                fontSize={12.4}
+                fontWeight={500}
+                borderRadius={21}
+                backgroundColor={colors.primary}
+                padding="9px 16px"
+                title={isConnected ? "Connected" : "Connect"}
+                onClickHandler={() => connect({ connector: connector })}
+              />
             ))}
           </WalletConnectButtonWrapper>
         </Wallet>
