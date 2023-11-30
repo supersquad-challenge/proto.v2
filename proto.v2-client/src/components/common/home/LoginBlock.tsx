@@ -2,9 +2,6 @@ import LongBlueButton from "@/components/base/Button/LongBlueButton";
 import colors from "@/styles/color";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { login } from "@/lib/api/axios/auth/login";
-import { SET_USER_LOGIN } from "@/redux/slice/authSlice";
 
 const LoginBlock = () => {
   const router = useRouter();

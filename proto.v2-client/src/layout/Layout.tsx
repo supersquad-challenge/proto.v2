@@ -1,6 +1,5 @@
 "use client";
-import { ReactNode, useContext, useEffect, useState } from "react";
-// import Header from '@/layout/Header'
+import { ReactNode, useEffect, useState } from "react";
 import React from "react";
 import Footer from "@/layout/Footer";
 import { usePathname } from "next/navigation";
@@ -10,6 +9,7 @@ import colors from "@/styles/color";
 import { Modal } from "@/types/Modal";
 import { useSelector } from "react-redux";
 import { getActiveModalState } from "@/redux/slice/modalSlice";
+import Splash from "@/components/base/Splash/Splash";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   // variable //
@@ -17,9 +17,24 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const activeModal: Modal | undefined = useSelector(getActiveModalState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isClient, setIsClient] = useState(false);
+  const [isEntry, setIsEntry] = useState(false);
 
+  // useEffect //
   useEffect(() => {
     setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    const isExist = sessionStorage.getItem("supersquad");
+    if (isExist === "true") {
+      setIsEntry(false);
+    } else {
+      setIsEntry(true);
+      setTimeout(() => {
+        sessionStorage.setItem("supersquad", "true");
+        setIsEntry(false);
+      }, 1200);
+    }
   }, []);
 
   const isBackgroundPrimary = () => {
@@ -63,7 +78,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           isBackgroundPrimary() ? `${colors.primary}` : `${colors.white}`
         }
       >
-        {children}
+        {isEntry ? <Splash /> : children}
       </BodyContainer>
 
       <Footer />
