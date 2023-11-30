@@ -18,7 +18,6 @@ import dotenv from "dotenv";
 
 import { useEffect, useRef } from "react";
 import colors from "@/styles/color";
-import { WalletConnectLegacyConnector } from "wagmi/connectors/walletConnectLegacy";
 dotenv.config();
 
 // 1. Get PROJECT_ID
@@ -36,13 +35,9 @@ const klaytnRpcConfig = {
 };
 
 // 2. Create wagmiConfig
-const { chains, publicClient } = configureChains(
+const { chains, publicClient, webSocketPublicClient } = configureChains(
   [polygon, polygonMumbai],
-  [
-    walletConnectProvider({ projectId }),
-    publicProvider(),
-    alchemyProvider({ apiKey: alchemyKey }),
-  ]
+  [alchemyProvider({ apiKey: alchemyKey }), publicProvider()]
 );
 
 const metadata = {
@@ -52,24 +47,16 @@ const metadata = {
   icons: "/src/app/favicon.ico",
 };
 
-const Chains = [polygon, klaytn, polygonMumbai];
-// const Chains = [klaytn];
-
 const wagmiConfig = createConfig({
   autoConnect: true,
   connectors: [
     new WalletConnectConnector({
-      chains: Chains,
+      chains: chains,
       options: { projectId: projectId },
-    }),
-    new WalletConnectLegacyConnector({
-      chains,
-      options: {
-        qrcode: true,
-      },
     }),
   ],
   publicClient,
+  webSocketPublicClient,
 });
 
 // 3. Create modal
