@@ -54,7 +54,7 @@ const DepositChargeModal = ({
     onConnect: (data) => console.log("connected", data),
     onDisconnect: () => console.log("disconnected"),
   });
-  const [debouncedAmount] = useDebounce(0, 500);
+  const [debouncedAmount] = useDebounce(1, 500);
 
   const { data, isLoading, isSuccess, isIdle, sendTransaction } =
     useSendTransaction({
