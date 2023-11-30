@@ -79,6 +79,7 @@ const ExploreID = () => {
     queryFn: async () => {
       const res = await getSingleChallenge({ challengeId: challengeId });
       const challenge = res.challengeInfo;
+      console.log(challenge);
       return challenge;
     },
     staleTime: 5000,
