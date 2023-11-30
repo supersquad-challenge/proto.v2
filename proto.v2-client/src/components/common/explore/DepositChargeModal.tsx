@@ -95,7 +95,7 @@ const DepositChargeModal = ({
           console.log(isLoading);
           console.log(isSuccess);
 
-          if (isSuccess) {
+          if (data?.hash && isSuccess) {
             const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             const challengeRes = await setChallenge({
               // userId: USERID,
