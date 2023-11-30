@@ -29,6 +29,7 @@ import {
   useSendTransaction,
   usePrepareSendTransaction,
   useWaitForTransaction,
+  useAccount,
 } from "wagmi";
 import { parseEther } from "viem";
 
@@ -49,11 +50,14 @@ const DepositChargeModal = ({
 }: Props) => {
   // variables
   const dispatch = useDispatch();
-  const address = useSelector(getAddressState);
+  const account = useAccount({
+    onConnect: (data) => console.log("connected", data),
+    onDisconnect: () => console.log("disconnected"),
+  });
   const [debouncedAmount] = useDebounce(deposit, 500);
 
   const { config } = usePrepareSendTransaction({
-    account: "0x5C05A065aFA7450E8fe958F7214BDDB720Ec78Da",
+    account: account.address,
     to: poolAddress,
     value: debouncedAmount ? parseEther(debouncedAmount.toString()) : undefined,
   });
@@ -159,7 +163,6 @@ const DepositChargeModal = ({
         <Currency>{currency as string}</Currency>
         <button
           onClick={(e) => {
-            e.preventDefault();
             sendTransaction?.();
           }}
         >
