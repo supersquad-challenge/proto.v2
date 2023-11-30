@@ -18,6 +18,7 @@ import dotenv from "dotenv";
 
 import { useEffect, useRef } from "react";
 import colors from "@/styles/color";
+import { WalletConnectLegacyConnector } from "wagmi/connectors/walletConnectLegacy";
 dotenv.config();
 
 // 1. Get PROJECT_ID
@@ -36,7 +37,7 @@ const klaytnRpcConfig = {
 
 // 2. Create wagmiConfig
 const { chains, publicClient } = configureChains(
-  [polygon],
+  [polygon, polygonMumbai],
   [
     walletConnectProvider({ projectId }),
     publicProvider(),
@@ -59,7 +60,13 @@ const wagmiConfig = createConfig({
   connectors: [
     new WalletConnectConnector({
       chains: Chains,
-      options: { projectId: projectId, metadata },
+      options: { projectId: projectId },
+    }),
+    new WalletConnectLegacyConnector({
+      chains,
+      options: {
+        qrcode: true,
+      },
     }),
   ],
   publicClient,
