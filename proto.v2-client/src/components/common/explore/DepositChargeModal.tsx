@@ -158,15 +158,15 @@ const DepositChargeModal = ({
       <DepositContainer>
         <Deposit>{deposit}</Deposit>
         <Currency>{currency as string}</Currency>
-        <button
-          onClick={(e) => {
+        <form
+          onSubmit={(e) => {
             console.log(data);
             console.log(sendTransaction);
             sendTransaction?.();
           }}
         >
-          Click
-        </button>
+          <button type="submit">Click</button>
+        </form>
       </DepositContainer>
       <AverageDeposit>
         Members deposit{" "}
