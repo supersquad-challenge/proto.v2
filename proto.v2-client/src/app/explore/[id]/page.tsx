@@ -53,18 +53,20 @@ const ExploreID = () => {
   } = useQuery({
     queryKey: [`isRegistered-${challengeId} - ${userId}`],
     queryFn: async () => {
-      const res = await getIsChallengeRegistered({
-        challengeId: challengeId,
-        userId: userId!,
-      });
-      if (res.userChallengeInfo.userChallengeId !== undefined) {
-        setRegister(true);
-      } else {
-        setRegister(false);
+      if (userId) {
+        const res = await getIsChallengeRegistered({
+          challengeId: challengeId,
+          userId: userId!,
+        });
+        if (res.userChallengeInfo.userChallengeId !== undefined) {
+          setRegister(true);
+        } else {
+          setRegister(false);
+        }
+        return res.userChallengeInfo.userChallengeId != undefined;
       }
-      return res.userChallengeInfo.userChallengeId != undefined;
     },
-    staleTime: 5000,
+    staleTime: 10000,
     cacheTime: 60 * 60 * 1000,
   });
 
@@ -85,7 +87,9 @@ const ExploreID = () => {
 
   // useEffect //
   useEffect(() => {
-    setRegister(isRegistered!);
+    if (userId) {
+      setRegister(isRegistered!);
+    }
   }, [isRegistered]);
 
   useEffect(() => {
