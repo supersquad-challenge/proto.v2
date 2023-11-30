@@ -79,6 +79,8 @@ const DepositChargeModal = ({
             userId: userId!,
           });
 
+          console.log(isRegistered.error !== null);
+          console.log(isRegistered.error !== undefined);
           if (isRegistered.error !== null || isRegistered.error !== undefined) {
             console.log("HAHa");
             return;
