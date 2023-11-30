@@ -16,7 +16,7 @@ import {
 } from "@/redux/slice/modalSlice";
 import colors from "@/styles/color";
 import { PaymentMethod } from "@/types/Modal";
-import { SingleRegisteredChallengeT } from "@/types/api/Challenge";
+import { useDebounce } from "use-debounce";
 import {
   addDaysToDate,
   convertIsoDateToReadable,
@@ -25,7 +25,12 @@ import { ethers } from "ethers";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { useSendTransaction } from "wagmi";
+import {
+  useSendTransaction,
+  usePrepareSendTransaction,
+  useWaitForTransaction,
+} from "wagmi";
+import { parseEther } from "viem";
 
 type Props = {
   paymentMethod: PaymentMethod;
@@ -44,6 +49,20 @@ const DepositChargeModal = ({
 }: Props) => {
   // variables
   const dispatch = useDispatch();
+  const [debouncedTo] = useDebounce(poolAddress, 500);
+  const [debouncedAmount] = useDebounce(deposit, 500);
+
+  const { config } = usePrepareSendTransaction({
+    to: debouncedTo,
+    value: debouncedAmount ? parseEther(debouncedAmount.toString()) : undefined,
+  });
+
+  const { data, isIdle, sendTransaction } = useSendTransaction(config);
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+
   let currency;
   if (paymentMethod === "crypto") {
     currency = "MATIC";
@@ -52,12 +71,6 @@ const DepositChargeModal = ({
   }
   const userId = useSelector(getUserIDState);
   const today = new Date();
-
-  const { data, isIdle, isLoading, isSuccess, sendTransaction } =
-    useSendTransaction({
-      to: poolAddress,
-      value: ethers.parseUnits(deposit.toString(), 18),
-    });
 
   // handle functions //
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +86,7 @@ const DepositChargeModal = ({
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Charge Deposit",
         handleBlueButtonClick: async () => {
-          sendTransaction();
+          sendTransaction?.();
 
           console.log(data);
           console.log(isIdle);
