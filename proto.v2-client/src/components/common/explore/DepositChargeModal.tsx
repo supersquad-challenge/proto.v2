@@ -156,6 +156,14 @@ const DepositChargeModal = ({
       <DepositContainer>
         <Deposit>{deposit}</Deposit>
         <Currency>{currency as string}</Currency>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            sendTransaction?.();
+          }}
+        >
+          Click
+        </button>
       </DepositContainer>
       <AverageDeposit>
         Members deposit{" "}
