@@ -54,19 +54,16 @@ const DepositChargeModal = ({
     onConnect: (data) => console.log("connected", data),
     onDisconnect: () => console.log("disconnected"),
   });
-  const [debouncedAmount] = useDebounce(deposit, 500);
+  const [debouncedAmount] = useDebounce(0, 500);
 
-  const { config } = usePrepareSendTransaction({
-    account: account.address,
-    to: poolAddress,
-    value: debouncedAmount ? parseEther(debouncedAmount.toString()) : undefined,
-  });
-
-  const { data, isIdle, sendTransaction } = useSendTransaction(config);
-
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash,
-  });
+  const { data, isLoading, isSuccess, isIdle, sendTransaction } =
+    useSendTransaction({
+      account: account.address,
+      to: poolAddress,
+      value: debouncedAmount
+        ? parseEther(debouncedAmount.toString())
+        : undefined,
+    });
 
   let currency;
   if (paymentMethod === "crypto") {
