@@ -54,7 +54,7 @@ const DepositChargeModal = ({
     onConnect: (data) => console.log("connected", data),
     onDisconnect: () => console.log("disconnected"),
   });
-  const [debouncedAmount] = useDebounce(0, 500);
+  const [debouncedAmount] = useDebounce(deposit, 500);
 
   const { data, isLoading, isSuccess, isIdle, sendTransaction } =
     useSendTransaction({
@@ -87,33 +87,26 @@ const DepositChargeModal = ({
     dispatch(
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Charge Deposit",
-        handleBlueButtonClick: async () => {
-          sendTransaction?.();
-
-          console.log(data);
-          console.log(isIdle);
-          console.log(isLoading);
-          console.log(isSuccess);
-
-          return;
-
-          const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          const challengeRes = await setChallenge({
-            // userId: USERID,
-            userId: userId!,
-            challengeId: challengeId,
-            timezone: timezone,
-          });
-          const depositRes = await setDepositInfo({
-            userChallengeId: challengeRes?.data.userChallengeId!,
-            depositMethod: paymentMethod,
-            deposit: deposit,
-          });
-          dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
-        },
+        handleBlueButtonClick: async () => {},
       })
     );
   }, []);
+
+  const handleSetChallenge = async () => {
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const challengeRes = await setChallenge({
+      // userId: USERID,
+      userId: userId!,
+      challengeId: challengeId,
+      timezone: timezone,
+    });
+    const depositRes = await setDepositInfo({
+      userChallengeId: challengeRes?.data.userChallengeId!,
+      depositMethod: paymentMethod,
+      deposit: deposit,
+    });
+    dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
+  };
 
   return (
     <BaseModal title="Win your goddal" deletePath={undefined} show={true}>
@@ -149,10 +142,6 @@ const DepositChargeModal = ({
         <SliderNumbersWrapper>
           <SliderNumber>10</SliderNumber>
           <SliderNumber>300</SliderNumber>
-          <div>{`data: ${JSON.stringify(data)}`}</div>
-          <div>{`loading: ${isLoading}`}</div>
-          <div>{`isIdel: ${isIdle}`}</div>
-          <div>{`success: ${isSuccess}`}</div>
         </SliderNumbersWrapper>
       </SliderContainer>
       <DepositContainer>
@@ -172,11 +161,12 @@ const DepositChargeModal = ({
         / 1 Week in average
       </AverageDeposit>
       <FormContainer
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          console.log(data);
-          console.log(sendTransaction);
           sendTransaction?.();
+          if (isSuccess && data !== undefined && data.hash !== undefined) {
+            await handleSetChallenge();
+          }
         }}
       >
         <SubmitButton
