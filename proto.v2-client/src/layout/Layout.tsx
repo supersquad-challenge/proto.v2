@@ -33,7 +33,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       setTimeout(() => {
         sessionStorage.setItem("supersquad", "true");
         setIsEntry(false);
-      }, 1200);
+      }, 500);
     }
   }, []);
 

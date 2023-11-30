@@ -2,6 +2,7 @@ import BaseModal from "@/components/base/Modal/BaseModal";
 import BaseSlider from "@/components/base/Slider/BaseSlider";
 import setChallenge from "@/lib/api/axios/myChallenge/setChallenge";
 import setDepositInfo from "@/lib/api/axios/tx/setDepositInfo";
+import { getIsChallengeRegistered } from "@/lib/api/querys/myChallenge/getIsChallengeRegistered";
 import { USERID } from "@/lib/api/testdata";
 import { DURATION_DAYS } from "@/lib/protoV2Constants";
 import { getUserIDState } from "@/redux/slice/authSlice";
@@ -45,7 +46,8 @@ const DepositChargeModal = ({
   } else if (paymentMethod === "cash") {
     currency = "$USD";
   }
-  const userId = useSelector(getUserIDState);
+  const userId = "655b0d9c2a5b0a3ec6fa8ffa";
+  // useSelector(getUserIDState);
   const today = new Date();
 
   // handle functions //
@@ -62,6 +64,12 @@ const DepositChargeModal = ({
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Charge Deposit",
         handleBlueButtonClick: async () => {
+          console.log("ASDFASFASDF");
+          const isRegistered = await getIsChallengeRegistered({
+            challengeId: challengeId,
+            userId: userId!,
+          });
+
           const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
           const challengeRes = await setChallenge({
             // userId: USERID,
@@ -69,7 +77,6 @@ const DepositChargeModal = ({
             challengeId: challengeId,
             timezone: timezone,
           });
-
           const depositRes = await setDepositInfo({
             userChallengeId: challengeRes?.data.userChallengeId!,
             depositMethod: paymentMethod,
@@ -82,7 +89,7 @@ const DepositChargeModal = ({
   }, []);
 
   return (
-    <BaseModal title="Win your goal" deletePath={undefined} show={true}>
+    <BaseModal title="Win your goddal" deletePath={undefined} show={true}>
       <SingleSimpleChallengeInfo
         title="Period"
         content={`${convertIsoDateToReadable(
@@ -257,6 +264,3 @@ const OrangeUnderline = styled.span`
   font-weight: 500;
   text-decoration-line: underline;
 `;
-function dispatch(arg0: any) {
-  throw new Error("Function not implemented.");
-}

@@ -49,6 +49,7 @@ const Explore = () => {
       const category = searchParams.get("category") ?? "";
       const queryString = new URLSearchParams({ category }).toString();
       const res = await getAllChallenges({ queryString });
+      console.log("res", res);
       const challenges = res.challengeInfo;
       return challenges;
     },
