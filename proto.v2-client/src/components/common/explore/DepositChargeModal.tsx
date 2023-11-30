@@ -54,13 +54,15 @@ const DepositChargeModal = ({
     onConnect: (data) => console.log("connected", data),
     onDisconnect: () => console.log("disconnected"),
   });
-  const [debouncedAmount] = useDebounce(0, 500);
+  const [debouncedAmount] = useDebounce(deposit, 500);
 
   const { data, isLoading, isSuccess, isIdle, sendTransaction } =
     useSendTransaction({
       account: account.address,
       to: poolAddress,
-      value: ethers.parseEther(deposit.toString()),
+      value: debouncedAmount
+        ? parseEther(debouncedAmount.toString())
+        : undefined,
     });
 
   let currency;
@@ -163,8 +165,9 @@ const DepositChargeModal = ({
       </AverageDeposit>
       <FormContainer
         onSubmit={(e) => {
-          sendTransaction?.();
           e.preventDefault();
+          sendTransaction?.();
+
           if (isSuccess && data !== undefined && data.hash !== undefined) {
             handleSetChallenge();
           }
