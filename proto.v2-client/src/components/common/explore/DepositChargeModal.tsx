@@ -72,6 +72,7 @@ const DepositChargeModal = ({
 
           console.log(isRegistered.error !== null);
           console.log(isRegistered.error !== undefined);
+          return;
 
           const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
           const challengeRes = await setChallenge({
