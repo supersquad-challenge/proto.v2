@@ -21,9 +21,11 @@ import {
   addDaysToDate,
   convertIsoDateToReadable,
 } from "@/utils/dateFormatUtils";
+import { ethers } from "ethers";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { useSendTransaction } from "wagmi";
 
 type Props = {
   paymentMethod: PaymentMethod;
@@ -48,11 +50,14 @@ const DepositChargeModal = ({
   } else if (paymentMethod === "cash") {
     currency = "$USD";
   }
-  const userId = "655b0d9c2a5b0a3ec6fa8ffa";
-  // useSelector(getUserIDState);
+  const userId = useSelector(getUserIDState);
   const today = new Date();
 
-  console.log(poolAddress);
+  const { data, isIdle, isLoading, isSuccess, sendTransaction } =
+    useSendTransaction({
+      to: poolAddress,
+      value: ethers.parseUnits(deposit.toString(), 18),
+    });
 
   // handle functions //
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +81,15 @@ const DepositChargeModal = ({
 
           if (isRegistered.error !== null || isRegistered.error !== undefined)
             return;
+
+          sendTransaction();
+
+          console.log(data);
+          console.log(isIdle);
+          console.log(isLoading);
+          console.log(isSuccess);
+
+          return;
 
           const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
           const challengeRes = await setChallenge({

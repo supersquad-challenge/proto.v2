@@ -68,11 +68,11 @@ export const {
   SET_USER_DISCONNECT,
 } = authSlice.actions;
 
-export const getIsLoggedInState = (state: RootState) => true;
+export const getIsLoggedInState = (state: RootState) => state.auth.isLoggedIn;
 // state.auth.isLoggedIn;
 export const getEmailState = (state: RootState) => state.auth.email;
 export const getNicknameState = (state: RootState) => state.auth.nickname;
-export const getUserIDState = (state: RootState) => "655b0d9c2a5b0a3ec6fa8ffa";
+export const getUserIDState = (state: RootState) => state.auth.userID;
 // state.auth.userID;
 export const getAddressState = (state: RootState) => state.auth.address;
 export const getIsConnectedState = (state: RootState) => state.auth.isConnected;

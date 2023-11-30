@@ -9,7 +9,7 @@ import { createWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
 import { Chain, WagmiConfig, configureChains, createConfig } from "wagmi";
 import { walletConnectProvider } from "@web3modal/wagmi";
 import { publicProvider } from "wagmi/providers/public";
-import { klaytn, polygon } from "wagmi/chains";
+import { klaytn, polygon, polygonMumbai } from "wagmi/chains";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -50,7 +50,7 @@ const metadata = {
   icons: "/src/app/favicon.ico",
 };
 
-const Chains = [polygon, klaytn];
+const Chains = [polygon, klaytn, polygonMumbai];
 // const Chains = [klaytn];
 
 const wagmiConfig = createConfig({
