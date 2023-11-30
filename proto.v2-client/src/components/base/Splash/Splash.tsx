@@ -79,6 +79,7 @@ const Title = styled.div`
   line-height: 154.6%;
 
   top: 142px;
+  width: 100vw;
 `;
 
 const Detail = styled.div`
@@ -94,6 +95,7 @@ const Detail = styled.div`
   letter-spacing: -0.32px;
 
   bottom: 154px;
+  width: 100%;
 `;
 
 const LogoTitle = styled.div`
