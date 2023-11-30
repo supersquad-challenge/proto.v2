@@ -10,7 +10,6 @@ import { Chain, WagmiConfig, configureChains, createConfig } from "wagmi";
 import { walletConnectProvider } from "@web3modal/wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { klaytn, polygon, polygonMumbai } from "wagmi/chains";
-import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 // import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
@@ -18,12 +17,15 @@ import dotenv from "dotenv";
 
 import { useEffect, useRef } from "react";
 import colors from "@/styles/color";
+import { infuraProvider } from "wagmi/providers/infura";
 dotenv.config();
 
 // 1. Get PROJECT_ID
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || "";
 
 const alchemyKey = process.env.NEXT_PUBLIC_ALCHEMY_KEY || "";
+
+const infureKey = process.env.NEXT_PUBLIC_INFURA_KEY || "";
 
 const klaytnRpcConfig = {
   rpc: (chain: Chain) => {
@@ -37,7 +39,11 @@ const klaytnRpcConfig = {
 // 2. Create wagmiConfig
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [polygon, polygonMumbai],
-  [alchemyProvider({ apiKey: alchemyKey }), publicProvider()]
+  [
+    alchemyProvider({ apiKey: alchemyKey }),
+    infuraProvider({ apiKey: infureKey! }),
+    publicProvider(),
+  ]
 );
 
 const metadata = {
