@@ -3,6 +3,7 @@ import BaseSlider from "@/components/base/Slider/BaseSlider";
 import setChallenge from "@/lib/api/axios/myChallenge/setChallenge";
 import setDepositInfo from "@/lib/api/axios/tx/setDepositInfo";
 import { USERID } from "@/lib/api/testdata";
+import { DURATION_DAYS } from "@/lib/protoV2Constants";
 import { getUserIDState } from "@/redux/slice/authSlice";
 import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import {
@@ -15,6 +16,10 @@ import {
 import colors from "@/styles/color";
 import { PaymentMethod } from "@/types/Modal";
 import { SingleRegisteredChallengeT } from "@/types/api/Challenge";
+import {
+  addDaysToDate,
+  convertIsoDateToReadable,
+} from "@/utils/dateFormatUtils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -41,6 +46,7 @@ const DepositChargeModal = ({
     currency = "$USD";
   }
   const userId = useSelector(getUserIDState);
+  const today = new Date();
 
   // handle functions //
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +85,11 @@ const DepositChargeModal = ({
     <BaseModal title="Win your goal" deletePath={undefined} show={true}>
       <SingleSimpleChallengeInfo
         title="Period"
-        content="Sep 11st- Oct 11st"
+        content={`${convertIsoDateToReadable(
+          today.toString()
+        )} - ${convertIsoDateToReadable(
+          addDaysToDate(today, DURATION_DAYS).toString()
+        )}`}
         contentColor={colors.primary}
         marginTop="30px"
       />

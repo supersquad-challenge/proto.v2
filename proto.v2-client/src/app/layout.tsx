@@ -35,13 +35,11 @@ const klaytnRpcConfig = {
 
 // 2. Create wagmiConfig
 const { chains, publicClient } = configureChains(
-  [polygon, klaytn],
-  // [klaytn],
+  [polygon],
   [
     walletConnectProvider({ projectId }),
     publicProvider(),
     alchemyProvider({ apiKey: alchemyKey }),
-    // jsonRpcProvider(klaytnRpcConfig),
   ]
 );
 
