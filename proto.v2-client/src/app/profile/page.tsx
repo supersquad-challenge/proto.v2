@@ -48,13 +48,9 @@ const Profile = () => {
   const { chain: currentChain } = useNetwork();
   const { address, isConnected: isconnected, isDisconnected } = useAccount();
   const pathname = usePathname();
-  const { connect, connectors, pendingConnector } = useConnect();
+  const { connect, connectors, error, pendingConnector } = useConnect();
   // API //
-  const {
-    data: userInfo,
-    isLoading,
-    error,
-  } = useQuery<UserInfoT>({
+  const { data: userInfo, isLoading } = useQuery<UserInfoT>({
     queryKey: [`profile-${userId}`],
     queryFn: async () => {
       if (userId) {
@@ -169,15 +165,10 @@ const Profile = () => {
           <WalletConnectButtonWrapper>
             {connectors.map((connector) => (
               <button
-                disabled={!connector.ready}
                 key={connector.id}
-                onClick={() => connect({ connector })}
+                onClick={() => connect({ connector: connector })}
               >
                 {connector.name}
-                {!connector.ready && " (unsupported)"}
-                {isLoading &&
-                  connector.id === pendingConnector?.id &&
-                  " (connecting)"}
               </button>
             ))}
           </WalletConnectButtonWrapper>

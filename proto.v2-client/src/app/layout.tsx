@@ -59,9 +59,8 @@ const wagmiConfig = createConfig({
   connectors: [
     new WalletConnectConnector({
       chains: Chains,
-      options: { projectId: projectId, showQrModal: false, metadata },
+      options: { projectId: projectId, metadata },
     }),
-    new InjectedConnector({ chains, options: { shimDisconnect: true } }),
   ],
   publicClient,
 });
