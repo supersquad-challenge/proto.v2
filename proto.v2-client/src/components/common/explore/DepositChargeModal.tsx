@@ -167,7 +167,7 @@ const DepositChargeModal = ({
         </OrangeUnderline>{" "}
         / 1 Week in average
       </AverageDeposit>
-      <FormContainer
+      {/* <FormContainer
         onSubmit={(e) => {
           console.log(sendTransaction);
           sendTransaction?.();
@@ -180,7 +180,7 @@ const DepositChargeModal = ({
         >
           Charge Depositt
         </SubmitButton>
-      </FormContainer>
+      </FormContainer> */}
     </BaseModal>
   );
 };
