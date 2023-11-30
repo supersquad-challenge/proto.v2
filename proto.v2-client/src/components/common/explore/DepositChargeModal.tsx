@@ -143,6 +143,10 @@ const DepositChargeModal = ({
         <SliderNumbersWrapper>
           <SliderNumber>10</SliderNumber>
           <SliderNumber>300</SliderNumber>
+          <div>{JSON.stringify(data)}</div>
+          <div>{isLoading}</div>
+          <div>{isIdle}</div>
+          <div>{isSuccess}</div>
         </SliderNumbersWrapper>
       </SliderContainer>
       <DepositContainer>
