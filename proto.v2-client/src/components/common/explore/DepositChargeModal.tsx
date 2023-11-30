@@ -160,6 +160,8 @@ const DepositChargeModal = ({
         <Currency>{currency as string}</Currency>
         <button
           onClick={(e) => {
+            console.log(data);
+            console.log(sendTransaction);
             sendTransaction?.();
           }}
         >
