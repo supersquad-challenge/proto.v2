@@ -5,7 +5,7 @@ import setDepositInfo from "@/lib/api/axios/tx/setDepositInfo";
 import { getIsChallengeRegistered } from "@/lib/api/querys/myChallenge/getIsChallengeRegistered";
 import { USERID } from "@/lib/api/testdata";
 import { DURATION_DAYS } from "@/lib/protoV2Constants";
-import { getUserIDState } from "@/redux/slice/authSlice";
+import { getAddressState, getUserIDState } from "@/redux/slice/authSlice";
 import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import {
   CHANGE_MODAL,
@@ -49,11 +49,12 @@ const DepositChargeModal = ({
 }: Props) => {
   // variables
   const dispatch = useDispatch();
-  const [debouncedTo] = useDebounce(poolAddress, 500);
+  const address = useSelector(getAddressState);
   const [debouncedAmount] = useDebounce(deposit, 500);
 
   const { config } = usePrepareSendTransaction({
-    to: debouncedTo,
+    account: "0x5C05A065aFA7450E8fe958F7214BDDB720Ec78Da",
+    to: poolAddress,
     value: debouncedAmount ? parseEther(debouncedAmount.toString()) : undefined,
   });
 
