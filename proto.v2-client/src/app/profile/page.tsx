@@ -29,7 +29,7 @@ import { login } from "@/lib/api/axios/auth/login";
 import { useQuery } from "react-query";
 import { getUserInfo } from "@/lib/api/querys/user/getUserInfo";
 import { BadgeT, UserInfoT } from "@/types/api/User";
-import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
+import { useAccount, useConnect, useNetwork, useSwitchNetwork } from "wagmi";
 import BaseButton from "@/components/base/Button/BaseButton";
 import Link from "next/link";
 
@@ -48,7 +48,7 @@ const Profile = () => {
   const { chain: currentChain } = useNetwork();
   const { address, isConnected: isconnected, isDisconnected } = useAccount();
   const pathname = usePathname();
-
+  const { connect, connectors, pendingConnector } = useConnect();
   // API //
   const {
     data: userInfo,
@@ -167,13 +167,19 @@ const Profile = () => {
           walletImgSrc="/asset/wallet_connect.svg"
         >
           <WalletConnectButtonWrapper>
-            <w3m-button
-              label="Connect"
-              size="md"
-              disabled={isLoggedIn ? false : true}
-              loadingLabel=""
-              balance="hide"
-            />
+            {connectors.map((connector) => (
+              <button
+                disabled={!connector.ready}
+                key={connector.id}
+                onClick={() => connect({ connector })}
+              >
+                {connector.name}
+                {!connector.ready && " (unsupported)"}
+                {isLoading &&
+                  connector.id === pendingConnector?.id &&
+                  " (connecting)"}
+              </button>
+            ))}
           </WalletConnectButtonWrapper>
         </Wallet>
         <Wallet walletName="Kaikas" walletImgSrc="/asset/kaikas.jpeg">

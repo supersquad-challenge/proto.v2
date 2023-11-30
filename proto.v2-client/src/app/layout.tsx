@@ -15,6 +15,7 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 // import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import dotenv from "dotenv";
+
 import { useEffect, useRef } from "react";
 import colors from "@/styles/color";
 dotenv.config();
@@ -58,7 +59,7 @@ const wagmiConfig = createConfig({
   connectors: [
     new WalletConnectConnector({
       chains: Chains,
-      options: { projectId, showQrModal: false, metadata },
+      options: { projectId: projectId, showQrModal: false, metadata },
     }),
     new InjectedConnector({ chains, options: { shimDisconnect: true } }),
   ],
