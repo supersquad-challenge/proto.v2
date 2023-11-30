@@ -29,6 +29,7 @@ type Props = {
   paymentMethod: PaymentMethod;
   challengeId: string;
   deposit: number;
+  poolAddress: string;
   setDeposit: Dispatch<SetStateAction<number>>;
 };
 
@@ -36,6 +37,7 @@ const DepositChargeModal = ({
   paymentMethod,
   challengeId,
   deposit,
+  poolAddress,
   setDeposit,
 }: Props) => {
   // variables
@@ -49,6 +51,8 @@ const DepositChargeModal = ({
   const userId = "655b0d9c2a5b0a3ec6fa8ffa";
   // useSelector(getUserIDState);
   const today = new Date();
+
+  console.log(poolAddress);
 
   // handle functions //
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {

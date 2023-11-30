@@ -154,14 +154,17 @@ const ExploreID = () => {
         />
       )}
 
-      {modal.activeModal === "depositCharge" && modal.visibility === true && (
-        <DepositChargeModal
-          paymentMethod={paymentMethod}
-          challengeId={challengeId}
-          deposit={deposit}
-          setDeposit={setDeposit}
-        />
-      )}
+      {modal.activeModal === "depositCharge" &&
+        modal.visibility === true &&
+        challenge?.successPoolAddress && (
+          <DepositChargeModal
+            paymentMethod={paymentMethod}
+            challengeId={challengeId}
+            deposit={deposit}
+            poolAddress={challenge.successPoolAddress}
+            setDeposit={setDeposit}
+          />
+        )}
 
       <DetailedChallengePage
         thumbnailUrl={challenge?.thumbnailUrl!}
