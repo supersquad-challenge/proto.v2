@@ -108,8 +108,8 @@ const DepositChargeModal = ({
               depositMethod: paymentMethod,
               deposit: deposit,
             });
+            dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
           }
-          dispatch(OPEN_MODAL({ modal: "nowYouAreIn" }));
         },
       })
     );
