@@ -170,9 +170,9 @@ const Profile = () => {
                 fontSize={12.4}
                 fontWeight={500}
                 borderRadius={21}
-                backgroundColor={colors.primary}
+                backgroundColor={isconnected ? colors.gray : colors.primary}
                 padding="9px 16px"
-                title={isConnected ? "Connected" : "Connect"}
+                title={isconnected ? "Connected" : "Connect"}
                 onClickHandler={() => connect({ connector: connector })}
               />
             ))}
