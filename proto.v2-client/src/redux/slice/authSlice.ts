@@ -46,8 +46,8 @@ const authSlice = createSlice({
     SET_USER_CONNECT: (state, action) => {
       const { address } = action.payload;
 
-      if (!state.isLoggedIn) return;
-      state = { ...state };
+      // if (!state.isLoggedIn) return;
+      // state = { ...state };
 
       state.isConnected = true;
       state.address = address;
