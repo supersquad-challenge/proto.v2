@@ -47,7 +47,7 @@ const authSlice = createSlice({
       const { address } = action.payload;
 
       // if (!state.isLoggedIn) return;
-      // state = { ...state };
+      // state = { ...state }; //이거 넣으면 isConnected가 안 바뀌는 오류가 생김
 
       state.isConnected = true;
       state.address = address;

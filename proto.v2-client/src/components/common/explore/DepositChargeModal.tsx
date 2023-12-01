@@ -5,7 +5,11 @@ import setDepositInfo from "@/lib/api/axios/tx/setDepositInfo";
 import { getIsChallengeRegistered } from "@/lib/api/querys/myChallenge/getIsChallengeRegistered";
 import { USERID } from "@/lib/api/testdata";
 import { DURATION_DAYS } from "@/lib/protoV2Constants";
-import { getAddressState, getUserIDState } from "@/redux/slice/authSlice";
+import {
+  getAddressState,
+  getIsConnectedState,
+  getUserIDState,
+} from "@/redux/slice/authSlice";
 import { SET_FOOTER_BLUEBUTTON } from "@/redux/slice/layoutSlice";
 import {
   CHANGE_MODAL,
@@ -33,6 +37,7 @@ import {
 } from "wagmi";
 import { parseEther } from "viem";
 import Loading from "@/components/animation/Loading/Spinner/Loading";
+import { useRouter } from "next/navigation";
 
 type Props = {
   paymentMethod: PaymentMethod;
@@ -56,7 +61,6 @@ const DepositChargeModal = ({
     onDisconnect: () => console.log("disconnected"),
   });
   const [debouncedAmount] = useDebounce(deposit, 500);
-
   const { data, isLoading, isSuccess, isIdle, sendTransaction } =
     useSendTransaction({
       account: account.address,
@@ -65,7 +69,6 @@ const DepositChargeModal = ({
         ? parseEther(debouncedAmount.toString())
         : undefined,
     });
-
   let currency;
   if (paymentMethod === "crypto") {
     currency = "MATIC";
@@ -74,6 +77,8 @@ const DepositChargeModal = ({
   }
   const userId = useSelector(getUserIDState);
   const today = new Date();
+  const isConnected = useSelector(getIsConnectedState);
+  const router = useRouter();
 
   // handle functions //
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,7 +94,11 @@ const DepositChargeModal = ({
       SET_FOOTER_BLUEBUTTON({
         blueButtonTitle: "Charge Deposit",
         handleBlueButtonClick: async () => {
-          sendTransaction?.();
+          if (isConnected) {
+            sendTransaction?.();
+          } else {
+            router.push("/profile");
+          }
 
           console.log(data);
           console.log(isIdle);

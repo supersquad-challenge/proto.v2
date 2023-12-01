@@ -75,11 +75,7 @@ const Profile = () => {
       if (currentChain!.id !== 137) {
         switchNetwork?.(137);
       }
-      console.log(address);
-      console.log(isconnected);
-      console.log("전", isConnected);
       dispatch(SET_USER_CONNECT({ address: address }));
-      console.log("후", isConnected);
     }
     // if (isDisconnected) [dispatch(SET_USER_DISCONNECT())]; //이거 넣으니까 지갑 연결 시에 connected로 안 변하는 문제가 발생했음.
   }, [isconnected, router, dispatch]);
