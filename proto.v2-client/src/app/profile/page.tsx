@@ -196,7 +196,7 @@ const Container = styled.main`
 
 const AccountOverviewContainer = styled.section`
   width: 100%;
-  padding: 85px 22px 66px 22px; //원래는 padding-bottom이 44px인데 밑에 흰색 컨테이너의 border-radius = 22px인 것때문에
+  padding: 85px 22px 66px 22px; //원래는 padding-bottom이 44px인데 밑에 흰색 컨테이너의 border-radius = 22px인 것때문에 //
   box-sizing: border-box;
   background-color: ${colors.primary};
   display: flex;
