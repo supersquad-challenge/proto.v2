@@ -32,6 +32,7 @@ import {
   useAccount,
 } from "wagmi";
 import { parseEther } from "viem";
+import Loading from "@/components/animation/Loading/Spinner/Loading";
 
 type Props = {
   paymentMethod: PaymentMethod;
@@ -176,6 +177,7 @@ const DepositChargeModal = ({
         </OrangeUnderline>{" "}
         / 1 Week in average
       </AverageDeposit>
+      {isLoading && <Loading />}
     </BaseModal>
   );
 };
