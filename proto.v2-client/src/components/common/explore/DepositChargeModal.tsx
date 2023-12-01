@@ -125,7 +125,7 @@ const DepositChargeModal = ({
   }, [isSuccess]);
 
   return (
-    <BaseModal title="Win your goddal" deletePath={undefined} show={true}>
+    <BaseModal title="Win your goal" deletePath={undefined} show={true}>
       <SingleSimpleChallengeInfo
         title="Period"
         content={`${convertIsoDateToReadable(

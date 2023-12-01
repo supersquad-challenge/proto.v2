@@ -189,7 +189,6 @@ const ExploreID = () => {
           detail={challenge?.description!}
         />
       </DetailedChallengePage>
-      {(isLoading || isRegisteredLoading) && <Loading />}
     </Container>
   );
 };

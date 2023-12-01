@@ -144,7 +144,6 @@ const Explore = () => {
           );
         })}
       </ChallengesContainer>
-      {isLoading && <Loading />}
     </Container>
   );
 };

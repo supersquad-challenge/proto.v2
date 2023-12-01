@@ -252,7 +252,6 @@ const MyChallengeID = () => {
               detail={challenge?.description!}
             />
           </DetailedChallengePage>
-          {isLoading && <Loading />}
         </Container>
       )}
     </>

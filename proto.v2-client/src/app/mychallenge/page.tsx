@@ -104,7 +104,6 @@ const MyChallenge = () => {
           );
         })}
       </ChallengesContainer>
-      {isLoading && <Loading />}
     </Container>
   );
 };

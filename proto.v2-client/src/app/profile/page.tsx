@@ -178,22 +178,6 @@ const Profile = () => {
             ))}
           </WalletConnectButtonWrapper>
         </Wallet>
-        <Wallet walletName="Kaikas" walletImgSrc="/asset/kaikas.jpeg">
-          <DefaultWalletButtonWrapper>
-            <Link href={`https://app.kaikas.io/u/v2.supersquad.store`}>
-              <BaseButton
-                color={colors.white}
-                fontSize={12.4}
-                fontWeight={500}
-                borderRadius={21}
-                backgroundColor={colors.primary}
-                padding="9px 16px"
-                title={"Connect"}
-                onClickHandler={() => {}}
-              />
-            </Link>
-          </DefaultWalletButtonWrapper>
-        </Wallet>
 
         <a href="mailto:official@supersquad.xyz">
           <ContactTeam>Contact Team</ContactTeam>

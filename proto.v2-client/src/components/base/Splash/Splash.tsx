@@ -7,23 +7,6 @@ import colors from "@/styles/color";
 const Splash = () => {
   return (
     <Container>
-      {/* <Title>
-        Win over the
-        <br></br>
-        Authentic LifeGame
-      </Title>
-      <LogoContainer>
-        <Image
-          src={"/asset/spalsh_logo.svg"}
-          alt="supersquad"
-          width={40}
-          height={40}
-        />
-        <LogoTitle>SUPERSQUAD</LogoTitle>
-        <LoadingContainer>
-          <Loading />
-        </LoadingContainer>
-      </LogoContainer> */}
       <LogoImg
         src="/asset/spalsh_logo.svg"
         width={40}
